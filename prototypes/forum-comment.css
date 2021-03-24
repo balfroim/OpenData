@@ -19,18 +19,12 @@ body {
     transition: all .2s
 }
 
-.card-header:first-child {
-    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
-}
-
 .card-header {
     display: flex;
     align-items: center;
     border-bottom-width: 1px;
-    padding-top: 0;
-    padding-bottom: 0;
     padding-right: .625rem;
-    height: 3.5rem;
+    /* height: 3.5rem; */
     text-transform: uppercase;
     background-color: #fff;
     border-bottom: 1px solid rgba(26, 54, 126, 0.125)
@@ -67,5 +61,14 @@ a {
 
 .profile-pic {
     width: 40px;
-    height: auto
+    height: auto;
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
+}
+
+.upvote.active {
+    color: rgb(223, 64, 0);
+}
+
+.downvote.active {
+    color: rgb(0, 64, 223);
 }
