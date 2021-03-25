@@ -1,0 +1,192 @@
+
+#pseudo
+{
+	color :red;
+	font-style: bold;
+	text-decoration: underline;
+
+}
+h2{
+	text-decoration: underline;
+}
+.lien,
+{
+	color :red;
+}
+
+
+.img{
+	width: 60px;
+	height: auto;
+}
+
+
+.grid-container {
+	margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  /*background-color: #2196F3;*/
+  max-width: 970px;
+}
+
+.grid-container-profil {
+	margin: 0 auto;
+  display: grid;
+  grid-template-columns: 210px 600px;
+  grid-template-rows: 60px 150px;
+  grid-gap: 10px 50px;
+  /*background-color: #2196F3;*/
+  max-width: 850px;
+}
+
+.grid-container-badges {
+	margin: 0 auto;
+  display: grid;
+  grid-template-columns: 150px 700px;
+  grid-gap: 10px;
+  /*background-color: #2196F3;*/
+  max-width: 850px;
+}
+
+.grid-container > div {
+	
+	padding: 20px 10px;
+	/*background-color: rgba(255, 255, 255, 0.8);*/
+}
+
+.grid-container-profil > div {
+	
+	padding: 20px 10px;
+	/*background-color: rgba(255, 255, 255, 0.8);*/
+}
+
+.grid-container-badges > div {
+	
+	padding: 20px 10px;
+	/*background-color: rgba(255, 255, 255, 0.8);*/
+}
+
+.item1 {
+	
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.item2 {
+  
+}
+
+.item3 {
+  border: 3px black solid;
+	 border-radius: 10px;
+}
+
+.item4 {
+	
+}
+
+.item5 {
+	border: 3px black solid;
+	border-radius: 10px;
+}
+
+.item6 {
+	border: 3px black solid;
+	border-radius: 10px;
+	grid-column-start: 1;
+	grid-column-end: 3;
+
+}
+.item7 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-align : center;
+  }
+.item8 {
+	border: 3px black solid;
+	 border-radius: 10px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+}
+
+.item8 > ul > li {
+  border: 3px black solid;
+  padding: 0px 10px;
+}
+.item8 > ul > li > h3{
+  text-decoration: underline;
+}
+
+.voir-plus{
+
+   display: block;
+   margin : auto;
+
+}
+
+
+#photo_profil
+{
+	width: 200px;
+	height: auto;
+	float:left;
+	padding: 0px 16px;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#toolbar
+{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+.line_toolbar {
+  float: left;
+}
+.line_toolbar:last-child {
+  border-right: none;
+}
+
+.line_toolbar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.line_toolbar img {
+  display: block;
+  padding: 0px 10px;
+  text-decoration: none;
+}
+
+.line_toolbar a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
