@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>OpenData | Prototype</title>
+    <script defer src="base.js"></script>
+    <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  </head>
+
+  <body>
+    <div class="topnav" id="myTopnav">
+    	<a href="index_with_login.html">
+    		<img src="logo.png" alt="Namur Capitale">
+    	</a>
+        <a href="index_with_login.html">Accueil
+            <i class="fa fa-home"></i>
+        </a>
+        <a href="#quiz"> Quiz
+            <i class="fa fa-question"></i>
+        </a>
+        <a href="#scores">Tableau des scores
+            <i class="fa fa-star"></i>
+        </a>
+        <a href="profil_with_login.html">Profil
+            <i class="fa fa-female"></i>
+            <i class="fa fa-male"></i>
+        </a>
+        <a href="#login" onclick="document.getElementById('id01').style.display='block'">Connexion
+            <i class="fa fa-sign-in"></i>
+        </a>
+        <input type="search" placeholder="Search..">
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <!--Connexion avec le petit truc modal-->
+    <div id="id01" class="modal">
+
+      <form class="modal-content animate" action="/action_page.php" method="post">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close window">&times;</span>
+        </div>
+
+        <div class="container">
+          <label for="uname"><b>Nom d'utilisateur</b></label>
+          <input type="text" placeholder="Entrer le nom d'utilisateur" name="uname" required>
+
+          <label for="psw"><b>Mot de passe</b></label>
+          <input type="password" placeholder="Entrer le mot de passe" name="psw" required>
+
+          <button type="submit">Connexion</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Se souvenir de moi
+          </label>
+          <span class="reg"> <a href="#register" onclick="document.getElementById('id02').style.display='block'">Pas encore inscrit?</a></span>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Retour</button>
+          <span class="psw"> <a href="#">Mot de passe oublié?</a></span>
+        </div>
+      </form>
+    </div>
+
+
+
+    <div id="id02" class="modal">
+      <form class="modal-content animate" action="/action_page.php" method="post">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close window">&times;</span>
+        </div>
+
+        <div class="container">
+          <h1>S'inscrire</h1>
+          <p>Veuillez compléter ce formulaire pour créer un compte.</p>
+          <hr>
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Entrer l'email" name="email" required>
+
+          <label for="psw"><b>Mot de passe</b></label>
+          <input type="password" placeholder="Entrer le mot de passe" name="psw" required>
+
+          <label for="psw-repeat"><b>Répétez le mot de passe</b></label>
+          <input type="password" placeholder="Répétez le mot de passe" name="psw-repeat" required>
+
+          <label>
+            <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Se souvenir de moi
+          </label>
+
+          <p>En créant un compte, vous acceptez les <a href="#" style="color:dodgerblue">"Terms & Privacy"</a>.</p>
+
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Retour</button>
+            <button type="submit" class="signupbtn">S'inscrire</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--header>
+      <nav>
+        <img src="logo.png" alt="Namur Capitale">
+      </nav>
+    </header-->
+
+    <main>
+      <main-panel class="fading fading-start">
+        <!--div class="container row"-->
+          <table style="width: 100%">
+          <td>
+          <img src="https://picsum.photos/id/1025/300/300">
+          <div>Niveau Apprenti - 18 430 points</div>
+          </td>
+          <td style="border: 1px solid black; width: 75%; vertical-align: top;">
+            Bonjour :)
+          </td>
+            </table>
+          
+        <!--/div-->
+      </main-panel>
+      <!--wave-panel class="fading fading-start">
+        <h2>Expert ou profane ?</h2>
+        <p>
+          Bienvenue !
+        </p>
+      </wave-panel-->
+      <main-panel class="fading fading-start">
+        <h2>Badges</h2>
+        <!--nav
+          class="main-carousel"
+          data-flickity='{ "autoPlay": 5000 }'
+        >
+          <div class="carousel-cell">
+            <img src="logo.png" alt="1">
+          </div>
+          <div class="carousel-cell">
+            <img src="logo.png" alt="2">
+          </div>
+          <div class="carousel-cell">
+            <img src="logo.png" alt="3">
+          </div>
+          <div class="carousel-cell">
+            <img src="logo.png" alt="4">
+          </div>
+        </nav-->
+        <div style="border: 1px solid black">
+          <img src="https://picsum.photos/50/50">
+          <img src="https://picsum.photos/50/50">
+          <img src="https://picsum.photos/50/50">
+          <img src="https://picsum.photos/50/50">
+          <img src="https://picsum.photos/50/50">
+          <img src="https://picsum.photos/50/50">
+          <img src="https://picsum.photos/50/50">
+        </div>
+      </main-panel>
+      <main-panel class="fading fading-start">
+        <h2>Derniers messages sur le forum</h2>
+        <div style="border: 1px solid black">
+          <h3><a href="#">XXXXXXXXXXXXXXXX</a></h3>
+          
+          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        </div>
+        <div>&nbsp</div>
+        <div style="border: 1px solid black">
+          <h3><a href="#">XXXXXXXXXXXXXXXX</a></h3>
+          
+          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        </div>
+        <div>&nbsp</div>
+        <div style="border: 1px solid black">
+          <h3><a href="#">XXXXXXXXXXXXXXXX</a></h3>
+          
+          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        </div>
+      </main-panel>
+    </main>
+
+    <!-- Templates -->
+    <template id="main-panel">
+      <div class="centered">
+        <slot></slot>
+      </div>
+
+      <style>
+        .centered {
+          max-width: 800px;
+          margin: auto;
+        }
+      </style>
+    </template>
+
+    <template id="wave-panel">
+      <div class="wave"></div>
+      <div class="inverted">
+        <main-panel>
+          <slot></slot>
+        </main-panel>
+      </div>
+      <div class="reversed wave"></div>
+
+      <style>
+        :host {
+          margin: 32px;
+        }
+
+        .inverted {
+          color: white;
+          background-color: var(--primary);
+        }
+
+        .wave {
+          height: 30px;
+          background-image: url("wave.svg");
+        }
+
+        .reversed {
+          transform: rotate(180deg);
+        }
+      </style>
+    </template>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+
+      //Script pour le modal
+      // Get the modal
+      var modal = document.getElementById('id01');
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+
+      var modal2 = document.getElementById('id02');
+
+      // When the user clicks anywhere outside of the modal, close it
+      /*window.onclick = function(event) {
+        if (event.target == modal2) {
+          modal2.style.display = "none";
+        }
+      }*/
+  </script>
+  </body>
+</html>
