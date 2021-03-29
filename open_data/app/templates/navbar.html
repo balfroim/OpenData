@@ -1,0 +1,25 @@
+{% load static %}
+<nav class="responsive">
+  <img src="{% static 'images/logo.png' %}" alt="OpenData">
+  <a href="{% url 'home' %}">
+    Accueil
+    <span class="fa fa-home"></span>
+  </a>
+  <a href="{% url 'quiz' %}">
+    Quiz
+    <span class="fa fa-question"></span>
+  </a>
+  <a href="#">
+    Forum
+    <span class="fa fa-star"></span>
+  </a>
+  <a href="{% url 'profile' %}">
+    Profil
+    <span class="fa fa-female"></span>
+    <span class="fa fa-male"></span>
+  </a>
+  <a href="#">
+    Connexion
+    <span class="fa fa-sign-in"></span>
+  </a>
+</nav>
