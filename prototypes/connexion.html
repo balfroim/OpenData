@@ -24,14 +24,15 @@
 		.topnav img {
 			float:left;
 			margin-top:5px;
+			padding:5px;
 		}
-		
+
         .topnav a {
           float: left;
           display: block;
           color: #f2f2f2;
           text-align: center;
-          padding: 14px 24px;
+          padding: 18px 28px;
           text-decoration: none;
           font-size: 16px;
         }
@@ -210,16 +211,17 @@
 
 	<div id="fb-root"></div>
 	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v10.0" nonce="ddsgzSYO"></script>
-    
+
+    <!--Ajouter le bouton explorer comme présenté par Germain-->
 	<header class="topnav" id="myTopnav">
         <img src="logo.png" alt="Namur Capitale">
-        <a href="#home">Accueil
+        <a href="index_with_login.html">Accueil
             <i class="fa fa-home"></i>
         </a>
 		<a href="#dataset">Jeux de données
 			<i class="fa fa-database"></i>
 		</a>
-        <a href="#quiz"> Quiz
+        <a href="quiz.html"> Quiz
             <i class="fa fa-question"></i>
         </a>
         <a href="#scores">Tableau des scores
@@ -249,10 +251,10 @@
 
         <div class="container">
           <label for="uname"><b>Nom d'utilisateur</b></label>
-          <input type="text" placeholder="Entrer le nom d'utilisateur" name="uname" required>
+          <input type="text" placeholder="Entrer le nom d'utilisateur" id="uname" required>
 
           <label for="psw"><b>Mot de passe</b></label>
-          <input type="password" placeholder="Entrer le mot de passe" name="psw" required>
+          <input type="password" placeholder="Entrer le mot de passe" id="psw" required>
 
           <button type="submit">Connexion</button>
           <label>
@@ -294,13 +296,13 @@
           <p>Veuillez compléter ce formulaire pour créer un compte.</p>
           <hr>
           <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Entrer l'email" name="email" required>
+          <input type="text" placeholder="Entrer l'email" id="email" required>
 
-          <label for="psw"><b>Mot de passe</b></label>
-          <input type="password" placeholder="Entrer le mot de passe" name="psw" required>
+          <label for="pswReg"><b>Mot de passe</b></label>
+          <input type="password" placeholder="Entrer le mot de passe" id="pswReg" required>
 
           <label for="psw-repeat"><b>Répétez le mot de passe</b></label>
-          <input type="password" placeholder="Répétez le mot de passe" name="psw-repeat" required>
+          <input type="password" placeholder="Répétez le mot de passe" id="psw-repeat" required>
 
           <label>
             <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Se souvenir de moi
@@ -326,7 +328,7 @@
       }
     }
 
-    //Script pour le modal
+    //Script pour le modal du login
     // Get the modal
     var modal = document.getElementById('id01');
 
