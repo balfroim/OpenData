@@ -25,14 +25,20 @@
           background-color: var(--primary);
         }
 
+        .topnav img {
+			float:left;
+			margin-top:5px;
+			padding:5px;
+		}
+
         .topnav a {
           float: left;
           display: block;
           color: #f2f2f2;
           text-align: center;
-          padding: 14px 24px;
+          padding: 16px 26px;
           text-decoration: none;
-          font-size: 20px;
+          font-size: 16px;
         }
 
         .topnav a:hover {
@@ -131,18 +137,28 @@
           width: 80%; /* Could be more or less, depending on screen size */
           height: 600px;
         }
+
+        /*quiz*/
+        .quiz {
+            width: 100px !important;
+            background-color: var(--primary);
+        }
     </style>
 </head>
 
 <body>
-    <header class="topnav">
+
+    <!------------------------Navbar---------------------------
+     ---Ajouter le bouton explorer comme présenté par Germain-->
+    <header class="topnav" id="myTopnav">
         <img src="logo.png" alt="Namur Capitale">
-    </header>
-    <div class="topnav" id="myTopnav">
-        <a href="#home">Accueil
+        <a href="index_with_login.html">Accueil
             <i class="fa fa-home"></i>
         </a>
-        <a href="#quiz"> Quiz
+		<a href="#dataset">Jeux de données
+			<i class="fa fa-database"></i>
+		</a>
+        <a href="quiz.html"> Quiz
             <i class="fa fa-question"></i>
         </a>
         <a href="#scores">Tableau des scores
@@ -159,7 +175,8 @@
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
-    </div>
+    </header>
+
     <div class="quizTitle" id="quizTitle">
         "Namur, commune fortifiée ?"
     </div>
@@ -172,21 +189,16 @@
 
     <div class="quizAnswers" id="quizAnswers">
 		<form method="post">
-			<input type="radio" id="q1ans1" value="4">
-			<label for="q1ans1">4</label>
+            <button type="button" class="btn btn-primary quiz" id="q1ans1">4</button>
 			<br><br>
-			<input type="radio" id="q1ans2" value="5">
-			<label for="q1ans2">5</label>
+            <button type="button" class="btn btn-primary quiz" id="q1ans2">5</button>
 			<br><br>
-			<input type="radio" id="q1ans3" value="6">
-			<label for="q1ans3">6</label>
+            <button type="button" class="btn btn-primary quiz" id="q1ans3">6</button>
 			<br><br>
-			<input type="radio" id="q1ans4" value="7">
-			<label for="q1ans4">7</label>
+            <button type="button" class="btn btn-primary quiz" id="q1ans4">7</button>
 			<br><br>
 			<span id="ansMsg"></span><br><br>
-			<button type="submit" id="quiz1" class="btn btn-primary">Valider</button>
-		</form>
+        </form>
 	</div>
 
 
@@ -210,36 +222,29 @@
         }
     }
 	
-	//quiz1
-	var formValid=document.getElementById('quiz1');
-	
-	formValid.addEventListener('click', validation);
-	
-	function validation(event){
-		if(document.getElementById('q1ans4').checked){
-			ansMsg.textContent="Bonne réponse! Félicitations!";
-			ansMsg.style.color="green";
-			//à retirer, juste pour la démo
-			event.preventDefault();
-		}else if(document.getElementById('q1ans1').checked){
-			ansMsg.textContent="Mauvaise réponse... Réessayez plus tard.";
-			ansMsg.style.color="red";
-			event.preventDefault();
-		}else if(document.getElementById('q1ans2').checked){
-			ansMsg.textContent="Mauvaise réponse... Réessayez plus tard.";
-			ansMsg.style.color="red";
-			event.preventDefault();
-		}else if(document.getElementById('q1ans3').checked){
-			ansMsg.textContent="Mauvaise réponse... Réessayez plus tard.";
-			ansMsg.style.color="red";
-			event.preventDefault();
-		}
-		document.getElementById('q1ans1').checked = false;
-		document.getElementById('q1ans2').checked = false;
-		document.getElementById('q1ans3').checked = false;
+	var btn1 = document.getElementById('q1ans1');
+	btn1.addEventListener('click', fail);
+	var btn2 = document.getElementById('q1ans2');
+	btn2.addEventListener('click', fail);
+	var btn3 = document.getElementById('q1ans3');
+	btn3.addEventListener('click', fail);
+	var btn4 = document.getElementById('q1ans4');
+	btn4.addEventListener('click', success);
+
+	function fail(event){
+	    ansMsg.textContent="";
+	    ansMsg.textContent="Mauvaise réponse... Réessayez plus tard.";
+	    ansMsg.style.color="red";
+
 	}
-	
-	
+
+	function success(event){
+	    btn1.disabled = true;
+	    btn2.disabled = true;
+	    btn3.disabled = true;
+	    ansMsg.textContent="Bonne réponse! Félicitations!";
+	    ansMsg.style.color="green";
+	}
 </script>
 
 </body>

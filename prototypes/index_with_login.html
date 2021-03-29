@@ -48,10 +48,10 @@
 
         <div class="container">
           <label for="uname"><b>Nom d'utilisateur</b></label>
-          <input type="text" placeholder="Entrer le nom d'utilisateur" name="uname" required>
+          <input type="text" placeholder="Entrer le nom d'utilisateur" id="uname" required>
 
           <label for="psw"><b>Mot de passe</b></label>
-          <input type="password" placeholder="Entrer le mot de passe" name="psw" required>
+          <input type="password" placeholder="Entrer le mot de passe" id="psw" required>
 
           <button type="submit">Connexion</button>
           <label>
@@ -80,13 +80,13 @@
           <p>Veuillez compléter ce formulaire pour créer un compte.</p>
           <hr>
           <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Entrer l'email" name="email" required>
+          <input type="text" placeholder="Entrer l'email" id="email" required>
 
-          <label for="psw"><b>Mot de passe</b></label>
-          <input type="password" placeholder="Entrer le mot de passe" name="psw" required>
+          <label for="pswReg"><b>Mot de passe</b></label>
+          <input type="password" placeholder="Entrer le mot de passe" id="pswReg" required>
 
           <label for="psw-repeat"><b>Répétez le mot de passe</b></label>
-          <input type="password" placeholder="Répétez le mot de passe" name="psw-repeat" required>
+          <input type="password" placeholder="Répétez le mot de passe" id="psw-repeat" required>
 
           <label>
             <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Se souvenir de moi
@@ -101,12 +101,6 @@
         </div>
       </form>
     </div>
-
-    <!--header>
-      <nav>
-        <img src="logo.png" alt="Namur Capitale">
-      </nav>
-    </header-->
 
     <main>
       <main-panel class="fading fading-start">
