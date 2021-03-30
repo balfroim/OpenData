@@ -27,7 +27,7 @@ nav > a {
 main {
   max-width: var(--page-width);
   margin: auto;
-  padding: 0 16px;
+  padding: 16px;
 }
 
 button {
@@ -63,4 +63,16 @@ button:hover {
   .responsive {
     flex-direction: column;
   }
+}
+
+/* Fade in animation */
+main > * {
+  transition: ease-out all .3s;
+  opacity: 0%;
+  transform: translate(-64px, 8px);
+}
+
+.fading {
+  opacity: initial;
+  transform: initial;
 }
