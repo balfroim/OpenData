@@ -13,7 +13,7 @@
         <h3>Combien de forts trouve-t-on sur la commune de Namur ?</h3>
         <p>42% des utilisateurs ont bien répondu à cette question, ferez-vous partie de l'élite ?</p>
       </div>
-      <form method="post">
+      <form action="{% url 'quiz' %}" method="post">
         {% csrf_token %}
         <button name="response" value="0">4</button>
         <button name="response" value="1">5</button>

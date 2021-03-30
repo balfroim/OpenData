@@ -1,4 +1,5 @@
 :root {
+  --page-width: 700px;
   --primary: #0e2240;
   --secondary: #e0e2e6;
   --rounded: 4px;
@@ -24,7 +25,7 @@ nav > a {
 }
 
 main {
-  max-width: 600px;
+  max-width: var(--page-width);
   margin: auto;
   padding: 0 16px;
 }
