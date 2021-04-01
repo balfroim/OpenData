@@ -56,7 +56,7 @@
             vous intéresser !
         </p>
         <h2>Données à l'honneur</h2>
-        <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000 }'>
+        <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
             {% for dataset in featured_datasets %}
                 <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
                     <img src="{% get_static_prefix %}images/categories/{{ dataset.logo }}.svg"
