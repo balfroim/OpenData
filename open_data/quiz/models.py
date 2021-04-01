@@ -15,7 +15,7 @@ class Quiz(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.created_at = timezone.now()
-        return super(User, self).save(*args, **kwargs)
+        return super(Quiz, self).save(*args, **kwargs)
 
     @property
     def question_count(self):
@@ -23,7 +23,7 @@ class Quiz(models.Model):
 
     @property
     def perfect_score_rate(self):
-        return (self.times_perfect_score / self.times_taken) * 100
+        return (self.times_perfect_score / self.times_taken) * 100 if self.times_taken > 0 else 0
 
     class Meta:
         verbose_name_plural = "Quizzes"
@@ -45,8 +45,14 @@ class Question(models.Model):
         verbose_name_plural = "Questions"
         ordering = ['id']
 
+    def __str__(self):
+        return self.prompt
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     text = models.CharField(max_length=255, default='')
     is_correct = models.BooleanField()
+
+    def __str__(self):
+        return self.text

@@ -1,5 +1,7 @@
 from django.shortcuts import render
 import requests
+from quiz.models import Quiz
+import random
 
 THEME2LOGO = {
     'Santé': 'doctors',
@@ -34,6 +36,11 @@ def homepage(request):
         }
         for dataset in result["datasets"]
     ]
+
+    today_quiz = random.choice(Quiz.objects.all())
+
+    print(today_quiz.questions.all())
     return render(request=request,
                   template_name='home.html',
-                  context={"featured_datasets": featured_datasets})
+                  context={"featured_datasets": featured_datasets,
+                           "today_quiz": today_quiz})
