@@ -2,12 +2,30 @@
 {% load static %}
 {% block title %}Accueil{% endblock %}
 {% block head %}
-{#    <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>#}
-{#    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">#}
+    <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"
+            xmlns="http://www.w3.org/2000/svg"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <style>
         .carousel-cell {
             width: 300px;
             height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px dotted;
+            color: #111111;
+        }
+
+        .carousel-cell-img {
+            width: 128px;
+            height: 128px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .carousel-cell-title {
+            text-align: center;
         }
     </style>
 {% endblock %}
@@ -31,11 +49,12 @@
         <h2>Données à l'honneur</h2>
         <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000 }'>
             {% for dataset in featured_datasets %}
-                <div class="carousel-cell">
+                <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
                     <img src="{% get_static_prefix %}images/categories/{{ dataset.logo }}.svg"
-                         alt="Logo {{ dataset.theme }}"/>
+                         alt="Logo {{ dataset.theme }}"
+                         class="carousel-cell-img"/>
                     <span class="carousel-cell-title">{{ dataset.title }}</span>
-                </div>
+                </a>
             {% endfor %}
         </div>
         <h2>Question du jour</h2>
