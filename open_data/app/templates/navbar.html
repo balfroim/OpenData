@@ -17,8 +17,15 @@
     Profil
     <span class="fa fa-user"></span>
   </a>
-  <a href="#">
-    Connexion
-    <span class="fa fa-sign-in"></span>
-  </a>
+  {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">
+      Déconnexion
+      <span class="fa fa-sign-out"></span>
+    </a>
+  {% else %}
+    <a href="{% url 'login' %}">
+      Connexion
+      <span class="fa fa-sign-in"></span>
+    </a>
+  {% endif %}
 </nav>
