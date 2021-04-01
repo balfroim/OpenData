@@ -27,7 +27,7 @@ def homepage(request):
     featured_datasets = [
         {
             "id": dataset["datasetid"],
-            "title": dataset["metas"]["title"],
+            "title": dataset["metas"]["title"].split(" - "),
             "theme": dataset["metas"]["theme"][0],
             "logo": THEME2LOGO[dataset["metas"]["theme"][0]]
         }
