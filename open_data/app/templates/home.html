@@ -1,67 +1,89 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Accueil{% endblock %}
 {% block head %}
-  <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-  <style>
-    .carousel-cell {
-      width: 300px;
-      height: 200px;
-    }
-  </style>
+    <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"
+            xmlns="http://www.w3.org/2000/svg"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <style>
+        .carousel-cell {
+            width: 384px;
+            height: 256px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0 10px;
+            padding: 10px;
+            border-radius: 32px;
+            text-decoration: none;
+            color: #111111;
+            background-color: ghostwhite;
+        }
+
+        .carousel-cell-img {
+            width: 128px;
+            height: 128px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 5px;
+            border: 2px solid;
+            border-radius: 128px;
+        }
+
+        .carousel-cell-title {
+            text-align: center;
+
+            font-weight: bold;
+        }
+    </style>
 {% endblock %}
 {% block body %}
-  <header>
-    {% include 'navbar.html' %}
-  </header>
-  <main>
-    <h1>Accueil</h1>
-    <h2>Des données (vraiment) ouvertes !</h2>
-    <p>
-      La ville de Namur met à disposition de toutes et tous une série
-      d'informations d'intérêt général. Ces informations sont soit des
-      statistiques, consultables en ligne, soit des lots de données qui
-      peuvent être utilisées directement dans la création d'application.
-    </p>
-    <p>
-      Quel que soit votre secteur d'activité, notre nouveau jeu de données va
-      vous intéresser !
-    </p>
-    <h2>Données à l'honneur</h2>
-    <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000 }'>
-      <div class="carousel-cell">
-        <img data-flickity-lazyload="https://picsum.photos/300/200?random=0" alt="Image">
-      </div>
-      <div class="carousel-cell">
-        <img data-flickity-lazyload="https://picsum.photos/300/200?random=1" alt="Image">
-      </div>
-      <div class="carousel-cell">
-        <img data-flickity-lazyload="https://picsum.photos/300/200?random=2" alt="Image">
-      </div>
-      <div class="carousel-cell">
-        <img data-flickity-lazyload="https://picsum.photos/300/200?random=3" alt="Image">
-      </div>
-      <div class="carousel-cell">
-        <img data-flickity-lazyload="https://picsum.photos/300/200?random=4" alt="Image">
-      </div>
-      <div class="carousel-cell">
-        <img data-flickity-lazyload="https://picsum.photos/300/200?random=5" alt="Image">
-      </div>
-    </div>
-    <h2>Question du jour</h2>
-    <div class="centered card">
-      <div>
-        <p><i>"Namur, commune fortifiée ?"</i></p>
-        <h3>Combien de forts trouve-t-on sur la commune de Namur ?</h3>
-        <p>42% des utilisateurs ont bien répondu à cette question, ferez-vous partie de l'élite ?</p>
-      </div>
-      <form action="{% url 'quiz' %}" method="post">
-        {% csrf_token %}
-        <button name="response" value="0">4</button>
-        <button name="response" value="1">5</button>
-        <button name="response" value="2">6</button>
-        <button name="response" value="3">7</button>
-      </form>
-    </div>
-  </main>
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <main>
+        <h1>Accueil</h1>
+        <h2>Des données (vraiment) ouvertes !</h2>
+        <p>
+            La ville de Namur met à disposition de toutes et tous une série
+            d'informations d'intérêt général. Ces informations sont soit des
+            statistiques, consultables en ligne, soit des lots de données qui
+            peuvent être utilisées directement dans la création d'application.
+        </p>
+        <p>
+            Quel que soit votre secteur d'activité, notre nouveau jeu de données va
+            vous intéresser !
+        </p>
+        <h2>Données à l'honneur</h2>
+        <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
+            {% for dataset in featured_datasets %}
+                <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
+                    <img src="{% get_static_prefix %}images/categories/{{ dataset.logo }}.svg"
+                         alt="Logo {{ dataset.theme }}"
+                         class="carousel-cell-img"/>
+                    <span class="carousel-cell-title">
+                           {% for title_line in dataset.title %}
+                               {{ title_line }}<br>
+                           {% endfor %}
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+        <h2>Question du jour</h2>
+        <div class="centered card">
+            <div>
+                <p><i>"Namur, commune fortifiée ?"</i></p>
+                <h3>Combien de forts trouve-t-on sur la commune de Namur ?</h3>
+                <p>42% des utilisateurs ont bien répondu à cette question, ferez-vous partie de l'élite ?</p>
+            </div>
+            <form action="{% url 'quiz' %}" method="post">
+                {% csrf_token %}
+                <button name="response" value="0">4</button>
+                <button name="response" value="1">5</button>
+                <button name="response" value="2">6</button>
+                <button name="response" value="3">7</button>
+            </form>
+        </div>
+    </main>
 {% endblock %}
