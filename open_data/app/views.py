@@ -24,6 +24,7 @@ def homepage(request):
     sort_criterion = "explore.popularity_score"
     result = requests.get(
         f"https://data.namur.be/api/datasets/1.0/search/?q=&rows={nb_row}&sort={sort_criterion}").json()
+
     featured_datasets = [
         {
             "id": dataset["datasetid"],
