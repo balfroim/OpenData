@@ -5,7 +5,7 @@ from . import views
 app_name = "quiz"
 urlpatterns = [
     # # ex: /quiz/
-    path('', views.index, name='index'),
+    path('', views.quizzes, name='list'),
     # ex: /quiz/5/
     # path('<int:quiz_id>/', views.detail, name='detail'),
     # # ex: /polls/5/results/

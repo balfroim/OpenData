@@ -3,9 +3,8 @@ from django.shortcuts import render
 from .models import Quiz
 
 
-def index(request):
-    latest_quizzes = Quiz.objects.order_by('-created_at')[:5]
-    return render(request, 'quiz/index.html', {'latest_quizzes': latest_quizzes})
+def quizzes(request):
+    return render(request, 'quiz.html', {'quizzes': Quiz.objects.all()})
 # def quiz(request, question_id):
 #
 
