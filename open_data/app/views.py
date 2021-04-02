@@ -38,8 +38,6 @@ def homepage(request):
     ]
 
     today_quiz = random.choice(Quiz.objects.all())
-
-    print(today_quiz.questions.all())
     return render(request=request,
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
