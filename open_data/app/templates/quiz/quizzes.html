@@ -1,7 +1,6 @@
-<ul>
-    {% for quiz in quizzes %}
-        <li><a href="/quiz/{{ quiz.id }}/">{{ quiz.title }}</a></li>
-        {% empty %}
-        <p>Pas de quizzes.</p>
-    {% endfor %}
-</ul>
+{% load quiz %}
+{% for quiz in quizzes %}
+    {% show_quiz quiz %}
+    {% empty %}
+    <p>Pas de quizzes.</p>
+{% endfor %}

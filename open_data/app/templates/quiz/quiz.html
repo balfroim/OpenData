@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="centered card">
+    <div>
+        <p><i>{{ quiz.title }}</i></p>
+        <p>
+            {% if quiz.perfect_score_rate == 0 %}
+                Aucun n'utilisateur n'a
+            {% else %}
+                {{ quiz.perfect_score_rate }}% des utilisateurs ont
+            {% endif %}
+            parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?</p>
+        <p>Aucune idée ? N'hésitez pas à explorer
+            <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset_id }}" target="_blank">
+                le jeu de données source
+            </a> !
+        </p>
 
-</body>
-</html>
+    </div>
+    <form action="" method="post" style="display:flex;flex-direction: column;">
+        {% csrf_token %}
+        {% for question in quiz.questions.all %}
+            <h3>{{ question.prompt }}</h3>
+            {% for answer in question.answers.all %}
+                <button name="response" value="{{ answer.id }}"
+                        style="width:200px;display: block; margin: 5px auto;">
+                    {{ answer.text }}</button>
+            {% endfor %}
+        {% endfor %}
+    </form>
+
+</div>

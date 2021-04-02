@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load quiz %}
 {% block title %}Accueil{% endblock %}
 {% block head %}
     <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"
@@ -71,45 +72,6 @@
             {% endfor %}
         </div>
         <h2>Quiz du jour</h2>
-        <div class="centered card">
-            <div>
-                <p><i>{{ today_quiz.title }}</i></p>
-                <p>
-                    {% if today_quiz.perfect_score_rate == 0 %}
-                        Aucun n'utilisateur n'a
-                    {% else %}
-                        {{ today_quiz.perfect_score_rate }}% des utilisateurs ont
-                    {% endif %}
-                    parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?</p>
-                <h3>{{ today_quiz.questions.all.0.prompt }}</h3>
-            </div>
-            <form action="{% url 'quiz' %}" method="post" style="display:flex;flex-direction: column;">
-                {% csrf_token %}
-                {% for answer in today_quiz.questions.all.0.answers.all %}
-                    <button name="response" value="{{ answer.id }}"
-                            style="width:200px;display: block; margin: 5px auto;">
-                        {{ answer.text }}</button>
-                {% endfor %}
-            </form>
-            <p>Aucune idée ? N'hésitez pas à explorer
-                <a href="https://data.namur.be/explore/dataset/{{ today_quiz.dataset_id }}" target="_blank">
-                le jeu de données source
-                </a> !
-            </p>
-        </div>
-        {#        <div class="centered card">#}
-        {#            <div>#}
-        {#                <p><i>"Namur, commune fortifiée ?"</i></p>#}
-        {#                <h3>Combien de forts trouve-t-on sur la commune de Namur ?</h3>#}
-        {#                <p>42% des utilisateurs ont bien répondu à cette question, ferez-vous partie de l'élite ?</p>#}
-        {#            </div>#}
-        {#            <form action="{% url 'quiz' %}" method="post">#}
-        {#                {% csrf_token %}#}
-        {#                <button name="response" value="0">4</button>#}
-        {#                <button name="response" value="1">5</button>#}
-        {#                <button name="response" value="2">6</button>#}
-        {#                <button name="response" value="3">7</button>#}
-        {#            </form>#}
-        {#        </div>#}
+        {% show_quiz today_quiz %}
     </main>
 {% endblock %}
