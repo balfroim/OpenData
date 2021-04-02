@@ -12,6 +12,7 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+         list-style-type: none;
     }
 
     /* Hide the browser's default checkbox */
@@ -92,12 +93,13 @@
             <div class="fieldWrapper">
                 {{ field.errors }}
                 <h3>{{ field.label }}</h3>
-{#                <label class="container">#}
-{#                    {{ field }}#}
-{#                    <input type="checkbox" checked="checked">#}
-{#                    <span class="checkmark"></span>#}
-{#                </label>#}
-                                {{ field }}
+                {% for value, label in field.field.choices %}
+                    <label class="container">
+                        {{ label }}
+                        <input type="checkbox" name="{{ value }}" value="{{ value }}" id="{{ value }}">
+                        <span class="checkmark"></span>
+                    </label>
+                {% endfor %}
             </div>
         {% endfor %}
         <input type="submit" value="Submit">
