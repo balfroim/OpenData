@@ -1,4 +1,5 @@
 from django import template
+import random
 
 register = template.Library()
 
@@ -11,3 +12,9 @@ def show_quizzes(quizzes):
 @register.inclusion_tag('quiz/quiz.html')
 def show_quiz(quiz, form):
     return {"quiz": quiz, "form": form}
+
+
+@register.filter
+def shuffle(arg):
+    list_arg = list(arg)
+    return random.sample(list_arg, len(list_arg))
