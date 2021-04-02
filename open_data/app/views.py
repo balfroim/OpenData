@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import requests
 from quiz.models import Quiz
+from quiz.forms import QuizForm
 import random
 
 THEME2LOGO = {
@@ -38,10 +39,19 @@ def homepage(request):
     ]
 
     today_quiz = random.choice(Quiz.objects.all())
+    # if request.method == 'POST':
+    #     form = QuizForm(today_quiz, requests.POST)
+    #     if form.is_valid():
+    #         picked = form.cleaned_data.get('picked')
+    #         # do something with your results
+    # else:
+    # print(list(request.POST))
+    form = QuizForm(today_quiz)
     return render(request=request,
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
-                           "today_quiz": today_quiz})
+                           "today_quiz": today_quiz,
+                           'form': form})
 
 
 def quizzes(request):
