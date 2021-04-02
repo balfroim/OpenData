@@ -42,3 +42,7 @@ def homepage(request):
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
                            "today_quiz": today_quiz})
+
+
+def quizzes(request):
+    return render(request, 'quiz.html', {'quizzes': Quiz.objects.all()})
