@@ -94,7 +94,7 @@
             <div class="fieldWrapper">
                 {{ field.errors }}
                 <h3>{{ field.label }}</h3>
-                {% for value, label in field.field.choices|shuffle %}
+                {% for value, label in field.field.choices|to_list|shuffle %}
                     <label class="container">
                         {{ label }}
                         <input type="checkbox" name="{{ value }}" value="{{ value }}" id="{{ value }}">
@@ -105,16 +105,4 @@
         {% endfor %}
         <input type="submit" value="Submit">
     </form>
-    {#    <form action="" method="post" style="display:flex;flex-direction: column;">#}
-    {#        {% csrf_token %}#}
-    {#        {% for question in quiz.questions.all %}#}
-    {#            <h3>{{ question.prompt }}</h3>#}
-    {#            {% for answer in question.answers.all %}#}
-    {#                <button name="response" value="{{ answer.id }}"#}
-    {#                        style="width:200px;display: block; margin: 5px auto;">#}
-    {#                    {{ answer.text }}</button>#}
-    {#            {% endfor %}#}
-    {#        {% endfor %}#}
-    {#    </form>#}
-
 </div>

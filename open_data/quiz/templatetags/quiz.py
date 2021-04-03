@@ -15,6 +15,12 @@ def show_quiz(quiz):
 
 
 @register.filter
-def shuffle(arg):
-    list_arg = list(arg)
-    return random.sample(list_arg, len(list_arg))
+def to_list(i):
+    """Cast any iterable i into a list"""
+    return list(i)
+
+
+@register.filter
+def shuffle(l: list):
+    """Shuffle randomly a list l"""
+    return random.sample(l, len(l))
