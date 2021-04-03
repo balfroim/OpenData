@@ -39,10 +39,7 @@ def homepage(request):
     ]
 
     today_quiz = random.choice(Quiz.objects.all())
-    if request.method == 'POST':
-        today_quiz = QuizForm(today_quiz, request.POST)
-    else:
-        today_quiz = QuizForm(today_quiz)
+    today_quiz = QuizForm(today_quiz, request.POST)
 
     return render(request=request,
                   template_name='home.html',
@@ -51,4 +48,5 @@ def homepage(request):
 
 
 def quizzes(request):
-    return render(request, 'quiz.html', {'quizzes': Quiz.objects.all()})
+    quizzes = [QuizForm(quiz, request.POST) for quiz in Quiz.objects.all()]
+    return render(request, 'quiz.html', {'quizzes': quizzes})
