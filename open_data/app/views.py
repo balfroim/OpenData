@@ -24,16 +24,16 @@ THEME2LOGO = {
 # Create your views here.
 def homepage(request):
     nb_row = 5
-    sort_criterion = "explore.popularity_score"
-    result = requests.get(
-        f"https://data.namur.be/api/datasets/1.0/search/?q=&rows={nb_row}&sort={sort_criterion}").json()
-
+    sort_criterion = "explore.popularity_score desc"
+    url = f"https://data.namur.be/api/v2/catalog/datasets?order_by={sort_criterion}&limit={nb_row}" \
+        f"&timezone=UTC&include_app_metas=true"
+    result = requests.get(url).json()
     featured_datasets = [
         {
-            "id": dataset["datasetid"],
-            "title": dataset["metas"]["title"].split(" - "),
-            "theme": dataset["metas"]["theme"][0],
-            "logo": THEME2LOGO[dataset["metas"]["theme"][0]]
+            "id": dataset["dataset"]["dataset_id"],
+            "title": dataset["dataset"]["metas"]["default"]["title"].split(" - "),
+            "theme": dataset["dataset"]["metas"]["default"]["theme"][0],
+            "logo": THEME2LOGO[dataset["dataset"]["metas"]["default"]["theme"][0]]
         }
         for dataset in result["datasets"]
     ]
