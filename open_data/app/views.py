@@ -39,17 +39,15 @@ def homepage(request):
     ]
 
     today_quiz = random.choice(Quiz.objects.all())
-    # if request.method == 'POST':
-    #     form = QuizForm(today_quiz, requests.POST)
-    #     if form.is_valid():
-    #         picked = form.cleaned_data.get('picked')
-    #         # do something with your results
-    # else:
+    if request.method == 'POST':
+        today_quiz = QuizForm(today_quiz, request.POST)
+    else:
+        today_quiz = QuizForm(today_quiz)
 
     return render(request=request,
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
-                           "today_quiz": QuizForm(today_quiz)})
+                           "today_quiz": today_quiz})
 
 
 def quizzes(request):

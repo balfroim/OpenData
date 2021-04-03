@@ -93,10 +93,10 @@
             <div class="fieldWrapper">
                 {{ field.errors }}
                 <h3>{{ field.label }}</h3>
-                {% for value, label in field.field.choices|to_list|shuffle %}
+                {% for value, label, checked in field.field.choices|to_list|shuffle %}
                     <label class="container">
                         {{ label }}
-                        <input type="checkbox" name="{{ field.auto_id  }}" value="{{ value }}" id="{{ value }}">
+                        <input type="checkbox" name="{{ field.auto_id  }}" value="{{ value }}" {% if checked %}checked{% endif %}>
                         <span class="checkmark"></span>
                     </label>
                 {% endfor %}
