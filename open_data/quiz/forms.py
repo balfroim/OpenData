@@ -1,8 +1,9 @@
 from django import forms
+from .models import Question
 
 
 def is_in(dic, key, value):
-    return key in dic and value in dic[key]
+    return key in dic and value in dic.getlist(key)
 
 
 class QuizForm(forms.Form):
@@ -11,7 +12,7 @@ class QuizForm(forms.Form):
         self.auto_id = "%s"
         self.infos = quiz
         for question in quiz.questions.all():
-            question_key = f'question{question.id}'
+            question_key = str(question.id)
             self.fields.update({
                 question_key: forms.MultipleChoiceField(
                     choices=[
@@ -22,3 +23,16 @@ class QuizForm(forms.Form):
                     widget=forms.CheckboxSelectMultiple,
                     required=False)
             })
+
+    def correct(self):
+        self.infos.times_taken += 1
+        success = True
+        for key, field in self.fields.items():
+            question = Question.objects.get(id=key)
+            for i, answer in enumerate(question.answers.all()):
+                success = success and field.choices[i][2] == answer.is_correct
+        if success:
+            self.infos.times_perfect_score += 1
+        print(self.infos.times_taken, self.infos.times_perfect_score)
+        self.infos.save()
+        return success
