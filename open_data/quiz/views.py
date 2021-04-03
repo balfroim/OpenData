@@ -8,4 +8,4 @@ def quizzes(request):
 
 
 def quiz(request, quiz_id):
-    return render(request, 'quiz/quiz.html', {'quiz': get_object_or_404(Quiz, pk=quiz_id)})
+    return render(request, 'quiz/quiz.html', {'quiz':  get_object_or_404(Quiz, pk=quiz_id)})

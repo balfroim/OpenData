@@ -10,8 +10,8 @@ def show_quizzes(quizzes):
 
 
 @register.inclusion_tag('quiz/quiz.html')
-def show_quiz(quiz, form):
-    return {"quiz": quiz, "form": form}
+def show_quiz(quiz):
+    return {"quiz": quiz}
 
 
 @register.filter

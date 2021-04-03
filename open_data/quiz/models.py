@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .forms import QuizForm
 
 
 class Quiz(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255, default='')
+    # TODO: lié à un proxy dataset
     dataset_id = models.CharField(max_length=255, default='')
     created_at = models.DateTimeField(editable=False)
     times_taken = models.IntegerField(default=0, editable=False)
@@ -24,6 +26,10 @@ class Quiz(models.Model):
     @property
     def perfect_score_rate(self):
         return (self.times_perfect_score / self.times_taken) * 100 if self.times_taken > 0 else 0
+
+    @property
+    def form(self):
+        return QuizForm(self)
 
     class Meta:
         verbose_name_plural = "Quizzes"
