@@ -39,10 +39,7 @@ def homepage(request):
     ]
 
     today_quiz = random.choice(Quiz.objects.all())
-    if request.method == 'POST':
-        today_quiz = QuizForm(today_quiz, request.POST)
-    else:
-        today_quiz = QuizForm(today_quiz)
+    today_quiz = QuizForm(today_quiz, request.POST)
 
     return render(request=request,
                   template_name='home.html',
