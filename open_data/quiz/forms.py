@@ -11,5 +11,7 @@ class QuizForm(forms.Form):
                 f'{question.id}': forms.ModelMultipleChoiceField(
                     queryset=question.answers,
                     label=question.prompt,
-                    widget=forms.CheckboxSelectMultiple),
+                    widget=forms.CheckboxSelectMultiple,
+                    required=False),
+
             })
