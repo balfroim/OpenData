@@ -48,4 +48,5 @@ def homepage(request):
 
 
 def quizzes(request):
-    return render(request, 'quiz.html', {'quizzes': Quiz.objects.all()})
+    quizzes = [QuizForm(quiz, request.POST) for quiz in Quiz.objects.all()]
+    return render(request, 'quiz.html', {'quizzes': quizzes})
