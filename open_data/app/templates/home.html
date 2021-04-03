@@ -62,7 +62,7 @@
             {% for dataset in featured_datasets %}
                 <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
                     <img src="{% get_static_prefix %}images/categories/{{ dataset.logo }}.svg"
-                         alt="Logo {{ dataset.theme }}"
+                         alt="Logo {{ dataset.theme.0 }}"
                          class="carousel-cell-img"/>
                     <span class="carousel-cell-title">
                            {% for title_line in dataset.title %}
