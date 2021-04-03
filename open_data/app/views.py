@@ -45,13 +45,11 @@ def homepage(request):
     #         picked = form.cleaned_data.get('picked')
     #         # do something with your results
     # else:
-    # print(list(request.POST))
-    form = QuizForm(today_quiz)
+
     return render(request=request,
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
-                           "today_quiz": today_quiz,
-                           'form': form})
+                           "today_quiz": QuizForm(today_quiz)})
 
 
 def quizzes(request):

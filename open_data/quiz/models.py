@@ -27,10 +27,6 @@ class Quiz(models.Model):
     def perfect_score_rate(self):
         return (self.times_perfect_score / self.times_taken) * 100 if self.times_taken > 0 else 0
 
-    @property
-    def form(self):
-        return QuizForm(self)
-
     class Meta:
         verbose_name_plural = "Quizzes"
         ordering = ['id']

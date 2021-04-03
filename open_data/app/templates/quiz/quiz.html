@@ -73,31 +73,30 @@
 
 <div class="centered card">
     <div>
-        <p><i>{{ quiz.title }}</i></p>
+        <p><i>{{ quiz.infos.title }}</i></p>
         <p>
-            {% if quiz.perfect_score_rate == 0 %}
+            {% if quiz.infos.perfect_score_rate == 0 %}
                 Aucun n'utilisateur n'a
             {% else %}
-                {{ quiz.perfect_score_rate }}% des utilisateurs ont
+                {{ quiz.infos.perfect_score_rate }}% des utilisateurs ont
             {% endif %}
             parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?</p>
         <p>Aucune idée ? N'hésitez pas à explorer
-            <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset_id }}" target="_blank">
+            <a href="https://data.namur.be/explore/dataset/{{ quiz.infos.dataset_id }}" target="_blank">
                 le jeu de données source
             </a> !
         </p>
-
     </div>
     <form method="POST">
         {% csrf_token %}
-        {% for field in quiz.form %}
+        {% for field in quiz %}
             <div class="fieldWrapper">
                 {{ field.errors }}
                 <h3>{{ field.label }}</h3>
                 {% for value, label in field.field.choices|to_list|shuffle %}
                     <label class="container">
                         {{ label }}
-                        <input type="checkbox" name="{{ value }}" value="{{ value }}" id="{{ value }}">
+                        <input type="checkbox" name="{{ field.auto_id  }}" value="{{ value }}" id="{{ value }}">
                         <span class="checkmark"></span>
                     </label>
                 {% endfor %}

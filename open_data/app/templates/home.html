@@ -57,6 +57,7 @@
             vous intéresser !
         </p>
         <h2>Données à l'honneur</h2>
+        {#    TODO: Peut être faire un tag data_carroussel ?? #}
         <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
             {% for dataset in featured_datasets %}
                 <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
