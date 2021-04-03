@@ -32,7 +32,7 @@ def homepage(request):
         {
             "id": dataset["dataset"]["dataset_id"],
             "title": dataset["dataset"]["metas"]["default"]["title"].split(" - "),
-            "theme": dataset["dataset"]["metas"]["default"]["theme"][0],
+            "themes": dataset["dataset"]["metas"]["default"]["theme"],
             "logo": THEME2LOGO[dataset["dataset"]["metas"]["default"]["theme"][0]]
         }
         for dataset in result["datasets"]
