@@ -11,3 +11,5 @@ open_data/poetry.lock
 venv/
 
 open_data/app/fixtures/
+
+open_data/uploads/
