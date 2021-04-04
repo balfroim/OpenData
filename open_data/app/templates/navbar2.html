@@ -1,21 +1,50 @@
 {% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="navbar">
-  <div class="logo">
-    <img src="{% static 'images/logo.png' %}" alt="OpenData" >
-  </div>
-  <a href="#home">Accueil</a>
-  <div class="dropdown">
-    <button class="dropbtn">Explorer
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="OpenData" >
+        </a>
     </div>
-  </div>
-  <div class="topnav-right">
-    <a href="#">Forum</a>
-    <a href="#"><i class="fa fa-fw fa-user"></i></a>
-  </div>
+    <div class="nav-top-left">
+        <a href="{% url 'home' %}">Accueil</a>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Explorer
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+    </div>
+    <div class="search-container">
+        <div class="search">
+            <input type="text" placeholder="Que souhaitez-vous consulter ?" name="search" class="search-box">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <div class="user">
+        <div class="pseudo">
+            <button class="pseudobtn">Pseudo
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="pseudo-content">
+                <a href="#">Voir profil</a>
+                <a href="#">Déconnexion</a>
+            </div>
+        </div>
+        <div class="user-icon">
+            <a href="#"><i class="fa fa-fw fa-user"></i></a>
+        </div>
+    </div>
+    <div class="notification">
+        <a href="#"><i class="fa fa-bell"></i></a>
+    </div>
+    <div class="forum">
+        <a href="#">Forum</a>
+    </div>
 </div>
+
+
