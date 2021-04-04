@@ -1,11 +1,11 @@
 import sys
-from io import BytesIO
-from PIL import Image
 import xml.etree.cElementTree as et
-
+from PIL import Image
 from django.core.exceptions import ValidationError
 from django.forms import ImageField as DjangoImageField
-from django.utils import six
+from io import BytesIO
+from six import reraise
+
 
 # https://7webpages.com/blog/how-to-have-svg-allowed-as-an-image-for-django-rest-framework/
 # https://gist.github.com/ambivalentno/9bc42b9a417677d96a21
@@ -44,7 +44,7 @@ class SVGAndImageFormField(DjangoImageField):
         except Exception:
             # add a workaround to handle svg images
             if not self.is_svg(ifile):
-                six.reraise(ValidationError, ValidationError(
+                reraise(ValidationError, ValidationError(
                     self.error_messages['invalid_image'],
                     code='invalid_image',
                 ), sys.exc_info()[2])

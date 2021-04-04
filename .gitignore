@@ -9,3 +9,5 @@ __pycache__
 open_data/poetry.lock
 
 venv/
+
+open_data/app/fixtures/
