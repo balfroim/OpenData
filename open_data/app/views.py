@@ -1,9 +1,10 @@
-from django.shortcuts import render
-import requests
-from quiz.models import Quiz
-from quiz.forms import QuizForm
 import random
-from settings import API_URL
+import requests
+from dictor import dictor
+from django.shortcuts import render
+from open_data.settings import API_URL, TIME_ZONE
+from quiz.forms import QuizForm
+from quiz.models import Quiz
 
 THEME2LOGO = {
     'Santé': 'doctors',
@@ -23,8 +24,29 @@ THEME2LOGO = {
 
 
 def load_themes():
-    pass
+    url = API_URL + 'catalog/facets?facet=theme'
+    data = requests.get(url).json()
+    themes = [dictor(facet, "name") for facet in dictor(data, "facets.0.facets")]
+    print(themes)
 
+def load_datasets():
+    count = 0
+    total_count = None
+    datasets = []
+    while not total_count or count < total_count:
+        limit = 100 if not total_count else min(total_count - count, 100)
+        url = f"{API_URL}catalog/datasets?limit={limit}&offset={count}&timezone={TIME_ZONE}&include_app_metas=true"
+        data = requests.get(url).json()
+        datasets += dictor(data, "datasets")
+        if not total_count:
+            total_count = dictor(data, "total_count")
+        count += limit
+        # TODO: Logging
+        print(f"\rLoad {count} out of {total_count}.")
+    for dataset in datasets:
+        # dataset_ids.append(dictor(dataset, "dataset.dataset_id"))
+        dataset_metas = dictor(dataset, "dataset.metas")
+        print(dictor(dataset_metas, "default.title"))
 # Create your views here.
 def homepage(request):
     nb_row = 5
@@ -44,7 +66,8 @@ def homepage(request):
 
     today_quiz = random.choice(Quiz.objects.all())
     today_quiz = QuizForm(today_quiz, request.POST)
-
+    load_themes()
+    load_datasets()
     return render(request=request,
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
