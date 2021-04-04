@@ -1,5 +1,6 @@
 import xml.etree.cElementTree as et
 
+# https://stackoverflow.com/a/38010185
 
 def is_svg(file):
     """
