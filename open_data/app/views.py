@@ -3,6 +3,7 @@ import requests
 from quiz.models import Quiz
 from quiz.forms import QuizForm
 import random
+from settings import API_URL
 
 THEME2LOGO = {
     'Santé': 'doctors',
@@ -21,11 +22,14 @@ THEME2LOGO = {
 }
 
 
+def load_themes():
+    pass
+
 # Create your views here.
 def homepage(request):
     nb_row = 5
     sort_criterion = "explore.popularity_score desc"
-    url = f"https://data.namur.be/api/v2/catalog/datasets?order_by={sort_criterion}&limit={nb_row}" \
+    url = f"{API_URL}catalog/datasets?order_by={sort_criterion}&limit={nb_row}" \
         f"&timezone=UTC&include_app_metas=true"
     result = requests.get(url).json()
     featured_datasets = [

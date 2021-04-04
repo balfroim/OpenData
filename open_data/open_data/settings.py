@@ -120,3 +120,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+
+API_URL = 'https://data.namur.be/api/v2/'
