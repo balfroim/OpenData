@@ -78,7 +78,7 @@
             {% if quiz.infos.perfect_score_rate == 0 %}
                 Aucun n'utilisateur n'a
             {% else %}
-                {{ quiz.infos.perfect_score_rate }}% des utilisateurs ont
+                {{ quiz.infos.perfect_score_rate|floatformat:2 }}% des utilisateurs ont
             {% endif %}
             parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?</p>
         <p>Aucune idée ? N'hésitez pas à explorer
@@ -89,7 +89,7 @@
     </div>
     <form method="POST">
         {% csrf_token %}
-        {% for field in quiz %}
+        {% for field in quiz|to_list|shuffle %}
             <div class="fieldWrapper">
                 {{ field.errors }}
                 <h3>{{ field.label }}</h3>
