@@ -1,42 +1,21 @@
-{% extends "base.html" %}
-{% block title %}Connexion{% endblock %}
-{% block body %}
-  <header>
-    {% include 'navbar.html' %}
-  </header>
-  <main>
-    {% if form.errors %}
-      <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
-
-    {% if next %}
-      {% if user.is_authenticated %}
-        <p>
-          Your account doesn't have access to this page. To proceed, please login
-          with an account that has access.
-        </p>
-      {% else %}
-        <p>Please login to see this page.</p>
-      {% endif %}
-    {% endif %}
-
-    <form method="post">
+<div id="modal-mask">
+  <div class="modal">
+    <h1>Connexion</h1>
+    <form action="{% url 'login' %}" method="post">
       {% csrf_token %}
-      <table>
-        <tr>
-          <td>{{ form.username.label_tag }}</td>
-          <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-          <td>{{ form.password.label_tag }}</td>
-          <td>{{ form.password }}</td>
-        </tr>
-      </table>
-      <input type="hidden" name="next" value="{{ next }}">
-      <button>Log in</button>
+      {{ login_form }}
+      <hr>
+      <button>Connexion</button>
     </form>
-
-    {# Assumes you setup the password_reset view in your URLconf #}
-    {# <p><a href="{% url 'password_reset' %}">Lost password?</a></p> #}
-  </main>
-{% endblock %}
+  </div>
+  <div class="modal">
+    <h1>Inscription</h1>
+    <p>Pas (encore) de compte ? Bienvenue !</p>
+    <form action="{% url 'signin' %}" method="post">
+      {% csrf_token %}
+      {{ signin_form.as_p }}
+      <hr>
+      <button>Inscription</button>
+    </form>
+  </div>
+</div>

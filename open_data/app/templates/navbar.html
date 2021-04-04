@@ -23,9 +23,12 @@
       <span class="fa fa-sign-out"></span>
     </a>
   {% else %}
-    <a href="{% url 'login' %}">
+    <button id="modal-show">
+      Connexion
+    </button>
+    <!-- <a href="{% url 'login' %}">
       Connexion
       <span class="fa fa-sign-in"></span>
-    </a>
+    </a> -->
   {% endif %}
 </nav>

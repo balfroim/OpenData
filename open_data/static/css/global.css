@@ -1,5 +1,6 @@
 :root {
   --page-width: 700px;
+  --modal-width: 500px;
   --primary: #0e2240;
   --secondary: #e0e2e6;
   --rounded: 4px;
@@ -30,17 +31,29 @@ main {
   padding: 16px;
 }
 
+input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4pt;
+  border: 1px solid var(--primary);
+  border-radius: var(--rounded);
+  font: inherit;
+  font-size: large;
+}
+
 button {
   padding: 4px 16px;
   border: 4px solid var(--primary);
   border-radius: var(--rounded);
   color: white;
   background-color: var(--primary);
+  font: inherit;
   font-weight: bold;
 }
 
 button:hover {
-  color: black;
+  color: currentColor;
   background-color: transparent;
   cursor: pointer;
 }
@@ -75,4 +88,31 @@ main > * {
 .fading {
   opacity: initial;
   transform: initial;
+}
+
+/* Modal windows */
+#modal-mask {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: #0006;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+#modal-mask.active {
+  display: flex;
+}
+
+.modal {
+  max-width: var(--modal-width);
+  margin: 16px;
+  padding: 32px;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: var(--rounded);
 }
