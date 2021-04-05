@@ -5,29 +5,8 @@ from django.shortcuts import render
 from open_data.settings import API_URL, TIME_ZONE
 from quiz.forms import QuizForm
 from quiz.models import Quiz
+from dataset.models import Theme
 
-THEME2LOGO = {
-    'Santé': 'doctors',
-    'Population, Statistiques': 'outline_group',
-    'Aménagement du territoire, Urbanisme, Bâtiments, Equipements, Logement': 'townplanning',
-    'Administration, Gouvernement, Finances publiques, Citoyenneté': 'administration',
-    'Transports, Déplacements': '',
-    'Energie': '',
-    'Sport, Loisirs': '',
-    'Culture, Patrimoine': '',
-    'Environnement': '',
-    'Interne': '',
-    'Education, Formation, Recherche, Enseignement': '',
-    'Economie, Business, PME, Développement économique, Emploi': '',
-    'Closed Data, Accès restreint': '',
-}
-
-
-def load_themes():
-    url = API_URL + 'catalog/facets?facet=theme'
-    data = requests.get(url).json()
-    themes = [dictor(facet, "name") for facet in dictor(data, "facets.0.facets")]
-    print(themes)
 
 def load_datasets():
     count = 0
@@ -47,6 +26,8 @@ def load_datasets():
         # dataset_ids.append(dictor(dataset, "dataset.dataset_id"))
         dataset_metas = dictor(dataset, "dataset.metas")
         print(dictor(dataset_metas, "default.title"))
+
+
 # Create your views here.
 def homepage(request):
     nb_row = 5
@@ -58,11 +39,13 @@ def homepage(request):
         {
             "id": dataset["dataset"]["dataset_id"],
             "title": dataset["dataset"]["metas"]["default"]["title"].split(" - "),
-            "themes": dataset["dataset"]["metas"]["default"]["theme"],
-            "logo": THEME2LOGO[dataset["dataset"]["metas"]["default"]["theme"][0]]
+            # "themes": dataset["dataset"]["metas"]["default"]["theme"],
+            "theme": Theme.objects.get(name=dataset["dataset"]["metas"]["default"]["theme"][0])
         }
         for dataset in result["datasets"]
     ]
+
+    print(dictor(featured_datasets, "logo"))
 
     today_quiz = random.choice(Quiz.objects.all())
     today_quiz = QuizForm(today_quiz, request.POST)

@@ -1,12 +1,15 @@
-from dataset.svg import validate_svg
+from dataset.svg import validate_svg, fill_color
 from django.db import models
 from django.utils.text import slugify
+from colorfield.fields import ColorField
 
 
 class Theme(models.Model):
     name = models.CharField(max_length=100, default='', unique=True)
     slug = models.CharField(max_length=100, default='')
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
+    # TODO: changer automatiquement la couleur du svg
+    color = ColorField(default='#FF0000')
 
     def save(self, *args, **kwargs):
         if not self.id:

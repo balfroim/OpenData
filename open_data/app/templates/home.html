@@ -37,6 +37,7 @@
 
             font-weight: bold;
         }
+
     </style>
 {% endblock %}
 {% block body %}
@@ -61,8 +62,8 @@
         <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
             {% for dataset in featured_datasets %}
                 <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
-                    <img src="{% get_static_prefix %}images/categories/{{ dataset.logo }}.svg"
-                         alt="Logo {{ dataset.theme.0 }}"
+                    <img src="{{ dataset.theme.image.url }}"
+                         alt="Logo {{ dataset.theme.name }}"
                          class="carousel-cell-img"/>
                     <span class="carousel-cell-title">
                            {% for title_line in dataset.title %}
