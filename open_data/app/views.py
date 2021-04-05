@@ -66,8 +66,9 @@ def homepage(request):
 
     today_quiz = random.choice(Quiz.objects.all())
     today_quiz = QuizForm(today_quiz, request.POST)
-    load_themes()
-    load_datasets()
+    # print(today_quiz.correct())
+    # load_themes()
+    # load_datasets()
     return render(request=request,
                   template_name='home.html',
                   context={"featured_datasets": featured_datasets,
