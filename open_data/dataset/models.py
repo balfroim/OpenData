@@ -19,9 +19,15 @@ class Theme(models.Model):
     def __str__(self):
         return f"{self.name} ({self.image})"
 
-        # class ProxyDataset(models.Model):
-#     pass
-#     # slug = models.CharField(max_length=100, default='')
-#     # title = models.CharField(max_length=255, default='')
-#     # theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, related_name='datasets', null=True)
-#     json_dump = models.JSONField()
+
+class ProxyDatasetStat(models.Model):
+    popularity_score = models.IntegerField(default=0, editable=False)
+
+
+class ProxyDataset(models.Model):
+    id = models.CharField(max_length=100, default='', unique=True, primary_key=True)
+    title = models.CharField(max_length=255, default='')
+    modified = models.DateTimeField(editable=False)
+    theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, related_name='datasets', null=True)
+    description = models.CharField(max_length=255, default='')
+    stat = models.OneToOneField(ProxyDatasetStat, on_delete=models.CASCADE, related_name='dataset', null=True)
