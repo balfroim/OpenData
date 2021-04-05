@@ -32,6 +32,10 @@ class ProxyDataset(models.Model):
     def __str__(self):
         return self.title if self.title else self.id
 
+    @property
+    def multilines_title(self):
+        return self.title.split(' - ')
+
 
 class ProxyDatasetStat(models.Model):
     dataset = models.OneToOneField(ProxyDataset, on_delete=models.CASCADE, related_name='stat', null=True)

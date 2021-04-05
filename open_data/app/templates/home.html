@@ -62,11 +62,11 @@
         <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
             {% for dataset in featured_datasets %}
                 <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
-                    <img src="{{ dataset.theme.image.url }}"
+                    <img src="{% if dataset.theme.image  %}{{ dataset.theme.image.url }}{% endif %}"
                          alt="Logo {{ dataset.theme.name }}"
                          class="carousel-cell-img"/>
                     <span class="carousel-cell-title">
-                           {% for title_line in dataset.title %}
+                           {% for title_line in dataset.multilines_title %}
                                {{ title_line }}<br>
                            {% endfor %}
                     </span>
