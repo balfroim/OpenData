@@ -1,9 +1,15 @@
+# Python specific
+poetry.lock
 __pycache__
 
+# Databases
 *.db
 *.sqlite
 *.sqlite3
 
-.idea
+# Miscenaleous
+*.old.*
 
-open_data/poetry.lock
+# IDE specific
+.idea
+.vscode
