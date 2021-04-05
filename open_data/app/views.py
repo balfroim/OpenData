@@ -1,9 +1,6 @@
 import random
-import requests
 from dataset.models import ProxyDataset
-from dictor import dictor
 from django.shortcuts import render
-from open_data.settings import API_URL
 from quiz.forms import QuizForm
 from quiz.models import Quiz
 
