@@ -101,6 +101,11 @@ nav > .separator {
   display: none;
 }
 
+.mask > * {
+  animation-name: intro;
+  animation-duration: 0.3s;
+}
+
 /* Fade-in animation */
 main > * {
   opacity: 0;
