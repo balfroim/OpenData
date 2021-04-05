@@ -1,34 +1,13 @@
 import random
 import requests
+from dataset.models import Theme
 from dictor import dictor
 from django.shortcuts import render
-from open_data.settings import API_URL, TIME_ZONE
+from open_data.settings import API_URL
 from quiz.forms import QuizForm
 from quiz.models import Quiz
-from dataset.models import Theme
 
 
-def load_datasets():
-    count = 0
-    total_count = None
-    datasets = []
-    while not total_count or count < total_count:
-        limit = 100 if not total_count else min(total_count - count, 100)
-        url = f"{API_URL}catalog/datasets?limit={limit}&offset={count}&timezone={TIME_ZONE}&include_app_metas=true"
-        data = requests.get(url).json()
-        datasets += dictor(data, "datasets")
-        if not total_count:
-            total_count = dictor(data, "total_count")
-        count += limit
-        # TODO: Logging
-        print(f"\rLoad {count} out of {total_count}.")
-    for dataset in datasets:
-        # dataset_ids.append(dictor(dataset, "dataset.dataset_id"))
-        dataset_metas = dictor(dataset, "dataset.metas")
-        print(dictor(dataset_metas, "default.title"))
-
-
-# Create your views here.
 def homepage(request):
     nb_row = 5
     sort_criterion = "explore.popularity_score desc"
