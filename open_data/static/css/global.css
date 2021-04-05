@@ -4,7 +4,7 @@
   --modal-width: 500px;
   --primary: #0e2240;
   --secondary: #e0e2e6;
-  --rounded: 4px;
+  --rounded: 6px;
 }
 
 /* Remove unwanted margin,
@@ -21,20 +21,6 @@ body {
 }
 
 /* Global look and feel */
-nav {
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  color: white;
-  background-color: var(--primary);
-}
-
-nav > * + * {
-  margin-left: 16px;
-  color: inherit;
-  text-decoration: unset;
-}
-
 main {
   max-width: var(--page-width);
   margin: auto;
@@ -71,4 +57,58 @@ button:hover, .button:hover {
   padding: 16px;
   border-radius: var(--rounded);
   background-color: var(--secondary);
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  color: white;
+  background-color: var(--primary);
+}
+
+nav > * + * {
+  margin-left: 16px;
+}
+
+nav > a {
+  color: inherit;
+  text-decoration: unset;
+}
+
+nav > button, nav > .button {
+  color: var(--primary);
+  background-color: white;
+  border-color: white;
+}
+
+nav > .separator {
+  flex: 1;
+}
+
+/* Modals and drop-downs */
+.mask {
+  position: absolute;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.mask.inactive {
+  display: none;
+}
+
+/* Fade-in transition */
+main > * {
+  transition: all .3s;
+  opacity: 0%;
+  transform: translate(-64px, 8px);
+}
+
+.fading {
+  opacity: initial;
+  transform: initial;
 }
