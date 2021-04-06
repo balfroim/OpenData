@@ -28,38 +28,16 @@
 </style>
 <div id="explore-mask" class="inactive mask">
   <div class="explore-menu">
+    {% for theme in themes %}
     <div class="explore-item">
-      Aménagement du territoire, Urbanisme, Bâtiments, Equipements, Logement
+      {% if theme.image %}
+      <img src="{{ theme.image.url }}" alt="" />
+      {% endif %}
+      {{ theme.name }}
+      <!-- {% for dataset in theme.datasets.all %}
+        {{ dataset }}
+      {% endfor %} -->
     </div>
-    <div class="explore-item">
-      Population, Statistiques
-    </div>
-    <div class="explore-item">
-      Administration, Gouvernement, Finances publiques, Citoyenneté
-    </div>
-    <div class="explore-item">
-      Transports, Déplacements
-    </div>
-    <div class="explore-item">
-      Culture, Patrimoine
-    </div>
-    <div class="explore-item">
-      Environnement
-    </div>
-    <div class="explore-item">
-      Santé
-    </div>
-    <div class="explore-item">
-      Sport, Loisirs
-    </div>
-    <div class="explore-item">
-      Energie
-    </div>
-    <div class="explore-item">
-      Economie, Business, PME, Développement économique, Emploi
-    </div>
-    <div class="explore-item">
-      Education, Formation, Recherche, Enseignement
-    </div>
+    {% endfor %}
   </div>
 </div>

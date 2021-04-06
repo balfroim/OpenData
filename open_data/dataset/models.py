@@ -8,8 +8,7 @@ class Theme(models.Model):
     name = models.CharField(max_length=100, default='', unique=True)
     slug = models.CharField(max_length=100, default='')
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
-    # TODO: changer automatiquement la couleur du svg
-    color = ColorField(default='#FF0000')
+    color = ColorField(default='#FF0000')  # TODO: changer automatiquement la couleur du svg
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -27,7 +26,6 @@ class ProxyDataset(models.Model):
     modified = models.DateTimeField(editable=False, null=True)
     theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, related_name='datasets', null=True)
     description = models.CharField(max_length=255, default='', null=True)
-
 
     def __str__(self):
         return self.title if self.title else self.id
