@@ -14,3 +14,18 @@ Pour indiquer à poetry qu'on utilise un package, ne pas oublier d'utiliser la c
 
 `manage.py runserver` puis se rendre sur http://127.0.0.1:8000
 
+
+
+### Fixtures
+
+https://docs.djangoproject.com/en/3.1/howto/initial-data/
+
+Permet de charger des données initial
+
+Pour dump les données (dans un dossier fixtures !!!)
+
+`manage.py dumpdata $BDNAME$ > app/fixtures/$FILENAME$.json`
+
+Pour charger les données
+
+`manage.py loaddata $FILENAME$`

@@ -1,4 +1,8 @@
+open_data/uploads/
+open_data/app/fixtures/
+
 # Python specific
+venv
 poetry.lock
 __pycache__
 

@@ -5,8 +5,12 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
 Django = "^3.1.7"
+requests = "^2.25.1"
+Pillow = "^8.2.0"
+dictor = "^0.1.7"
+django-colorfield = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
 
