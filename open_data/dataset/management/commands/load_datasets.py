@@ -15,8 +15,8 @@ def load_datasets(to_load_count=100, loaded_count=0):
         f"&limit={max(100, to_load_count)}&offset={loaded_count}"
     data = requests.get(url).json()
     datasets = dictor(data, "datasets")
-    loaded_count += to_load_count
     total_count = dictor(data, "total_count")
+    loaded_count += to_load_count
     to_load_count = total_count - loaded_count
     print_carriage(f"Fetch datasets from the API [{loaded_count}/{total_count}].")
     return datasets, to_load_count, loaded_count
