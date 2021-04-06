@@ -33,7 +33,7 @@ class ProxyDataset(models.Model):
         return self.title if self.title else self.id
 
     @property
-    def multilines_title(self):
+    def multiline_title(self):
         return self.title.split(' - ')
 
 
