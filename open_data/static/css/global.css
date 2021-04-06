@@ -106,6 +106,25 @@ nav > .separator {
   animation-duration: 0.3s;
 }
 
+.modal, .dropdown {
+  max-width: var(--modal-width);
+  margin: 0 32px;
+  padding: 32px;
+  background-color: white;
+}
+
+.modal {
+  margin: auto;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
 /* Fade-in animation */
 main > * {
   opacity: 0;

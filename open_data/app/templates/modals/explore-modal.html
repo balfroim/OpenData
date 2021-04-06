@@ -1,11 +1,4 @@
 <style>
-  .explore-menu {
-    max-width: var(--modal-width);
-    margin: 0 32px;
-    padding: 32px;
-    background-color: white;
-  }
-
   .explore-item {
     border: 8px solid transparent;
     border-radius: var(--rounded);
@@ -27,17 +20,29 @@
   }
 </style>
 <div id="explore-mask" class="inactive mask">
-  <div class="explore-menu">
+  <div class="left dropdown">
     {% for theme in themes %}
-    <div class="explore-item">
+    <div class="explore-item dataset{{ forloop.counter }}-button">
       {% if theme.image %}
       <img src="{{ theme.image.url }}" alt="" />
       {% endif %}
       {{ theme.name }}
-      <!-- {% for dataset in theme.datasets.all %}
-        {{ dataset }}
-      {% endfor %} -->
     </div>
     {% endfor %}
   </div>
 </div>
+{% for theme in themes %}
+<div id="dataset{{ forloop.counter }}-mask" class="inactive mask">
+  <div class="explore-menu">
+    <button class="explore-button">&larr;</button>
+    <h3>{{ theme.name }}</h3>
+    <h4>Les plus populaires</h3>
+    {% for dataset in theme.popular_datasets %}
+    <p>{{ dataset }}</p>
+    {% endfor %}
+    <p>
+      <a href="#">Voir plus...</a>
+    </p>
+  </div>
+</div>
+{% endfor %}

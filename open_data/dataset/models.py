@@ -17,7 +17,9 @@ class Theme(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.image})"
-
+    
+    def popular_datasets(self):
+        return self.datasets.order_by('-stat__popularity_score')[:5]
 
 
 class ProxyDataset(models.Model):

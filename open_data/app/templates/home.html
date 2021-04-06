@@ -57,7 +57,7 @@
       <img src="{% if dataset.theme.image  %}{{ dataset.theme.image.url }}{% endif %}"
         alt="Logo {{ dataset.theme.name }}" class="carousel-cell-img" />
       <span class="carousel-cell-title">
-        {% for title_line in dataset.multilines_title %}
+        {% for title_line in dataset.multiline_title %}
         {{ title_line }}<br>
         {% endfor %}
       </span>
