@@ -1,39 +1,39 @@
-from django.shortcuts import render
-import requests
+import random
 
-THEME2LOGO = {
-    'Santé': 'doctors',
-    'Population, Statistiques': 'outline_group',
-    'Aménagement du territoire, Urbanisme, Bâtiments, Equipements, Logement': 'townplanning',
-    'Administration, Gouvernement, Finances publiques, Citoyenneté': 'administration',
-    'Transports, Déplacements': '',
-    'Energie': '',
-    'Sport, Loisirs': '',
-    'Culture, Patrimoine': '',
-    'Environnement': '',
-    'Interne': '',
-    'Education, Formation, Recherche, Enseignement': '',
-    'Economie, Business, PME, Développement économique, Emploi': '',
-    'Closed Data, Accès restreint': '',
-}
+from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+from dataset.models import ProxyDataset, Theme
+from quiz.models import Quiz
+from quiz.forms import QuizForm
 
 
-# Create your views here.
-def homepage(request):
-    nb_row = 5
-    sort_criterion = "explore.popularity_score"
-    result = requests.get(
-        f"https://data.namur.be/api/datasets/1.0/search/?q=&rows={nb_row}&sort={sort_criterion}").json()
-
-    featured_datasets = [
-        {
-            "id": dataset["datasetid"],
-            "title": dataset["metas"]["title"].split(" - "),
-            "theme": dataset["metas"]["theme"][0],
-            "logo": THEME2LOGO[dataset["metas"]["theme"][0]]
+def home(request):
+    today_quiz = random.choice(Quiz.objects.all())
+    today_quiz = QuizForm(today_quiz, request.POST)
+    return render(
+        request=request,
+        template_name='home.html',
+        context={
+            "login_form": AuthenticationForm(),
+            "signin_form": UserCreationForm(),
+            "themes": Theme.objects.all(),
+            "featured_datasets": ProxyDataset.objects.order_by("-stat__popularity_score")[:5],
+            "today_quiz": today_quiz,
         }
-        for dataset in result["datasets"]
-    ]
-    return render(request=request,
-                  template_name='home.html',
-                  context={"featured_datasets": featured_datasets})
+    )
+
+
+@require_POST
+def signin(request):
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+        form.save()
+
+    return redirect('home')
+
+
+def quizzes(request):
+    quizzes = [QuizForm(quiz, request.POST) for quiz in Quiz.objects.all()]
+    return render(request, 'quiz.html', {'quizzes': quizzes})
