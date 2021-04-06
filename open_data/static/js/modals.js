@@ -22,7 +22,7 @@ for (const [id, element] of masks) {
 
   // Display masks when asked.
   // For instance, a click on <div class="a-button" /> will display
-  // <div class="a-mask /> and hide other masks.
+  // <div id="a-mask /> and hide other masks.
   for (const button of document.getElementsByClassName(`${id}-button`)) {
     button.addEventListener('click', () => {
       toggleMask(element);
