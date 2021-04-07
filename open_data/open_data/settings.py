@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
+    'user',
     'quiz',
     'dataset',
     'django.contrib.admin',
@@ -85,7 +86,7 @@ DATABASES = {
 
 # Authentication
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/log-in/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
 

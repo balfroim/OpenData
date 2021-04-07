@@ -12,13 +12,13 @@
   </head>
   <body>
     {# Modals before the header take the entire page. #}
-    {% include 'modals/login-modal.html' %}
+    {% include 'modals/login.html' %}
     <header>
       {% include 'navbar.html' %}
     </header>
     {# Modals after the header doesn't cover the navbar. #}
-    {% include 'modals/explore-modal.html' %}
-    {% include 'modals/profile-modal.html' %}
+    {% include 'modals/explore.html' %}
+    {% include 'modals/profile.html' %}
     <main>
       {% block main %}{% endblock %}
     </main>

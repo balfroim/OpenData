@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load auth %}
+{% block title %}Connexion{% endblock %}
+{% block main %}
+  <h1>Inscription</h1>
+  <div class="card">
+    {% sign_in_form form %}
+  </div>
+{% endblock %}

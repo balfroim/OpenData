@@ -7,7 +7,11 @@
       <a href="/profile">Mes badges</a>
     </div>
     <div>
+      {% if user.is_authenticated %}
+      <a class="button" href="{% url 'log_out' %}">Déconnection</a>
+      {% else %}
       <button class="login-button">Connexion</button>
+      {% endif %}
     </div>
   </div>
 </div>
