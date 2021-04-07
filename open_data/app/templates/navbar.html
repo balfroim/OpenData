@@ -6,9 +6,13 @@
   <a href="{% url 'home' %}">
     Accueil
   </a>
-  <button class="explore-button">
+  <span class="explore-button">
     Explorer &darr;
-  </button>
+  </span>
+  <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
+    <input type="search" name="q">
+    <button><span class="fa fa-search"></span></button>
+  </form>
   <div class="separator"></div>
   <a>
     <span class="fa fa-bell"></span>

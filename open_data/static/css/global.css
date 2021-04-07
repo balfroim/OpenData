@@ -4,6 +4,7 @@
   --modal-width: 500px;
   --primary: #0e2240;
   --secondary: #e0e2e6;
+  --error: #e02b13;
   --rounded: 6px;
 }
 
@@ -28,13 +29,15 @@ main {
 }
 
 input {
-  display: block;
-  width: 100%;
   padding: 4pt;
   border: 1px solid var(--primary);
   border-radius: var(--rounded);
   font: inherit;
   font-size: large;
+}
+
+input[type="text"], input[type="password"], button[type="submit"] {
+  width: 100%;
 }
 
 button, .button {
@@ -59,6 +62,15 @@ button:hover, .button:hover {
   background-color: var(--secondary);
 }
 
+.errorlist {
+  padding: 8px 32px;
+  color: white;
+  background-color: var(--error);
+  border: 3px solid var(-error);
+  border-radius: var(--rounded);
+  font-weight: bold;
+}
+
 /* Navbar */
 nav {
   display: flex;
@@ -72,19 +84,19 @@ nav > * + * {
   margin-left: 16px;
 }
 
-nav > a {
+nav > .separator {
+  flex: 1;
+}
+
+nav a {
   color: inherit;
   text-decoration: unset;
 }
 
-nav > button, nav > .button {
+nav button, nav .button {
   color: var(--primary);
   background-color: white;
   border-color: white;
-}
-
-nav > .separator {
-  flex: 1;
 }
 
 /* Modals and drop-downs */
@@ -104,6 +116,25 @@ nav > .separator {
 .mask > * {
   animation-name: intro;
   animation-duration: 0.3s;
+}
+
+.modal, .dropdown {
+  max-width: var(--modal-width);
+  margin: 0 32px;
+  padding: 32px;
+  background-color: white;
+}
+
+.modal {
+  margin: auto;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }
 
 /* Fade-in animation */
