@@ -8,8 +8,8 @@ from quiz.forms import QuizForm
 
 
 def home(request):
-    today_quiz = random.choice(Quiz.objects.all())
-    today_quiz = QuizForm(today_quiz, request.POST)
+    today_quiz = Quiz.objects.all()[0]
+    today_quiz = QuizForm(today_quiz)
     return render(request, 'home.html', {
         'featured_datasets': ProxyDataset.objects.order_by('-stat__popularity_score')[:5],
         'today_quiz': today_quiz,

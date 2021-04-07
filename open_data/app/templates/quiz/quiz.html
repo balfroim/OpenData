@@ -46,6 +46,14 @@
     background-color: #2196F3;
   }
 
+  .container input:checked~.checkmark.correct {
+    background-color: #4CAF50;
+  }
+
+  .container input:checked~.checkmark.incorrect {
+    background-color: #e02b13;
+  }
+
   /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
     content: "";
@@ -94,11 +102,11 @@
     <div class="fieldWrapper">
       {{ field.errors }}
       <h3>{{ field.label }}</h3>
-      {% for value, label, checked in field.field.choices|to_list|shuffle %}
+      {% for value, label, checked, state in field.field.choices|to_list|shuffle %}
       <label class="container">
         {{ label }}
         <input type="checkbox" name="{{ field.auto_id  }}" value="{{ value }}" {% if checked %}checked{% endif %}>
-        <span class="checkmark"></span>
+        <span class="checkmark  {{ state }}"></span>
       </label>
       {% endfor %}
     </div>
