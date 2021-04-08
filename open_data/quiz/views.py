@@ -1,6 +1,7 @@
 import itertools
 
 from django.shortcuts import render, get_object_or_404
+from pinax.badges.registry import badges
 
 from .forms import QuizForm
 from .models import Quiz, Answer, QuizSubmission
@@ -40,9 +41,9 @@ def quiz(request, quiz_id):
 
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     choices, good_answers_count = check(quiz, submitted_answers)
-    # print(request.user)
     submission = QuizSubmission(user=request.user, quiz=quiz, good_answers_count=good_answers_count)
     submission.save()
+    badges.possibly_award_badge("quiz_submit", user=request.user)
     form = QuizForm(quiz, choices)
 
     return render(request, 'quiz/quiz.html', {'quiz': quiz, 'form': form})
