@@ -15,4 +15,5 @@ urlpatterns = [
     path('quizzes/', views.quizzes, name='quizzes'),
     path('forum/', TemplateView.as_view(template_name='forum.html'), name='forum'),
     path('profile/', TemplateView.as_view(template_name='profile.html'), name='profile'),
+    path('data/', TemplateView.as_view(template_name='data.html'), name='data'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
