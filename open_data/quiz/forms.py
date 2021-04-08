@@ -1,5 +1,7 @@
-from django import forms
 import itertools
+
+from django import forms
+
 from .models import Answer
 
 
@@ -15,6 +17,7 @@ def generate_choices(choices, questions, to_correct):
                 state = "correct" if is_correct else "incorrect"
         corrected.append((key, value, checked, state))
     return corrected
+
 
 class QuizForm(forms.Form):
     def __init__(self, quiz, questions=None, to_correct=False, *args, **kwargs):

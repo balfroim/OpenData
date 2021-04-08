@@ -78,30 +78,33 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
-    span.incorrect {
-        text-decoration: line-through
-    }
+
+  span.incorrect {
+      text-decoration: line-through
+  }
 </style>
 
 <div class="centered card">
   <div>
-    <p><i>{{ quiz.infos.title }}</i></p>
+    <p><i>{{ quiz.title }}</i></p>
     <p>
-      {% if quiz.infos.perfect_score_rate == 0 %}
+      {% if quiz.perfect_score_rate == 0 %}
       Aucun n'utilisateur n'a
       {% else %}
-      {{ quiz.infos.perfect_score_rate|floatformat:2 }}% des utilisateurs ont
+      {{ quiz.perfect_score_rate|floatformat:2 }}% des utilisateurs ont
       {% endif %}
-      parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?</p>
-    <p>Aucune idée ? N'hésitez pas à explorer
-      <a href="https://data.namur.be/explore/dataset/{{ quiz.infos.dataset_id }}" target="_blank">
+      parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?
+    </p>
+    <p>
+      Aucune idée ? N'hésitez pas à explorer
+      <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset_id }}" target="_blank">
         le jeu de données source
       </a> !
     </p>
   </div>
-  <form method="POST">
+  <form action="{% url 'quiz' quiz_id=quiz.id %}" method="post">
     {% csrf_token %}
-    {% for field in quiz %}
+    {% for field in form %}
     <div class="fieldWrapper">
       {{ field.errors }}
       <h3>{{ field.label }}</h3>

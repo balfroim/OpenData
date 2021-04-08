@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load quiz %}
+{% block title %}Quiz{% endblock %}
+{% block main %}
+  {% for quiz in quizzes %}
+    {% show_quiz quiz %}
+    {% empty %}
+    <p>Pas de quizzes.</p>
+  {% endfor %}
+{% endblock %}
