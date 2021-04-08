@@ -10,7 +10,6 @@ class Quiz(models.Model):
     dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name='quizzes', null=True)
     created_at = models.DateTimeField(editable=False)
     times_taken = models.IntegerField(default=0, editable=False)
-    # Nombre de personnes qui ont un score parfait.
     times_perfect_score = models.IntegerField(default=0, editable=False)
 
     def save(self, *args, **kwargs):
