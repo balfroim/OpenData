@@ -1,38 +1,38 @@
+import itertools
+
 from django import forms
-from .models import Question
+
+from .models import Answer
 
 
-def is_in(dic, key, value):
-    return key in dic and value in dic.getlist(key)
+def generate_choices(choices, questions, to_correct):
+    corrected = []
+    values = list(itertools.chain(*questions.values()))
+    for key, value in choices:
+        checked = str(key) in values
+        state = ""
+        if to_correct:
+            is_correct = Answer.objects.get(id=key).is_correct
+            if checked:
+                state = "correct" if is_correct else "incorrect"
+        corrected.append((key, value, checked, state))
+    return corrected
 
 
 class QuizForm(forms.Form):
-    def __init__(self, quiz, request, *args, **kwargs):
+    def __init__(self, quiz, questions=None, to_correct=False, *args, **kwargs):
         super(QuizForm, self).__init__(*args, **kwargs)
-        self.auto_id = "%s"
+        self.auto_id = "question_%s"
         self.infos = quiz
+        if not questions:
+            questions = {}
         for question in quiz.questions.all():
             question_key = str(question.id)
+            choices = generate_choices(question.answers.values_list('id', 'text'), questions, to_correct)
             self.fields.update({
                 question_key: forms.MultipleChoiceField(
-                    choices=[
-                        t + (is_in(request, question_key, str(t[0])),)
-                        for t in
-                        question.answers.values_list('id', 'text')],
+                    choices=choices,
                     label=question.prompt,
                     widget=forms.CheckboxSelectMultiple,
                     required=False)
             })
-
-    def correct(self):
-        self.infos.times_taken += 1
-        success = True
-        for key, field in self.fields.items():
-            question = Question.objects.get(id=key)
-            for i, answer in enumerate(question.answers.all()):
-                success = success and field.choices[i][2] == answer.is_correct
-        if success:
-            self.infos.times_perfect_score += 1
-        print(self.infos.times_taken, self.infos.times_perfect_score)
-        self.infos.save()
-        return success

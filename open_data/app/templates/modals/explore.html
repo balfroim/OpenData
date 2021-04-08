@@ -1,0 +1,50 @@
+{% load dataset %}
+{% get_themes as themes %}
+<style>
+  .explore-item {
+    border: 8px solid transparent;
+    border-radius: var(--rounded);
+    transition: 0.1s all;
+  }
+
+  .explore-item:hover {
+    cursor: pointer;
+    color: white;
+    background-color: var(--primary);
+    font-weight: bold;
+    text-align: end;
+  }
+
+  .explore-item::after {
+    content: ">";
+    float: right;
+    margin-left: 8px;
+  }
+</style>
+<div id="explore-mask" class="inactive mask">
+  <div class="left dropdown">
+    {% for theme in themes %}
+    <div class="explore-item dataset{{ forloop.counter }}-button">
+      {% if theme.image %}
+      <img src="{{ theme.image.url }}" alt="" />
+      {% endif %}
+      {{ theme.name }}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% for theme in themes %}
+<div id="dataset{{ forloop.counter }}-mask" class="inactive mask">
+  <div class="left dropdown">
+    <button class="explore-button">&larr;</button>
+    <h3>{{ theme.name }}</h3>
+    <h4>Les plus populaires</h3>
+    {% for dataset in theme.popular_datasets %}
+    <p>{{ dataset }}</p>
+    {% endfor %}
+    <p>
+      <a href="#">Voir plus...</a>
+    </p>
+  </div>
+</div>
+{% endfor %}

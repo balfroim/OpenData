@@ -1,0 +1,45 @@
+{% load quiz %}
+<div class="centered card">
+  <div>
+    <p><i>{{ quiz.title }}</i></p>
+    <p>
+      {% if quiz.perfect_score_rate == 0 %}
+      Aucun n'utilisateur n'a
+      {% else %}
+      {{ quiz.perfect_score_rate|floatformat:2 }}% des utilisateurs ont
+      {% endif %}
+      parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?
+    </p>
+    <p>
+      Aucune idée ? N'hésitez pas à explorer
+      <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset_id }}" target="_blank">
+        le jeu de données source
+      </a> !
+    </p>
+  </div>
+  <form class="quiz-form" data-quiz-id="{{ quiz.id }}">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="fieldWrapper">
+      {{ field.errors }}
+      <h3>{{ field.label }}</h3>
+      {% for value, label, checked, state in field.field.choices|to_list|shuffle %}
+      <label class="container">
+        <span class="{{ state }}">{{ label }}</span>
+        <input
+          type="checkbox"
+          name="{{ field.auto_id }}"
+          value="{{ value }}"
+          {% if checked %}checked{% endif %}
+          {% if not submittable %}disabled{% endif %}
+        >
+        <span class="checkmark  {{ state }}"></span>
+      </label>
+      {% endfor %}
+    </div>
+    {% endfor %}
+    {% if submittable %}
+    <button type="submit">Répondre</button>
+    {% endif %}
+  </form>
+</div>

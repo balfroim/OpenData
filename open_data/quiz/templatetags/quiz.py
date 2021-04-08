@@ -1,5 +1,8 @@
-from django import template
 import random
+
+from django import template
+
+from quiz.forms import QuizForm
 
 register = template.Library()
 
@@ -10,8 +13,8 @@ def show_quizzes(quizzes):
 
 
 @register.inclusion_tag('quiz/quiz.html')
-def show_quiz(quiz):
-    return {"quiz": quiz}
+def show_quiz(quiz, submittable=True):
+    return {"quiz": quiz, "form": QuizForm(quiz), "submittable": submittable}
 
 
 @register.filter

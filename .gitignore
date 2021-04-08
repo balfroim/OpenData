@@ -3,7 +3,6 @@ open_data/app/fixtures/
 
 # Python specific
 venv
-poetry.lock
 __pycache__
 
 # Databases

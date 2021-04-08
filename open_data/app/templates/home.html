@@ -2,7 +2,9 @@
 {% load static quiz %}
 {% block title %}Accueil{% endblock %}
 {% block head %}
+  <script defer src="{% static 'js/quiz.js' %}"></script>
   <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
   <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <style>
     .carousel-cell {
@@ -57,8 +59,8 @@
       <img src="{% if dataset.theme.image  %}{{ dataset.theme.image.url }}{% endif %}"
         alt="Logo {{ dataset.theme.name }}" class="carousel-cell-img" />
       <span class="carousel-cell-title">
-        {% for title_line in dataset.multilines_title %}
-        {{ title_line }}<br>
+        {% for line in dataset.multiline_title %}
+        {{ line }}<br>
         {% endfor %}
       </span>
     </a>

@@ -1,16 +1,22 @@
+{% load auth %}
 <style>
   .modal {
     max-width: var(--modal-width);
     margin: auto;
     background-color: white;
   }
+
+  .modal input {
+    width: 100%;
+  }
 </style>
 <div id="login-mask" class="inactive mask">
   <div class="modal">
     <h1>Connexion</h1>
-    <form>
-      <label>Nom d'utilisateur</label>
-      <input>
-    </form>
+    {% log_in_form %}
+  </div>
+  <div class="modal">
+    <h1>Inscription</h1>
+    {% sign_in_form %}
   </div>
 </div>

@@ -5,10 +5,19 @@
   </a>
   <a href="{% url 'home' %}">
     Accueil
+    <span class="fa fa-home"></span>
   </a>
-  <button class="explore-button">
+  <a href="{% url 'quizzes' %}">
+    Quiz
+    <span class="fa fa-question"></span>
+  </a>
+  <span class="explore-button">
     Explorer &darr;
-  </button>
+  </span>
+  <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
+    <input type="search" name="q">
+    <button><span class="fa fa-search"></span></button>
+  </form>
   <div class="separator"></div>
   <a>
     <span class="fa fa-bell"></span>

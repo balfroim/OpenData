@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
+    'user',
     'quiz',
     'dataset',
     'django.contrib.admin',
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'colorfield'
+    'colorfield',
+    'nested_inline'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +87,7 @@ DATABASES = {
 
 # Authentication
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/log-in/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
 

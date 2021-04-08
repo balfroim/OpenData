@@ -1,7 +1,20 @@
-from django.contrib import admin
 from .models import Quiz, Question, Answer
+from django.contrib import admin
+from nested_inline import admin as nested_admin
 
-# Register your models here.
-admin.site.register(Quiz)
-admin.site.register(Question)
-admin.site.register(Answer)
+class AnswerInline (nested_admin.NestedTabularInline):
+    model = Answer
+    extra = 1
+
+class QuestionInline(nested_admin.NestedStackedInline):
+    model = Question
+    inlines = [
+        AnswerInline
+    ]
+    extra = 1
+
+@admin.register(Quiz)
+class QuizAdmin(nested_admin.NestedModelAdmin):
+    inlines = [
+        QuestionInline
+    ]
