@@ -15,6 +15,7 @@ class QuestionInline(nested_admin.NestedStackedInline):
 
 @admin.register(Quiz)
 class QuizAdmin(nested_admin.NestedModelAdmin):
+    autocomplete_fields = ["dataset"]
     inlines = [
         QuestionInline
     ]
