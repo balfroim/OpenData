@@ -23,6 +23,6 @@ urlpatterns = [
     path('', include('app.urls')),
     path('auth/', include('user.urls')),
     path('quiz/', include('quiz.urls')),
-    path(r"^badges/", include("pinax.badges.urls", namespace="pinax_badges")),
+    path('badges/', include("pinax.badges.urls", namespace="pinax_badges")),
     path('admin/', admin.site.urls),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
