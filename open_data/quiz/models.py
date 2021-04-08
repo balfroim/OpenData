@@ -1,13 +1,13 @@
-from django.db import models
+from dataset.models import ProxyDataset
 from django.contrib.auth.models import User
+from django.db import models
 from django.utils import timezone
 
 
 class Quiz(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255, default='')
-    # TODO: lié à un proxy dataset
-    dataset_id = models.CharField(max_length=255, default='')
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name='quizzes', null=True)
     created_at = models.DateTimeField(editable=False)
     times_taken = models.IntegerField(default=0, editable=False)
     # Nombre de personnes qui ont un score parfait.
