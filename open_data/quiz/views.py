@@ -3,22 +3,26 @@ import itertools
 from django.shortcuts import render, get_object_or_404
 
 from .forms import QuizForm
-from .models import Quiz
+from .models import Quiz, Answer
 
 
-def check(choices, submitted_answers, to_correct):
-    pass
-    # corrected = []
-    # values = list(itertools.chain(*questions.values()))
-    # for key, value in choices:
-    #     checked = str(key) in values
-    #     state = ""
-    #     if to_correct:
-    #         is_correct = Answer.objects.get(id=key).is_correct
-    #         if checked:
-    #             state = "correct" if is_correct else "incorrect"
-    #     corrected.append((key, value, checked, state))
-    # return corrected
+def check(quiz, submitted_answers):
+    choices = []
+    for question in quiz.questions.all():
+        question_choices = []
+        for id, text in question.answers.values_list('id', 'text'):
+            checked = str(id) in submitted_answers
+            is_correct = Answer.objects.get(id=id).is_correct
+            if is_correct and checked:
+                state = "correct"
+            elif is_correct and not checked:
+                state = "missing"
+                checked = True
+            else:
+                state = "incorrect"
+            question_choices.append((id, text, checked, state))
+        choices.append(tuple(question_choices))
+    return tuple(choices)
 
 
 def quizzes(request):
@@ -27,10 +31,14 @@ def quizzes(request):
 
 def quiz(request, quiz_id):
     submitted_answers = tuple(
-        itertools.chain.from_iterable(value for key, value in dict(request.POST).items() if key.startswith("question"))
+        itertools.chain.from_iterable(
+            value for key, value in dict(request.POST).items() if key.startswith("question")
+        )
     )
 
     quiz = get_object_or_404(Quiz, pk=quiz_id)
-    form = QuizForm(quiz, choices=None, to_correct=True)
+    choices = check(quiz, submitted_answers)
+    print(choices)
+    form = QuizForm(quiz, choices)
 
     return render(request, 'quiz/quiz.html', {'quiz': quiz, 'form': form})
