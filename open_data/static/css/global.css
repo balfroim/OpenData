@@ -111,7 +111,7 @@ nav button, nav .button {
 }
 
 .mask.inactive {
-  display: none;
+  display: none !important;
 }
 
 .mask > * {
@@ -124,10 +124,6 @@ nav button, nav .button {
   margin: 0 32px;
   padding: 32px;
   background-color: white;
-}
-
-.modal {
-  margin: auto;
 }
 
 .left {
