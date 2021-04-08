@@ -13,10 +13,8 @@ def show_quizzes(quizzes):
 
 
 @register.inclusion_tag('quiz/quiz.html')
-def show_quiz(quiz, questions=None):
-    if not questions:
-        questions = {}
-    return {"quiz": quiz, "form": QuizForm(quiz, questions)}
+def show_quiz(quiz, submittable=True):
+    return {"quiz": quiz, "form": QuizForm(quiz), "submittable": submittable}
 
 
 @register.filter

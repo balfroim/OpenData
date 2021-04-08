@@ -9,9 +9,12 @@ def quizzes(request):
 
 
 def quiz(request, quiz_id):
-    questions = {int(key.replace("question_", "")): value
-                 for key, value in dict(request.POST).items() if
-                 key.startswith("question")}
+    questions = {
+        int(key.replace("question_", "")): value
+        for key, value in dict(request.POST).items() if key.startswith("question")
+    }
+
     quiz = get_object_or_404(Quiz, pk=quiz_id)
-    quiz = QuizForm(quiz, questions, to_correct=True)
-    return render(request, 'quiz/quiz.html', {'quiz':  quiz})
+    form = QuizForm(quiz, questions, to_correct=True)
+
+    return render(request, 'quiz/quiz.html', {'quiz': quiz, 'form': form})
