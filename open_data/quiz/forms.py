@@ -20,15 +20,21 @@ def generate_choices(choices, questions, to_correct):
 
 
 class QuizForm(forms.Form):
-    def __init__(self, quiz, questions=None, to_correct=False, *args, **kwargs):
+    def __init__(self, quiz, choices=None, *args, **kwargs):
         super(QuizForm, self).__init__(*args, **kwargs)
         self.auto_id = "question_%s"
         self.infos = quiz
-        if not questions:
-            questions = {}
+        if not choices:
+            choices = tuple(
+                itertools.chain.from_iterable(
+                    (
+                        choice + (False, "") for choice in question.answers.values_list('id', 'text')
+                    ) for question in quiz.questions.all()
+                )
+            )
         for question in quiz.questions.all():
             question_key = str(question.id)
-            choices = generate_choices(question.answers.values_list('id', 'text'), questions, to_correct)
+            choices = choices
             self.fields.update({
                 question_key: forms.MultipleChoiceField(
                     choices=choices,
