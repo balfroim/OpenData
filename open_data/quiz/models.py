@@ -20,7 +20,7 @@ class Quiz(models.Model):
 
     @property
     def correct_answers_count(self):
-        return sum(question.correct_answers_count for question in self.questions)
+        return sum(question.correct_answers_count for question in self.questions.all())
 
     @property
     def perfect_score_rate(self):
