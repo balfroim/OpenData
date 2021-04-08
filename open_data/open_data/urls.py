@@ -23,6 +23,6 @@ urlpatterns = [
     path('', include('app.urls')),
     path('auth/', include('user.urls')),
     path('quiz/', include('quiz.urls')),
-    path('profil/', include('profil.urls')),
+    path('profil/',include('profil.urls')),
     path('admin/', admin.site.urls),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
