@@ -8,7 +8,7 @@
     </div>
     <div>
       {% if user.is_authenticated %}
-      <a class="button" href="{% url 'log_out' %}">Déconnection</a>
+      <a class="button" href="{% url 'log_out' %}">Déconnexion</a>
       {% else %}
       <button class="login-button">Connexion</button>
       {% endif %}
