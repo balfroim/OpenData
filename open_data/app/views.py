@@ -1,3 +1,5 @@
+import random
+
 from dataset.models import ProxyDataset
 from django.shortcuts import render
 from quiz.forms import QuizForm
@@ -7,7 +9,7 @@ from quiz.models import Quiz
 def home(request):
     return render(request, 'home.html', {
         'featured_datasets': ProxyDataset.objects.order_by('-stat__popularity_score')[:5],
-        'today_quiz': Quiz.objects.first(),
+        'today_quiz': random.choice(Quiz.objects.all()),
     })
 
 
