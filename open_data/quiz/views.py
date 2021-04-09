@@ -41,7 +41,7 @@ def quiz(request, quiz_id):
 
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     choices, good_answers_count = check(quiz, submitted_answers)
-    submission = QuizSubmission(user=request.user, quiz=quiz, good_answers_count=good_answers_count)
+    submission = QuizSubmission(user=request.user, quiz=quiz, good_answers_count=good_answers_count, choices=choices)
     submission.save()
     badges.possibly_award_badge("quiz_submit", user=request.user)
     form = QuizForm(quiz, choices)

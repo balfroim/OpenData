@@ -36,24 +36,6 @@ class Quiz(models.Model):
         return self.title
 
 
-class QuizSubmission(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken",
-                             help_text="L'utilisateur qui a fait la soumission.")
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='submissions',
-                             help_text="Le quiz en question.")
-    taken_at = models.DateTimeField(help_text="La date de soumission.")
-    good_answers_count = models.IntegerField(default=0, help_text="Le nombre de question bien répondue.")
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.taken_at = timezone.now()
-        return super(QuizSubmission, self).save(*args, **kwargs)
-
-    @property
-    def is_perfect_score(self):
-        return self.good_answers_count == self.quiz.correct_answers_count
-
-
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     prompt = models.CharField(max_length=255, default='')
@@ -81,3 +63,22 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class QuizSubmission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken",
+                             help_text="L'utilisateur qui a fait la soumission.")
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='submissions',
+                             help_text="Le quiz en question.")
+    taken_at = models.DateTimeField(help_text="La date de soumission.")
+    choices = models.JSONField(default=list, help_text="Les réponses que l'utilisateur a cochées.")
+    good_answers_count = models.IntegerField(default=0, help_text="Le nombre de question bien répondue.")
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.taken_at = timezone.now()
+        return super(QuizSubmission, self).save(*args, **kwargs)
+
+    @property
+    def is_perfect_score(self):
+        return self.good_answers_count == self.quiz.correct_answers_count

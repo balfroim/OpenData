@@ -32,4 +32,4 @@ class QuizAdmin(nested_admin.NestedModelAdmin):
 
 @admin.register(QuizSubmission)
 class QuizSubmissionAdmin(admin.ModelAdmin):
-    readonly_fields = ["taken_at", "good_answers_count"]
+    readonly_fields = ["taken_at", "choices", "good_answers_count"]
