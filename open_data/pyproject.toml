@@ -12,6 +12,7 @@ Pillow = "^8.2.0"
 dictor = "^0.1.7"
 django-colorfield = "^0.4.1"
 django-nested-inline = "^0.4.2"
+pinax-badges = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 

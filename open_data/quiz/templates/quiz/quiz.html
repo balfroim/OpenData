@@ -10,12 +10,14 @@
       {% endif %}
       parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?
     </p>
+  {% if quiz.dataset.id %}
     <p>
       Aucune idée ? N'hésitez pas à explorer
-      <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset_id }}" target="_blank">
+      <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset.id }}" target="_blank">
         le jeu de données source
       </a> !
     </p>
+  {% endif %}
   </div>
   <form class="quiz-form" data-quiz-id="{{ quiz.id }}">
     {% csrf_token %}

@@ -9,7 +9,7 @@
   <h1>Quiz</h1>
   <div class="quizzes">
   {% for quiz in quizzes %}
-    {% show_quiz quiz %}
+    {% show_quiz quiz user %}
     {% empty %}
     <p>Pas de quizzes.</p>
   {% endfor %}
