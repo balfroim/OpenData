@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'colorfield',
     'nested_inline',
-    'pinax.badges'
+    'pinax.badges',
+    'notifications',
 ]
 
 MIDDLEWARE = [
