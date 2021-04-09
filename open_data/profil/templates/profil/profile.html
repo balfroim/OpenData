@@ -9,7 +9,7 @@
 
 <h1>Profil</h1>
   <h2>
-    JP
+    {{targetuser.username}}
   </h2>
 
   <div class="responsive profile">
@@ -22,12 +22,12 @@
     </div>
     <div>
       <p class="card">
-        Je m'appelle Jean Pierre Polnareff, je suis passionné d'OpenData,
-        j'aime explorer les jeux de données et en apprendre plus sur ma belle ville qu'est Namur.
-        Ce que j'apprécie particulièrement sur la plateforme OpenData, c'est la présence des quizzes et les
-        différents badges que l'on peut acquérir en y répondant. Cela permet de se mettre en compétition
-        avec les autres et c'est un aspect intéressant que je n'avais jamais testé auparavant.
-        <br>Facebook : https://www.facebook.com/jean.pierre/
+        {{targetuser.profil.description}}
+
+        {% if targetuser.profil.facebooklink %}
+        <br>Facebook :  {{targetuser.profil.facebooklink}}
+        {% endif %}
+
         <br>Instagram : @jean.pierre
       </p>
     </div>
