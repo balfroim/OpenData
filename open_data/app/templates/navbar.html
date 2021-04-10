@@ -1,4 +1,5 @@
 {% load static %}
+{% load notifications_tags %}
 <nav>
   <a href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
@@ -21,8 +22,13 @@
   <div class="separator"></div>
   <a>
     <span class="fa fa-bell"></span>
-    2
+    {% live_notify_badge %}
   </a>
+  {% if user.is_superuser %}
+  <a href="/admin">
+    Admin
+  </a>
+  {% endif %}
   <button class="profile-button">
     <span class="fa fa-lg fa-user"></span>
     Profil &darr;
