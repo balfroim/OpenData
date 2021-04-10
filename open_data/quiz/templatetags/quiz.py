@@ -3,6 +3,7 @@ import random
 from django import template
 
 from quiz.forms import QuizForm
+from quiz.models import QuizSubmission
 
 register = template.Library()
 
@@ -13,8 +14,12 @@ def show_quizzes(quizzes):
 
 
 @register.inclusion_tag('quiz/quiz.html')
-def show_quiz(quiz, submittable=True):
-    return {"quiz": quiz, "form": QuizForm(quiz), "submittable": submittable}
+def show_quiz(quiz, user):
+    try:
+        choices = QuizSubmission.objects.get(quiz=quiz, user=user).choices
+    except QuizSubmission.DoesNotExist:
+        choices = None
+    return {"quiz": quiz, "form": QuizForm(quiz, choices), "submittable": not choices}
 
 
 @register.filter

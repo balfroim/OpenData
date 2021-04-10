@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'user',
     'quiz',
     'dataset',
+    'badge.apps.BadgeConfig',
+    'profil',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'colorfield',
-    'nested_inline'
+    'nested_inline',
+    'pinax.badges',
+    'notifications',
 ]
 
 MIDDLEWARE = [
