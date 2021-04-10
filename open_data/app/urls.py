@@ -9,4 +9,5 @@ urlpatterns = [
     path('forum/', TemplateView.as_view(template_name='forum.html'), name='forum'),
     path('profile/', TemplateView.as_view(template_name='profile.html'), name='profile'),
     path('search/', views.search, name='search'),
+    path('scores/', TemplateView.as_view(template_name='scores.html'), name='scores'),
 ]
