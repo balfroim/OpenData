@@ -28,5 +28,5 @@ urlpatterns = [
                   path('badges/', include(pinax.badges.urls, namespace="pinax_badges")),
                   path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
                   path('admin/', admin.site.urls),
-    path('profil/',include('profil.urls')),
-] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+                  path('profil/', include('profil.urls')),
+              ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

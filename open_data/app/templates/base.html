@@ -20,12 +20,13 @@
     {% include 'navbar.html' %}
 </header>
 
-{% live_notify_list %}
-{% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
+
 {# Modals after the header doesn't cover the navbar. #}
 {% include 'modals/explore.html' %}
 {% include 'modals/profile.html' %}
 <main>
+    {% live_notify_list %}
+    {% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
     {% block main %}{% endblock %}
 </main>
 </body>
