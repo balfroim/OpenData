@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'user',
     'quiz',
     'dataset',
+    'profil',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
