@@ -20,15 +20,25 @@
     <button><span class="fa fa-search"></span></button>
   </form>
   <div class="separator"></div>
-  <a>
-    <span class="fa fa-bell"></span>
-    {% live_notify_badge %}
-  </a>
-  {% if user.is_superuser %}
+
+  {% if user.is_staff %}
   <a href="/admin">
     Admin
   </a>
   {% endif %}
+
+  <a>
+    <span class="fa fa-bell"></span>
+    {% live_notify_badge %}
+  </a>
+  <a href="/forum">
+    <span class="fa fa-users"></span>
+    Forum
+  </a>
+  <a href="/scores">
+    <span class="fa fa-star"></span>
+    Tableau des scores
+  </a>
   <button class="profile-button">
     <span class="fa fa-lg fa-user"></span>
     Profil &darr;

@@ -4,11 +4,11 @@
     <p><i>{{ quiz.title }}</i></p>
     <p>
       {% if quiz.perfect_score_rate == 0 %}
-      Aucun n'utilisateur n'a
+      Aucun utilisateur n'a
       {% else %}
       {{ quiz.perfect_score_rate|floatformat:2 }}% des utilisateurs ont
       {% endif %}
-      parfaitement répondu à ce quiz, ferez-vous partie de l'élite ?
+      correctement répondu à ce quiz, mettez vos connaissances à l'épreuve!
     </p>
   {% if quiz.dataset.id %}
     <p>
