@@ -14,7 +14,7 @@ class QuizBadge(Badge):
 
     def award(self, **state):
         user = state["user"]
-        quiz_submission_count = user.quizzes_taken.count()
+        quiz_submission_count = user.profil.quizzes_taken.count()
         award = None
         if quiz_submission_count >= 3:
             award = BadgeAwarded(level=3)
