@@ -11,7 +11,7 @@
     Quiz
     <span class="fa fa-question"></span>
   </a>
-  <span class="explore-button">
+  <span class="clickable explore-button">
     Explorer &darr;
   </span>
   <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
@@ -20,20 +20,20 @@
   </form>
   <div class="separator"></div>
   {% if user.is_staff %}
-  <a href="/admin">
+  <a href="{% url 'admin:index' %}">
     <span class="fa fa-unlock-alt"></span>
     Admin
   </a>
   {% endif %}
-  <a href="/forum">
+  <a href="{% url 'forum' %}">
     <span class="fa fa-users"></span>
     Forum
   </a>
-  <a href="/scores">
+  <a href="{% url 'scores' %}">
     <span class="fa fa-star"></span>
     Tableau des scores
   </a>
-  <span class="notifications-button">
+  <span class="clickable notifications-button">
     <span class="fa fa-bell"></span>
     {% live_notify_badge %}
   </span>

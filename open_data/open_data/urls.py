@@ -22,11 +22,11 @@ from django.urls import include, path
 from .settings import MEDIA_URL, MEDIA_ROOT
 
 urlpatterns = [
-                  path('', include('app.urls')),
-                  path('auth/', include('user.urls')),
-                  path('quiz/', include('quiz.urls')),
-                  path('badges/', include(pinax.badges.urls, namespace="pinax_badges")),
-                  path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
-                  path('admin/', admin.site.urls),
-                  path('profil/', include('profil.urls')),
-              ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+    path('', include('app.urls')),
+    path('auth/', include('user.urls')),
+    path('quiz/', include('quiz.urls')),
+    path('badges/', include(pinax.badges.urls, namespace="pinax_badges")),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
+    path('admin/', admin.site.urls),
+    path('profil/', include('profil.urls')),
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)
