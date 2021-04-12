@@ -2,6 +2,7 @@
 {% get_themes as themes %}
 <style>
   .explore-item {
+    text-decoration: none;
     border: 8px solid transparent;
     border-radius: var(--rounded);
     transition: 0.1s all;
@@ -19,6 +20,11 @@
     content: ">";
     float: right;
     margin-left: 8px;
+  }
+
+  .explore-item > a {
+    color: inherit;
+    text-decoration: none;
   }
 </style>
 <div id="explore-mask" class="inactive mask">
@@ -40,7 +46,11 @@
     <h3>{{ theme.name }}</h3>
     <h4>Les plus populaires</h3>
     {% for dataset in theme.popular_datasets %}
-    <p>{{ dataset }}</p>
+    <div class="explore-item">
+      <a href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
+        {{ dataset }}
+      </a>
+    </div>
     {% endfor %}
     <p>
       <a href="#">Voir plus...</a>
