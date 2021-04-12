@@ -3,10 +3,10 @@
     <div>
       {% if user.is_authenticated %}
       <div>
-        <a href="/profil/{{user.username}}">Mon profil</a>
+        <a href="{% url 'profil' username=user.username %}">Mon profil</a>
       </div>
       <div>
-        <a href="/profil/{{user.username}}">Mes badges</a>
+        <a href="{% url 'profil' username=user.username %}">Mes badges</a>
       </div>
       <br>
       <a class="button" href="{% url 'log_out' %}?next={{ request.path }}">Déconnexion</a>
