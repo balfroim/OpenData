@@ -1,13 +1,14 @@
 <div id="profile-mask" class="inactive mask">
   <div class="right dropdown">
     <div>
-      <a href="/profile">Mon profil</a>
-    </div>
-    <div>
-      <a href="/profile">Mes badges</a>
-    </div>
-    <div>
       {% if user.is_authenticated %}
+      <div>
+        <a href="/profil/{{user.username}}">Mon profil</a>
+      </div>
+      <div>
+        <a href="/profil/{{user.username}}">Mes badges</a>
+      </div>
+      <br>
       <a class="button" href="{% url 'log_out' %}?next={{ request.path }}">Déconnexion</a>
       {% else %}
       <button class="login-button">Connexion</button>
