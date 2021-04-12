@@ -1,5 +1,4 @@
-{% load static %}
-{% load notifications_tags %}
+{% load static notifications_tags %}
 <nav>
   <a href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
@@ -20,17 +19,11 @@
     <button><span class="fa fa-search"></span></button>
   </form>
   <div class="separator"></div>
-
   {% if user.is_staff %}
   <a href="/admin">
     Admin
   </a>
   {% endif %}
-
-  <a>
-    <span class="fa fa-bell"></span>
-    {% live_notify_badge %}
-  </a>
   <a href="/forum">
     <span class="fa fa-users"></span>
     Forum
@@ -39,6 +32,10 @@
     <span class="fa fa-star"></span>
     Tableau des scores
   </a>
+  <span class="notifications-button">
+    <span class="fa fa-bell"></span>
+    {% live_notify_badge %}
+  </span>
   <button class="profile-button">
     <span class="fa fa-lg fa-user"></span>
     Profil &darr;
