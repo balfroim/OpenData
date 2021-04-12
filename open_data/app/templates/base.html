@@ -22,12 +22,8 @@
   </header>
   {# Modals after the header doesn't cover the navbar. #}
   {% include 'modals/explore.html' %}
+  {% include 'modals/notifications.html' %}
   {% include 'modals/profile.html' %}
-  <div id="notifications-mask" class="inactive mask">
-    <div class="right dropdown">
-      {% live_notify_list %}
-    </div>
-  </div>
   <main>
     {% block main %}{% endblock %}
   </main>
