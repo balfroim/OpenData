@@ -3,7 +3,7 @@ import random
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 
-from profil.models import Profil
+from user.models import Profile
 
 
 class AnonymousUserMiddleware:
@@ -14,7 +14,7 @@ class AnonymousUserMiddleware:
         if not request.user.is_authenticated:
             username = f"Datasorus#{random.randrange(10000)}"
             user = User.objects.create_user(username=username)
-            profile = Profil.objects.create(user=user)
+            profile = Profile.objects.create(user=user)
             profile.save()
             login(request, user)
         response = self.get_response(request)

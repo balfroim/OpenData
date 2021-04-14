@@ -1,5 +1,5 @@
-from .models import BadgeAward
-from .signals import badge_awarded
+from badge.models import BadgeAward
+from badge.signals import badge_awarded_signal
 
 
 def abstract_property(name):
@@ -80,7 +80,7 @@ class Badge:
             **extra_kwargs
         )
         self.send_badge_messages(badge)
-        badge_awarded.send(sender=self, badge_award=badge)
+        badge_awarded_signal.send(sender=self, badge_award=badge)
 
     def send_badge_messages(self, badge_award):
         """

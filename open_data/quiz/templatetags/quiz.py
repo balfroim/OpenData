@@ -18,7 +18,7 @@ def show_quiz(quiz, user):
     if not user.is_authenticated:
         return {"quiz": quiz, "form": QuizForm(quiz), "submittable": True}
     try:
-        choices = QuizSubmission.objects.get(quiz=quiz, profil=user.profil).choices
+        choices = QuizSubmission.objects.get(quiz=quiz, user=user).choices
     except QuizSubmission.DoesNotExist:
         choices = None
     return {"quiz": quiz, "form": QuizForm(quiz, choices), "submittable": not choices}

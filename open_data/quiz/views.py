@@ -1,8 +1,7 @@
 import itertools
 
-from django.shortcuts import render, get_object_or_404
 from badge.registry import badges
-from profil.models import Profil
+from django.shortcuts import render, get_object_or_404
 
 from .forms import QuizForm
 from .models import Quiz, Answer, QuizSubmission
@@ -27,16 +26,6 @@ def check(quiz, submitted_answers):
     return tuple(choices)
 
 
-def get_profil(user):
-    if not user.is_authenticated:
-        # TODO: Checker si on a stocké un token en local storage
-        profil = Profil()
-        profil.save()
-        return profil
-    profil = Profil.objects.get(user=user)
-    return profil
-
-
 def quizzes(request):
     return render(request, 'quiz/quizzes.html', {'quizzes': Quiz.objects.all()})
 
@@ -50,11 +39,9 @@ def quiz(request, quiz_id):
 
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     choices = check(quiz, submitted_answers)
-    submission = QuizSubmission(profil=get_profil(request.user), quiz=quiz, choices=choices)
+    submission = QuizSubmission(user=request.user, quiz=quiz, choices=choices)
     submission.save()
-    # TODO: Faire gagner des badges à un utilisateur non identifié.
-    if request.user.is_authenticated:
-        badges.possibly_award_badge("quiz_submit", user=request.user)
+    badges.possibly_award_badge("quiz_submit", user=request.user)
     form = QuizForm(quiz, choices)
 
     return render(request, 'quiz/quiz.html', {'quiz': quiz, 'form': form})

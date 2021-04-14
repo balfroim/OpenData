@@ -7,6 +7,6 @@ class BadgeConfig(AppConfig):
         from badge.badges.quiz import QuizBadge
         from .registry import badges
         badges.register(QuizBadge)
-        from .signals.badge_awarded import badge_awarded
+        from badge.signals import badge_awarded
 
 
