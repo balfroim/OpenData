@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user.middlewares.AnonymousUserMiddleware',
 ]
 
 ROOT_URLCONF = 'open_data.urls'
@@ -89,13 +90,11 @@ DATABASES = {
     }
 }
 
-
 # Authentication
 
 LOGIN_URL = '/log-in/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -139,6 +138,5 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
-
 
 API_URL = 'https://data.namur.be/api/v2/'
