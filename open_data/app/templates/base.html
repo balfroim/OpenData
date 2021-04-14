@@ -26,6 +26,15 @@
   {% include 'modals/profile.html' %}
   <main>
     {% block main %}{% endblock %}
+
   </main>
+
   </body>
+    <script>
+        const main = document.getElementsByTagName("main")[0];
+        for (let i = 0; i < main.children.length; i++) {
+            let element = main.children.item(i);
+            element.style.cssText += `--intro-order: ${i};`
+        }
+    </script>
 </html>
