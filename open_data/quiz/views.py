@@ -1,7 +1,7 @@
 import itertools
 
 from django.shortcuts import render, get_object_or_404
-from pinax.badges.registry import badges
+from badge.registry import badges
 from profil.models import Profil
 
 from .forms import QuizForm

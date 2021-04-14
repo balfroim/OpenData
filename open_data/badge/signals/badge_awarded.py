@@ -1,7 +1,9 @@
 from django.dispatch import receiver
 from notifications.signals import notify
-from pinax.badges.signals import badge_awarded
 
+from django.dispatch import Signal
+
+badge_awarded = Signal(providing_args=["badge"])
 
 @receiver(badge_awarded)
 def badge_awarded(**kwargs):

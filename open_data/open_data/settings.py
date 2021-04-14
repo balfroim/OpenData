@@ -25,6 +25,8 @@ SECRET_KEY = '6#-qb($j0($_%fk1!w8^gad-9qr4uu=+d2_0coa)go_$i-md-i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -44,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'colorfield',
     'nested_inline',
-    'pinax.badges',
     'notifications',
 ]
 

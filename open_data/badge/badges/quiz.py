@@ -1,4 +1,4 @@
-from pinax.badges.base import Badge, BadgeAwarded
+from badge.base import Badge, BadgeAwarded
 
 class QuizBadge(Badge):
     slug = "quiz"

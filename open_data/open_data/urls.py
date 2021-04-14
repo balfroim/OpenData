@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import notifications.urls
-import pinax.badges.urls
+import badge.urls
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
@@ -25,7 +25,7 @@ urlpatterns = [
     path('', include('app.urls')),
     path('auth/', include('user.urls')),
     path('quiz/', include('quiz.urls')),
-    path('badges/', include(pinax.badges.urls, namespace="pinax_badges")),
+    path('badges/', include(badge.urls, namespace="badges")),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('admin/', admin.site.urls),
     path('profil/', include('profil.urls')),

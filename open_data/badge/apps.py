@@ -5,8 +5,8 @@ class BadgeConfig(AppConfig):
 
     def ready(self):
         from badge.badges.quiz import QuizBadge
-        from pinax.badges.registry import badges
+        from .registry import badges
         badges.register(QuizBadge)
-        from badge.signals.badge_awarded import badge_awarded
+        from .signals.badge_awarded import badge_awarded
 
 
