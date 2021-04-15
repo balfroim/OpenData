@@ -3,8 +3,8 @@ from collections import defaultdict
 from django.db.models import Count
 from django.shortcuts import render
 
-from .models import BadgeAward
-from .registry import badges
+from badge.models import BadgeAward
+from badge.registry import BadgeCache
 
 
 def badge_list(request):
@@ -20,8 +20,8 @@ def badge_list(request):
     for badge in badges_awarded:
         badges_dict[badge["slug"]].append({
             "level": badge["level"],
-            "name": badges._registry[badge["slug"]].levels[badge["level"]].name,
-            "description": badges._registry[badge["slug"]].levels[badge["level"]].description,
+            "name": BadgeCache.instance().get_badge(badge["slug"]).levels[badge["level"]].name,
+            "description": BadgeCache.instance().get_badge(badge["slug"]).levels[badge["level"]].description,
             "count": badge["num"],
             "user_has": (badge["slug"], badge["level"]) in user_badges
         })
@@ -35,7 +35,7 @@ def badge_list(request):
 
 
 def badge_detail(request, slug, level):
-    badge = badges._registry[slug].levels[int(level)]
+    badge = BadgeCache.instance().get_badge(slug).levels[int(level)]
     badge_awards = BadgeAward.objects.filter(
         slug=slug,
         level=level

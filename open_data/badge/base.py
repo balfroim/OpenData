@@ -27,6 +27,7 @@ class Badge:
     multiple = abstract_property("multiple")
     levels = abstract_property("levels")
     slug = abstract_property("slug")
+    events = abstract_property("events")
 
     def award(self, **state):
         raise NotImplementedError("must be implemented on base class")

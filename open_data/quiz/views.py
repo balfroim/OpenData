@@ -1,6 +1,6 @@
 import itertools
 
-from badge.registry import badges
+from badge.registry import BadgeCache
 from django.shortcuts import render, get_object_or_404
 
 from .forms import QuizForm
@@ -41,7 +41,7 @@ def quiz(request, quiz_id):
     choices = check(quiz, submitted_answers)
     submission = QuizSubmission(user=request.user, quiz=quiz, choices=choices)
     submission.save()
-    badges.possibly_award_badge("quiz_submit", user=request.user)
+    BadgeCache.instance().possibly_award_badge("quiz_submit", user=request.user)
     form = QuizForm(quiz, choices)
 
     return render(request, 'quiz/quiz.html', {'quiz': quiz, 'form': form})

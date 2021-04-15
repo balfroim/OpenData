@@ -18,8 +18,8 @@ class BadgeAward(models.Model):
 
     @property
     def _badge(self):
-        from .registry import badges
-        return badges._registry[self.slug]
+        from badge.registry import BadgeCache
+        return BadgeCache.instance().get_badge(self.slug)
 
     @property
     def name(self):
