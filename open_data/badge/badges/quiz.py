@@ -1,5 +1,6 @@
 from badge.base import Badge, BadgeAwarded
 
+
 class QuizBadge(Badge):
     slug = "quiz"
     levels = [
@@ -23,5 +24,3 @@ class QuizBadge(Badge):
         elif quiz_submission_count >= 1:
             award = BadgeAwarded(level=1)
         return award
-
-

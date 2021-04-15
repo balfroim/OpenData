@@ -1,5 +1,8 @@
 from django.contrib import admin
 
-from .models import BadgeAward
+from badge.models import BadgeAward
 
-admin.site.register(BadgeAward)
+
+@admin.register(BadgeAward)
+class BadgeAwardAdmin(admin.ModelAdmin):
+    pass
