@@ -20,7 +20,7 @@ def show_quiz(quiz, user):
         return {"quiz": quiz, "form": QuizForm(quiz, submission.choices), "submittable": False}
     except QuizSubmission.DoesNotExist:
         return {"quiz": quiz, "form": QuizForm(quiz), "submittable": True}
-   
+
 
 @register.filter
 def to_list(i):

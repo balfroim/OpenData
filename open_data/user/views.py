@@ -8,8 +8,12 @@ def sign_in(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
+            user_form = form.save()
+            username = user_form.cleaned_data['username']
+            password = user_form.cleaned_data['password1']
+            user = request.user
+            user.set_username()
+            # login(request, user)
             return redirect('profile', username=user.username)
     else:
         form = UserCreationForm()
