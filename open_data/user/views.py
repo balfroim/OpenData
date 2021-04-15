@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render, get_object_or_404
@@ -7,12 +8,13 @@ def sign_in(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
+            data = form.cleaned_data
             user = request.user
-            user.set_password(new_user.password)
-            user.username = new_user.username
-            user.email = new_user.email
+            user.set_password(data["password1"])
+            user.username = data["username"]
+            user.is_registered = True
             user.save()
+            login(request, user)
             return redirect('profile', username=user.username)
     else:
         form = UserCreationForm()
