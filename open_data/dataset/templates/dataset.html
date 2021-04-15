@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}{{ dataset.title }}{% endblock %}
+{% block head %}
+  <style>
+    iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+    }
+  </style>
+{% endblock %}
+{% block main %}
+  <h1>{{ dataset.title }}</h1>
+  {% if dataset.has_custom %}
+  <iframe src="{{ dataset.custom_url }}"></iframe>
+  {% elif dataset.has_map %}
+  <iframe src="{{ dataset.map_url }}"></iframe>
+  {% elif dataset.has_analysis %}
+  <iframe src="{{ dataset.analysis_url }}"></iframe>
+  {% elif dataset.has_table %}
+  <iframe src="{{ dataset.table_url }}"></iframe>
+  {% endif %}
+{% endblock %}

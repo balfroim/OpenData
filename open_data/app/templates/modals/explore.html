@@ -30,16 +30,19 @@
 <div id="explore-mask" class="inactive mask">
   <div class="left dropdown">
     {% for theme in themes %}
+    {% if not theme.hidden %}
     <div class="explore-item dataset{{ forloop.counter }}-button">
       {% if theme.image %}
       <img src="{{ theme.image.url }}" alt="" />
       {% endif %}
       {{ theme.name }}
     </div>
+    {% endif %}
     {% endfor %}
   </div>
 </div>
 {% for theme in themes %}
+{% if not theme.hidden %}
 <div id="dataset{{ forloop.counter }}-mask" class="inactive mask">
   <div class="left dropdown">
     <button class="explore-button">&larr;</button>
@@ -47,7 +50,7 @@
     <h4>Les plus populaires</h4>
     {% for dataset in theme.popular_datasets %}
     <div class="explore-item">
-      <a href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
+      <a href="{% url 'dataset' dataset_id=dataset.id %}">
         {{ dataset }}
       </a>
     </div>
@@ -57,4 +60,5 @@
     </p>
   </div>
 </div>
+{% endif %}
 {% endfor %}
