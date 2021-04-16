@@ -17,5 +17,4 @@ class AnonymousUserMiddleware:
             profile = Profile.objects.create(user=user)
             profile.save()
             login(request, user)
-        response = self.get_response(request)
-        return response
+        return self.get_response(request)

@@ -12,8 +12,9 @@ def sign_in(request):
             user = request.user
             user.set_password(data["password1"])
             user.username = data["username"]
-            user.is_registered = True
             user.save()
+            user.profile.is_registered = True
+            user.profile.save()
             login(request, user)
             return redirect('profile', username=user.username)
     else:
