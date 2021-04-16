@@ -1,40 +1,31 @@
 {% load static notifications_tags %}
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>OpenData | {% block title %}{% endblock %}</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="icon" href="{% static 'images/icon.png' %}">
-  <link rel="stylesheet" href="{% static 'css/global.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script defer src="{% static 'js/modals.js' %}"></script>
-  <script src="{% static 'notifications/notify.js' %}"></script>
-  <script src="{% static 'js/notifications.js' %}"></script>
-  {% register_notify_callbacks callbacks='fill_notifications_dropdown,fill_notification_badge' %}
-  {% block head %}{% endblock %}
-</head>
-<body>
-  {# Modals before the header take the entire page. #}
-  {% include 'modals/login.html' %}
-  <header>
-    {% include 'navbar.html' %}
-  </header>
-  {# Modals after the header doesn't cover the navbar. #}
-  {% include 'modals/explore.html' %}
-  {% include 'modals/notifications.html' %}
-  {% include 'modals/profile.html' %}
-  <main>
-    {% block main %}{% endblock %}
-
-  </main>
-
+  <head>
+    <meta charset="utf-8">
+    <title>OpenData | {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="{% static 'images/icon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="module" src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'notifications/notify.js' %}"></script>
+    <script src="{% static 'js/notifications.js' %}"></script>
+    {% register_notify_callbacks callbacks='fill_notifications_dropdown,fill_notification_badge' %}
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {# Modals before the header take the entire page. #}
+    {% include 'modals/login.html' %}
+    <header>
+      {% include 'navbar.html' %}
+    </header>
+    {# Modals after the header doesn't cover the navbar. #}
+    {% include 'modals/explore.html' %}
+    {% include 'modals/notifications.html' %}
+    {% include 'modals/profile.html' %}
+    <main>
+      {% block main %}{% endblock %}
+    </main>
   </body>
-    <script>
-        const main = document.getElementsByTagName("main")[0];
-        for (let i = 0; i < main.children.length; i++) {
-            let element = main.children.item(i);
-            element.style.cssText += `--intro-order: ${i};`
-        }
-    </script>
 </html>

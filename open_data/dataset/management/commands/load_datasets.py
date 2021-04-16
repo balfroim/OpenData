@@ -40,6 +40,7 @@ class Command(BaseCommand):
                     'modified': modified,
                     'has_map': 'geo' in features,
                     'has_analysis': 'analyze' in features,
+                    'has_calendar': 'calendar' in features,
                     'has_custom': 'custom_view' in features,
                     'popularity_score': popularity_score,
                 }

@@ -27,11 +27,15 @@
     text-decoration: none;
   }
 </style>
-<div id="explore-mask" class="inactive mask">
+<div id="explore-dropdown" class="modal-mask">
   <div class="left dropdown">
+    <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
+      <input type="search" name="q">
+      <button><span class="fa fa-search"></span></button>
+    </form>
     {% for theme in themes %}
     {% if not theme.hidden %}
-    <div class="explore-item dataset{{ forloop.counter }}-button">
+    <div class="explore-item theme{{ forloop.counter }}-dropdown-button">
       {% if theme.image %}
       <img src="{{ theme.image.url }}" alt="" />
       {% endif %}
@@ -43,9 +47,9 @@
 </div>
 {% for theme in themes %}
 {% if not theme.hidden %}
-<div id="dataset{{ forloop.counter }}-mask" class="inactive mask">
+<div id="theme{{ forloop.counter }}-dropdown" class="modal-mask">
   <div class="left dropdown">
-    <button class="explore-button">&larr;</button>
+    <button class="explore-dropdown-button">&larr;</button>
     <h3>{{ theme.name }}</h3>
     <h4>Les plus populaires</h4>
     {% for dataset in theme.popular_datasets %}

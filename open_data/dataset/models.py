@@ -36,6 +36,7 @@ class ProxyDataset(models.Model):
 
     has_map = models.BooleanField(default=False)
     has_analysis = models.BooleanField(default=False)
+    has_calendar = models.BooleanField(default=False)
     has_custom = models.BooleanField(default=False)
 
     popularity_score = models.IntegerField(default=0, editable=False)
@@ -49,7 +50,7 @@ class ProxyDataset(models.Model):
 
     @property
     def has_table(self):
-        return True
+        return not (self.has_map or self.has_analysis or self.has_calendar or self.has_custom)
 
     @property
     def iframe_url(self):
@@ -68,5 +69,22 @@ class ProxyDataset(models.Model):
         return f'{self.iframe_url}analyze/' if self.has_analysis else None
 
     @property
+    def calendar_url(self):
+        return f'{self.iframe_url}calendar/' if self.has_calendar else None
+
+    @property
     def custom_url(self):
         return f'{self.iframe_url}custom/' if self.has_custom else None
+
+    @property
+    def iframes(self):
+        if self.has_custom:
+            yield 'custom', self.custom_url
+        if self.has_map:
+            yield 'map', self.map_url
+        if self.has_calendar:
+            yield 'calendar', self.calendar_url
+        if self.has_analysis:
+            yield 'analysis', self.analysis_url
+        if self.has_table:
+            yield 'table', self.table_url

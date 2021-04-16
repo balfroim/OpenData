@@ -2,22 +2,36 @@
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
   <style>
+    main {
+        --page-width: 100%;
+    }
+
     iframe {
       width: 100%;
       height: 700px;
       border: none;
     }
+
+    .tab:not(.active) {
+      display: none;
+    }
   </style>
 {% endblock %}
 {% block main %}
   <h1>{{ dataset.title }}</h1>
-  {% if dataset.has_custom %}
-  <iframe src="{{ dataset.custom_url }}"></iframe>
-  {% elif dataset.has_map %}
-  <iframe src="{{ dataset.map_url }}"></iframe>
-  {% elif dataset.has_analysis %}
-  <iframe src="{{ dataset.analysis_url }}"></iframe>
-  {% elif dataset.has_table %}
-  <iframe src="{{ dataset.table_url }}"></iframe>
-  {% endif %}
+  <div>
+    {{ dataset.description|safe }}
+  </div>
+  <div>
+    {% for type, url in dataset.iframes %}
+    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">{{ type }}</button>
+    {% endfor %}
+  </div>
+  <div class="tabs">
+    {% for type, url in dataset.iframes %}
+    <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
+      <iframe src="{{ url }}"></iframe>
+    </div>
+    {% endfor %}
+  </div>
 {% endblock %}
