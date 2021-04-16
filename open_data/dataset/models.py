@@ -39,6 +39,7 @@ class ProxyDataset(models.Model):
     has_calendar = models.BooleanField(default=False)
     has_custom = models.BooleanField(default=False)
 
+    exports = models.JSONField()
     popularity_score = models.IntegerField(default=0, editable=False)
 
     def __str__(self):
@@ -58,23 +59,23 @@ class ProxyDataset(models.Model):
 
     @property
     def table_url(self):
-        return f'{self.iframe_url}table/' if self.has_table else None
+        return f'{self.iframe_url}table/'
 
     @property
     def map_url(self):
-        return f'{self.iframe_url}map/' if self.has_map else None
+        return f'{self.iframe_url}map/'
 
     @property
     def analysis_url(self):
-        return f'{self.iframe_url}analyze/' if self.has_analysis else None
+        return f'{self.iframe_url}analyze/'
 
     @property
     def calendar_url(self):
-        return f'{self.iframe_url}calendar/' if self.has_calendar else None
+        return f'{self.iframe_url}calendar/'
 
     @property
     def custom_url(self):
-        return f'{self.iframe_url}custom/' if self.has_custom else None
+        return f'{self.iframe_url}custom/'
 
     @property
     def iframes(self):

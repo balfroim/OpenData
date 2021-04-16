@@ -16,19 +16,22 @@ class Command(BaseCommand):
         super().__init__(*args, **kwargs)
 
     def handle(self, *args, **options):
-        datasets = self.load_all_datasets()
+        datasets = self.fetch_all_datasets()
 
         total_count = len(datasets)
         created_count = 0
 
         for dataset in datasets:
+            links = map_links(dataset['links'])
             metas = dictor(dataset, 'dataset.metas')
+
             id = dictor(dataset, 'dataset.dataset_id')
             theme = dictor(metas, 'default.theme.0')
             title = dictor(metas, 'default.title')
             description = dictor(metas, 'default.description') or ''
             modified = parse_datetime(dictor(metas, 'default.modified'))
             features = dictor(dataset, 'dataset.features')
+            exports = fetch_exports(links['exports'])
             popularity_score = dictor(metas, 'explore.popularity_score')
 
             obj, created = ProxyDataset.objects.update_or_create(
@@ -42,6 +45,7 @@ class Command(BaseCommand):
                     'has_analysis': 'analyze' in features,
                     'has_calendar': 'calendar' in features,
                     'has_custom': 'custom_view' in features,
+                    'exports': exports,
                     'popularity_score': popularity_score,
                 }
             )
@@ -54,27 +58,43 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
-    def load_all_datasets(self):
+    def fetch_all_datasets(self):
         datasets = []
 
         done = False
-        page = 0
+        i = 0
         while not done:
-            loaded_datasets, done = self.load_datasets(page)
+            loaded_datasets, done = fetch_datasets(i)
             datasets.extend(loaded_datasets)
-            page += 1
+            i += 1
 
         self.stdout.write(self.style.SUCCESS(f'{len(datasets)} datasets fetched.'))
         return datasets
 
-    def load_datasets(self, page):
-        url = f'{API_URL}catalog/datasets' \
-              f'?include_app_metas=true' \
-              f'&timezone={TIME_ZONE}' \
-              f'&offset={page * DATASETS_PER_PAGE}' \
-              f'&limit={DATASETS_PER_PAGE}'
 
-        data = requests.get(url).json()
-        datasets = dictor(data, 'datasets')
+def fetch_datasets(page_i):
+    url = f'{API_URL}catalog/datasets' \
+          f'?include_app_metas=true' \
+          f'&timezone={TIME_ZONE}' \
+          f'&offset={page_i * DATASETS_PER_PAGE}' \
+          f'&limit={DATASETS_PER_PAGE}'
 
-        return datasets, len(datasets) < DATASETS_PER_PAGE
+    data = requests.get(url).json()
+
+    links = map_links(data['links'])
+    datasets = data['datasets']
+
+    return datasets, 'next' not in links
+
+
+def fetch_exports(url):
+    data = requests.get(url).json()
+
+    exports = map_links(data['links'])
+    del exports['self']
+
+    return exports
+
+
+def map_links(links):
+    return {link['rel']: link['href'] for link in links}
