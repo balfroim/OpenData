@@ -3,7 +3,7 @@ import inspect
 
 from django.apps import AppConfig
 
-from open_data.settings import INSTALLED_APPS
+from open_data.settings import CUSTOM_APPS
 
 
 class BadgeConfig(AppConfig):
@@ -13,7 +13,7 @@ class BadgeConfig(AppConfig):
         from badge.base import Badge
         from badge.registry import BadgeCache
         # Import dynamically all the Badge subclasses in the installed apps.
-        for module_name in INSTALLED_APPS:
+        for module_name in CUSTOM_APPS:
             try:
                 module = importlib.import_module(f"{module_name}.badges", package=None)
             except ModuleNotFoundError:

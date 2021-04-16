@@ -31,22 +31,30 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+CUSTOM_APPS = [
     'app',
     'user',
     'quiz',
     'dataset',
-    'badge.apps.BadgeConfig',
+    'badge',
+]
+
+IMPORTED_APPS = [
+    'colorfield',
+    'nested_inline',
+    'notifications',
+]
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'colorfield',
-    'nested_inline',
-    'notifications',
 ]
+
+INSTALLED_APPS = CUSTOM_APPS + DJANGO_APPS + IMPORTED_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
