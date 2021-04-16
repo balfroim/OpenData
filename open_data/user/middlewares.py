@@ -12,7 +12,7 @@ class AnonymousUserMiddleware:
 
     def __call__(self, request):
         if not request.user.is_authenticated:
-            username = f"Datasorus#{random.randrange(10000)}"
+            username = f"Datanonymous#{random.randrange(10000)}"
             user = User.objects.create_user(username=username)
             profile = Profile.objects.create(user=user)
             profile.save()

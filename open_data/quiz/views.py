@@ -41,7 +41,7 @@ def quiz(request, quiz_id):
     choices = check(quiz, submitted_answers)
     submission = QuizSubmission(user=request.user, quiz=quiz, choices=choices)
     submission.save()
-    BadgeCache.instance().possibly_award_badge("quiz_submit", user=request.user)
+    BadgeCache.instance().possibly_award_badge("on_quiz_result", user=request.user)
     form = QuizForm(quiz, choices)
 
     return render(request, 'quiz/quiz.html', {'quiz': quiz, 'form': form})
