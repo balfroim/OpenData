@@ -8,27 +8,22 @@
 
     iframe {
       width: 100%;
-      height: 700px;
+      height: calc(100vh - 11rem);
       border: none;
-    }
-
-    .tab:not(.active) {
-      display: none;
     }
   </style>
 {% endblock %}
 {% block main %}
-  <h1>{{ dataset.title }}</h1>
-  <div>
-    {{ dataset.description|safe }}
-  </div>
-  <div>
-    {% for type, url in dataset.iframes %}
-    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">{{ type }}</button>
+  <p>
+    {% for type, name, _ in dataset.iframes %}
+    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">{{ name }}</button>
     {% endfor %}
-  </div>
+    {% if 'xls' in dataset.exports %}
+    <a class="button" href="{{ dataset.exports.xls }}">Télécharger</a>
+    {% endif %}
+  </p>
   <div class="tabs">
-    {% for type, url in dataset.iframes %}
+    {% for type, _, url in dataset.iframes %}
     <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
       <iframe src="{{ url }}"></iframe>
     </div>

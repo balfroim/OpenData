@@ -51,41 +51,41 @@ class ProxyDataset(models.Model):
 
     @property
     def has_table(self):
-        return not (self.has_map or self.has_analysis or self.has_calendar or self.has_custom)
-
-    @property
-    def iframe_url(self):
-        return f'{IFRAME_URL}{self.id}/'
-
-    @property
-    def table_url(self):
-        return f'{self.iframe_url}table/'
-
-    @property
-    def map_url(self):
-        return f'{self.iframe_url}map/'
-
-    @property
-    def analysis_url(self):
-        return f'{self.iframe_url}analyze/'
-
-    @property
-    def calendar_url(self):
-        return f'{self.iframe_url}calendar/'
-
-    @property
-    def custom_url(self):
-        return f'{self.iframe_url}custom/'
+        return not (self.has_map or self.has_calendar or self.has_custom)
 
     @property
     def iframes(self):
         if self.has_custom:
-            yield 'custom', self.custom_url
-        if self.has_map:
-            yield 'map', self.map_url
+            yield 'custom', 'Présentation', self.custom_url
         if self.has_calendar:
-            yield 'calendar', self.calendar_url
-        if self.has_analysis:
-            yield 'analysis', self.analysis_url
+            yield 'calendar', 'Calendrier', self.calendar_url
+        if self.has_map:
+            yield 'map', 'Carte', self.map_url
         if self.has_table:
-            yield 'table', self.table_url
+            yield 'table', 'Tableau', self.table_url
+        if self.has_analysis:
+            yield 'analysis', 'Graphique', self.analysis_url
+
+    @property
+    def table_url(self):
+        return f'{self.iframe_url}table/?datasetcard=true'
+
+    @property
+    def map_url(self):
+        return f'{self.iframe_url}map/?datasetcard=true&location=12,50.45495,4.88194'
+
+    @property
+    def analysis_url(self):
+        return f'{self.iframe_url}analyze/?datasetcard=true'
+
+    @property
+    def calendar_url(self):
+        return f'{self.iframe_url}calendar/?datasetcard=true&calendarview=month&static=false'
+
+    @property
+    def custom_url(self):
+        return f'{self.iframe_url}custom/?datasetcard=true'
+
+    @property
+    def iframe_url(self):
+        return f'{IFRAME_URL}{self.id}/'
