@@ -11,13 +11,10 @@
     Quiz
     <span class="fa fa-question"></span>
   </a>
-  <span class="clickable explore-button">
-    Explorer &darr;
-  </span>
-  <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
-    <input type="search" name="q">
-    <button><span class="fa fa-search"></span></button>
-  </form>
+  <button class="explore-dropdown-button">
+    Explorer
+    <span class="fa fa-arrow-down"></span>
+  </button>
   <div class="separator"></div>
   {% if user.is_staff %}
   <a href="{% url 'admin:index' %}">
@@ -33,12 +30,12 @@
     <span class="fa fa-star"></span>
     Tableau des scores
   </a>
-  <span class="clickable notifications-button">
+  <span class="clickable notifications-dropdown-button">
     <span class="fa fa-bell"></span>
     {% live_notify_badge %}
   </span>
-  <button class="profile-button">
+  <button class="profile-dropdown-button">
     <span class="fa fa-lg fa-user"></span>
-    Profil &darr;
+    Profil
   </button>
 </nav>

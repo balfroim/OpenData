@@ -8,7 +8,7 @@ from quiz.models import Quiz
 
 def home(request):
     return render(request, 'home.html', {
-        'featured_datasets': ProxyDataset.objects.order_by('-stat__popularity_score')[:5],
+        'featured_datasets': ProxyDataset.objects.order_by('-popularity_score')[:5],
         'today_quiz': random.choice(Quiz.objects.all()),
     })
 

@@ -24,6 +24,7 @@ from .settings import MEDIA_URL, MEDIA_ROOT
 urlpatterns = [
     path('', include('app.urls')),
     path('auth/', include('user.urls')),
+    path('dataset/', include('dataset.urls')),
     path('quiz/', include('quiz.urls')),
     path('badges/', include(pinax.badges.urls, namespace="pinax_badges")),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),

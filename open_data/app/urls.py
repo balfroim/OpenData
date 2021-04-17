@@ -1,9 +1,7 @@
-from django.urls import path
 from django.views.generic import TemplateView
-from django.urls import include, path
+from django.urls import path
 
 from . import views
-from open_data import settings
 
 urlpatterns = [
     path('', views.home, name='home'),

@@ -1,13 +1,12 @@
 {% load auth %}
 <style>
-  #login-mask {
+  #login-modal {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 </style>
-
-<div id="login-mask" class="inactive mask">
+<div id="login-modal" class="modal-mask">
   <div class="modal">
     <h1>Connexion</h1>
     {% log_in_form %}
