@@ -86,9 +86,9 @@
   transform: rotate(45deg);
 }
 
-span.incorrect {
+/*span.incorrect {
   text-decoration: line-through
-}
+}*/
 
 /* Adds an effect when clicking on submit button */
 .clickable_button {

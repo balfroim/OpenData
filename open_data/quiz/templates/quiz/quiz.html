@@ -4,20 +4,18 @@
     <p><i>{{ quiz.title }}</i></p>
     <p>
       {% if quiz.perfect_score_rate == 0 %}
-      Aucun utilisateur n'a
+      <b>Aucun utilisateur</b> n'a
       {% else %}
-      {{ quiz.perfect_score_rate|floatformat:2 }}% des utilisateurs ont
+      <b>{{ quiz.perfect_score_rate|floatformat:0 }}% des utilisateurs</b> ont
       {% endif %}
       correctement répondu à ce quiz, mettez vos connaissances à l'épreuve!
-    </p>
-  {% if quiz.dataset.id %}
-    <p>
+      {% if quiz.dataset.id %}
       Aucune idée ? N'hésitez pas à explorer
       <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset.id }}" target="_blank">
         le jeu de données source
       </a> !
+      {% endif %}
     </p>
-  {% endif %}
   </div>
   <form class="quiz-form" data-quiz-id="{{ quiz.id }}">
     {% csrf_token %}
