@@ -24,6 +24,7 @@ from .settings import MEDIA_URL, MEDIA_ROOT
 urlpatterns = [
     path('', include('app.urls')),
     path('user/', include('user.urls')),
+    path('dataset/', include('dataset.urls')),
     path('quiz/', include('quiz.urls')),
     path('badges/', include(badge.urls, namespace="badges")),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),

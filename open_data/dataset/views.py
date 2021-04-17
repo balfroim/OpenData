@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-# Create your views here.
+from .models import ProxyDataset
+
+
+def dataset(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    return render(request, 'dataset.html', {'dataset': dataset})

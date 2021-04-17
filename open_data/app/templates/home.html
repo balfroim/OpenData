@@ -64,14 +64,9 @@
   {# TODO: Peut être faire un tag data_carroussel ?? #}
   <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
     {% for dataset in featured_datasets %}
-    <a class="carousel-cell" href="https://data.namur.be/explore/dataset/{{ dataset.id }}" target="_blank">
-      <img src="{% if dataset.theme.image  %}{{ dataset.theme.image.url }}{% endif %}"
-        alt="Logo {{ dataset.theme.name }}" class="carousel-cell-img" />
-      <span class="carousel-cell-title">
-        {% for line in dataset.multiline_title %}
-        {{ line }}<br>
-        {% endfor %}
-      </span>
+    <a class="carousel-cell" href="{% url 'dataset' dataset_id=dataset.id %}">
+      <img class="carousel-cell-img" src="{{ dataset.theme.image.url }}" alt="Logo {{ dataset.theme.name }}" />
+      <span class="carousel-cell-title">{{ dataset.multiline_title }}</span>
     </a>
     {% endfor %}
   </div>

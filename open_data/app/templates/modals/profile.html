@@ -1,4 +1,4 @@
-<div id="profile-mask" class="inactive mask">
+<div id="profile-dropdown" class="modal-mask">
   <div class="right dropdown">
     <div>
       {% if user.profile.is_registered %}
@@ -11,7 +11,7 @@
       <br>
       <a class="button" href="{% url 'log_out' %}?next={{ request.path }}">Déconnexion</a>
       {% else %}
-      <button class="login-button">Connexion</button>
+      <button class="login-modal-button">Connexion</button>
       {% endif %}
     </div>
   </div>

@@ -7,8 +7,6 @@
   --error: #e02b13;
   --rounded: 6px;
   --intro-duration: 0.3s;
-  --intro-order: 0;
-  --intro-delay: 0.1s;
 }
 
 /* Remove unwanted margin,
@@ -106,8 +104,8 @@ nav button, nav .button {
   cursor: pointer;
 }
 
-/* Modals and drop-downs */
-.mask {
+/* Modals, drop-downs, and tabs */
+.modal-mask {
   position: absolute;
   z-index: 1;
   width: 100vw;
@@ -116,11 +114,11 @@ nav button, nav .button {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.mask.inactive {
+.modal-mask:not(.active), .tab:not(.active) {
   display: none !important;
 }
 
-.mask > * {
+.modal-mask > * {
   animation-name: intro;
   animation-duration: var(--intro-duration);
 }
@@ -143,13 +141,15 @@ nav button, nav .button {
 /* Fade-in animation */
 main > * {
   opacity: 0;
+}
+
+.fading {
   animation-name: intro;
   animation-duration: var(--intro-duration);
   animation-fill-mode: forwards;
-  animation-delay: calc(var(--intro-order) * var(--intro-delay));
 }
 
 @keyframes intro {
-  from { opacity: 0; transform: translate(-64px, 32px); }
+  from { opacity: 0; transform: translateX(32px); }
   to { opacity: 1; }
 }

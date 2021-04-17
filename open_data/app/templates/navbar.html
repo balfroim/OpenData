@@ -5,40 +5,37 @@
   </a>
   <a href="{% url 'home' %}">
     Accueil
-    <span class="fa fa-home"></span>
+    <i class="fas fa-home"></i>
   </a>
   <a href="{% url 'quizzes' %}">
     Quiz
-    <span class="fa fa-question"></span>
+    <i class="fas fa-question"></i>
   </a>
-  <span class="clickable explore-button">
-    Explorer &darr;
-  </span>
-  <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
-    <input type="search" name="q">
-    <button><span class="fa fa-search"></span></button>
-  </form>
+  <button class="explore-dropdown-button">
+    Explorer
+    <i class="fas fa-arrow-down"></i>
+  </button>
   <div class="separator"></div>
   {% if user.is_staff %}
   <a href="{% url 'admin:index' %}">
-    <span class="fa fa-unlock-alt"></span>
+    <i class="fas fa-unlock-alt"></i>
     Admin
   </a>
   {% endif %}
   <a href="{% url 'forum' %}">
-    <span class="fa fa-users"></span>
+    <i class="fas fa-users"></i>
     Forum
   </a>
   <a href="{% url 'scores' %}">
-    <span class="fa fa-star"></span>
+    <i class="fas fa-star"></i>
     Tableau des scores
   </a>
-  <span class="clickable notifications-button">
-    <span class="fa fa-bell"></span>
+  <span class="clickable notifications-dropdown-button">
+    <i class="fas fa-bell"></i>
     {% live_notify_badge %}
   </span>
-  <button class="profile-button">
-    <span class="fa fa-lg fa-user"></span>
-    Profil &darr;
+  <button class="profile-dropdown-button">
+    <i class="fas fa-lg fa-user"></i>
+    Profil
   </button>
 </nav>

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}{{ dataset.title }}{% endblock %}
+{% block head %}
+  <style>
+    main {
+        --page-width: 100%;
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100vh - 11rem);
+      border: none;
+    }
+  </style>
+{% endblock %}
+{% block main %}
+  <p>
+    {% for type, class, _ in dataset.iframes %}
+    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
+      <i class="{{ class }}"></i>
+    </button>
+    {% endfor %}
+    {% if 'xls' in dataset.exports %}
+    <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
+    {% endif %}
+    {% with n_likes=dataset.liking_users.count %}
+    <span>{{ n_likes }} like{{ n_likes|pluralize }}</span>
+    {% endwith %}
+  </p>
+  <div class="tabs">
+    {% for type, _, url in dataset.iframes %}
+    <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
+      <iframe src="{{ url }}"></iframe>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
