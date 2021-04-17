@@ -21,9 +21,7 @@
     </button>
     {% endfor %}
     {% if 'xls' in dataset.exports %}
-    <a class="button" href="{{ dataset.exports.xls }}">
-      <i class="fas fa-download"></i>
-    </a>
+    <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
     {% endif %}
     {% with n_likes=dataset.liking_users.count %}
     <span>{{ n_likes }} like{{ n_likes|pluralize }}</span>
