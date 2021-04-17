@@ -38,7 +38,7 @@
     </header>
 	<div class="container">
 		<div class="gallery">
-			<div class="gallery-item1" tabindex="0" onclick="location.href='https://data.namur.be/explore/dataset/covid19be_cases_muni_cum/table/?disjunctive.tx_descr_fr&disjunctive.tx_adm_dstr_descr_fr&sort=tx_descr_fr';">
+			<div class="gallery-item1" tabindex="0" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}'">
                 <div class="imgBx1">
 				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
                 </div>
