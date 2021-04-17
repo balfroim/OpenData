@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load dataset %}
+{% block title %}{{ theme.name }}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="theme">
+            <div class="theme-image">
+                <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
+            </div>
+            <div class="theme-presentation">
+                <h1 class="theme-name">{{theme.name}}</h1>
+                <button class="btn theme-subscribe-btn">S'abonner</button>
+            </div>
+            <div class="theme-stats">
+                <ul>
+                    <li><span class="theme-stat-count">4</span> datasets</li>
+                    <li><span class="theme-stat-count">188</span> abonnés</li>
+                    <li><span class="theme-stat-count">206</span> j'aime</li>
+                    <li><span class="theme-stat-count">20</span> téléchargements</li>
+                </ul>
+            </div>
+            <div class="theme-description">
+                <p><span class="theme-real-name">{{theme.name}}</span> Cette catégorie reprend tous les datasets du
+                    thème {{theme.name}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="gallery">
+            <!--Faire une boucle qui va chercher chaque dataset présent dans le thème et le transformer en div suivant ce format-->
+            <div class="gallery-item" tabindex="0" onclick="location.href='#';">
+                <div class="imgBx1">
+				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
+                </div>
+                <div class="dataset-title">
+                    <h2>{{dataset.title}}</h2>
+                </div>
+                <div class="data-stats">
+                        <ul>
+                            <li> <span class="fa fa-heart"></span> <span class="data-stat-count">4</span></li>
+                            <li> <span class="fa fa-comment"></span> <span class="data-stat-count">100</span></li>
+                            <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
+                        </ul>
+                </div><br>
+                <div class="content1">
+                    <p>Description du jeu de données ?</p>
+                    <div class="sub-information">
+                        <h3>Données : </h3>
+                        <span>37 éléments</span> <!--Absent du modèle-->
+                        <h3>Date de dernière modification : </h3>
+                        <span>{{dataset.modified}}</span>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+{% endblock %}

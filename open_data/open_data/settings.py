@@ -37,7 +37,7 @@ CUSTOM_APPS = [
     'quiz',
     'dataset',
     'badge',
-    'dataset_theme'
+    'theme'
 ]
 
 IMPORTED_APPS = [
