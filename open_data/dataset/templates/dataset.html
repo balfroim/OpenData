@@ -15,11 +15,15 @@
 {% endblock %}
 {% block main %}
   <p>
-    {% for type, name, _ in dataset.iframes %}
-    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">{{ name }}</button>
+    {% for type, class, _ in dataset.iframes %}
+    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
+      <i class="{{ class }}"></i>
+    </button>
     {% endfor %}
     {% if 'xls' in dataset.exports %}
-    <a class="button" href="{{ dataset.exports.xls }}">Télécharger</a>
+    <a class="button" href="{{ dataset.exports.xls }}">
+      <i class="fas fa-download"></i>
+    </a>
     {% endif %}
   </p>
   <div class="tabs">

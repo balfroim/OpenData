@@ -5,37 +5,37 @@
   </a>
   <a href="{% url 'home' %}">
     Accueil
-    <span class="fa fa-home"></span>
+    <i class="fas fa-home"></i>
   </a>
   <a href="{% url 'quizzes' %}">
     Quiz
-    <span class="fa fa-question"></span>
+    <i class="fas fa-question"></i>
   </a>
   <button class="explore-dropdown-button">
     Explorer
-    <span class="fa fa-arrow-down"></span>
+    <i class="fas fa-arrow-down"></i>
   </button>
   <div class="separator"></div>
   {% if user.is_staff %}
   <a href="{% url 'admin:index' %}">
-    <span class="fa fa-unlock-alt"></span>
+    <i class="fas fa-unlock-alt"></i>
     Admin
   </a>
   {% endif %}
   <a href="{% url 'forum' %}">
-    <span class="fa fa-users"></span>
+    <i class="fas fa-users"></i>
     Forum
   </a>
   <a href="{% url 'scores' %}">
-    <span class="fa fa-star"></span>
+    <i class="fas fa-star"></i>
     Tableau des scores
   </a>
   <span class="clickable notifications-dropdown-button">
-    <span class="fa fa-bell"></span>
+    <i class="fas fa-bell"></i>
     {% live_notify_badge %}
   </span>
   <button class="profile-dropdown-button">
-    <span class="fa fa-lg fa-user"></span>
+    <i class="fas fa-lg fa-user"></i>
     Profil
   </button>
 </nav>

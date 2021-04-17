@@ -56,15 +56,15 @@ class ProxyDataset(models.Model):
     @property
     def iframes(self):
         if self.has_custom:
-            yield 'custom', 'Présentation', self.custom_url
+            yield 'custom', 'fas fa-info-circle', self.custom_url
         if self.has_calendar:
-            yield 'calendar', 'Calendrier', self.calendar_url
+            yield 'calendar', 'fas fa-calendar-alt', self.calendar_url
         if self.has_map:
-            yield 'map', 'Carte', self.map_url
+            yield 'map', 'fas fa-map', self.map_url
         if self.has_table:
-            yield 'table', 'Tableau', self.table_url
+            yield 'table', 'fas fa-table', self.table_url
         if self.has_analysis:
-            yield 'analysis', 'Graphique', self.analysis_url
+            yield 'analysis', 'fas fa-chart-pie', self.analysis_url
 
     @property
     def table_url(self):
@@ -89,3 +89,5 @@ class ProxyDataset(models.Model):
     @property
     def iframe_url(self):
         return f'{IFRAME_URL}{self.id}/'
+
+
