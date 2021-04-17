@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static quiz %}
-{% block title %}Quiz{% endblock %}
+{% block title %}Quiz de la semaine{% endblock %}
 {% block head %}
   <script defer src="{% static 'js/quiz.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
 {% endblock %}
 {% block main %}
-  <h1>Quiz</h1>
+  <h1>Quiz de la semaine</h1>
   <div class="quizzes">
   {% for quiz in quizzes %}
     {% show_quiz quiz user %}

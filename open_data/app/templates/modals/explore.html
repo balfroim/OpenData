@@ -34,14 +34,12 @@
       <button><span class="fa fa-search"></span></button>
     </form>
     {% for theme in themes %}
-    {% if not theme.hidden %}
     <div class="explore-item theme{{ forloop.counter }}-dropdown-button">
       {% if theme.image %}
       <img src="{{ theme.image.url }}" alt="" />
       {% endif %}
       {{ theme.name }}
     </div>
-    {% endif %}
     {% endfor %}
   </div>
 </div>

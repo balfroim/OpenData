@@ -7,4 +7,4 @@ register = template.Library()
 
 @register.simple_tag
 def get_themes():
-    return Theme.objects.all()
+    return Theme.get_displayed()
