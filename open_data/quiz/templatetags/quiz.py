@@ -15,13 +15,11 @@ def show_quizzes(quizzes):
 
 @register.inclusion_tag('quiz/quiz.html')
 def show_quiz(quiz, user):
-    if not user.is_authenticated:
-        return {"quiz": quiz, "form": QuizForm(quiz), "submittable": True}
     try:
-        choices = QuizSubmission.objects.get(quiz=quiz, profil=user.profil).choices
+        submission = QuizSubmission.objects.get(quiz=quiz, user=user)
+        return {"quiz": quiz, "form": QuizForm(quiz, submission.choices), "submittable": False}
     except QuizSubmission.DoesNotExist:
-        choices = None
-    return {"quiz": quiz, "form": QuizForm(quiz, choices), "submittable": not choices}
+        return {"quiz": quiz, "form": QuizForm(quiz), "submittable": True}
 
 
 @register.filter

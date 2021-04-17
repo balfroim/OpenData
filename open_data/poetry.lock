@@ -120,17 +120,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "pinax-badges"
-version = "3.0.0"
-description = "a reusable Django badges application"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-django = ">=2.2"
-
-[[package]]
 name = "pytz"
 version = "2021.1"
 description = "World timezone definitions, modern and historical"
@@ -188,7 +177,7 @@ brotli = ["brotlipy (>=0.6.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "82cedffe419665d7292807624b99d406d0d250e0ec1f68197e789dcb04850c02"
+content-hash = "71db8a6f748bfa801e9929a4fa41f7972f826d3b77f093e4578dfb903ac266fb"
 
 [metadata.files]
 asgiref = [
@@ -268,10 +257,6 @@ pillow = [
     {file = "Pillow-8.2.0-pp37-pypy37_pp73-manylinux2010_x86_64.whl", hash = "sha256:22fd0f42ad15dfdde6c581347eaa4adb9a6fc4b865f90b23378aa7914895e120"},
     {file = "Pillow-8.2.0-pp37-pypy37_pp73-win32.whl", hash = "sha256:e98eca29a05913e82177b3ba3d198b1728e164869c613d76d0de4bde6768a50e"},
     {file = "Pillow-8.2.0.tar.gz", hash = "sha256:a787ab10d7bb5494e5f76536ac460741788f1fbce851068d73a87ca7c35fc3e1"},
-]
-pinax-badges = [
-    {file = "pinax-badges-3.0.0.tar.gz", hash = "sha256:8815a307d7bfbc67d7dde84f51a53227c7be6c18af6a421dc9b273f5f07e6272"},
-    {file = "pinax_badges-3.0.0-py3-none-any.whl", hash = "sha256:d45ba20d77c553b335cf6f2146602a7464ba74bd26d6ecbdad04f92d9637f1be"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},

@@ -25,28 +25,36 @@ SECRET_KEY = '6#-qb($j0($_%fk1!w8^gad-9qr4uu=+d2_0coa)go_$i-md-i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+CUSTOM_APPS = [
     'app',
     'user',
     'quiz',
     'dataset',
-    'badge.apps.BadgeConfig',
-    'profil',
+    'badge',
+]
+
+IMPORTED_APPS = [
+    'colorfield',
+    'nested_inline',
+    'notifications',
+]
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'colorfield',
-    'nested_inline',
-    'pinax.badges',
-    'notifications',
 ]
+
+INSTALLED_APPS = CUSTOM_APPS + DJANGO_APPS + IMPORTED_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user.middlewares.AnonymousUserMiddleware',
 ]
 
 ROOT_URLCONF = 'open_data.urls'
@@ -88,13 +97,11 @@ DATABASES = {
     }
 }
 
-
 # Authentication
 
 LOGIN_URL = '/log-in/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
