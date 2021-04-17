@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Profil{% endblock %}
+{% block title %}Thème | Santé{% endblock %}
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/data.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
@@ -38,7 +38,7 @@
     </header>
 	<div class="container">
 		<div class="gallery">
-			<div class="gallery-item1" tabindex="0" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}'">
+			<div class="gallery-item1" tabindex="0" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}';">
                 <div class="imgBx1">
 				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
                 </div>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 			</div>
-            <div class="gallery-item1" tabindex="0" onclick="location.href='#';">
+            <div class="gallery-item1" tabindex="0" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}';">
                 <div class="imgBx1">
 				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
                 </div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
 			</div>
-            <div class="gallery-item1" tabindex="0" onclick="location.href='#';">
+            <div class="gallery-item1" tabindex="0" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}';">
                 <div class="imgBx1">
 				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
                 </div>
