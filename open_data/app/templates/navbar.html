@@ -7,10 +7,6 @@
     Accueil
     <i class="fas fa-home"></i>
   </a>
-  <a href="{% url 'quizzes' %}">
-    Quiz
-    <i class="fas fa-question"></i>
-  </a>
   <button class="explore-dropdown-button">
     Explorer
     <i class="fas fa-arrow-down"></i>
@@ -22,9 +18,9 @@
     Admin
   </a>
   {% endif %}
-  <a href="{% url 'forum' %}">
-    <i class="fas fa-users"></i>
-    Forum
+  <a href="{% url 'quizzes' %}">
+    <i class="fas fa-question"></i>
+    Quiz de la semaine
   </a>
   <a href="{% url 'scores' %}">
     <i class="fas fa-star"></i>

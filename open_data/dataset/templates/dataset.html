@@ -37,9 +37,6 @@
     <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
     {% endif %}
     <div class="separator"></div>
-    {% with n_likes=dataset.liking_users.count %}
-    <span>{{ n_likes }} like{{ n_likes|pluralize }}</span>
-    {% endwith %}
     <form action="{% url 'toggle_like' dataset_id=dataset.id %}" method="post">
       {% csrf_token %}
       <button>
@@ -48,8 +45,17 @@
         {% else %}
         <i class="far fa-heart"></i>
         {% endif %}
+        <span>{{ dataset.liking_users.count }}</span>
       </button>
     </form>
+    <button>
+      <i class="fas fa-comment"></i>
+      4
+    </button>
+    <button>
+      Quiz
+      <i class="fas fa-question"></i>
+    </button>
   </div>
   <div class="tabs">
     {% for type, _, url in dataset.iframes %}

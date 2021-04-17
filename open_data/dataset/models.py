@@ -23,8 +23,12 @@ class Theme(models.Model):
             self.slug = slugify(self.name)
         return super(Theme, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_displayed(cls):
+        return cls.objects.filter(hidden=False)
+
     def popular_datasets(self):
-        return self.datasets.order_by('-popularity_score')[:5]
+        return self.datasets.order_by('-popularity_score')[:7]
 
     def __str__(self):
         return f'{self.name}{" (hidden)" if self.hidden else ""}'
