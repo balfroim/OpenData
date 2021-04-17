@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'user',
     'quiz',
     'dataset',
+    'dataset_theme',
     'badge.apps.BadgeConfig',
     'profil',
     'django.contrib.admin',
