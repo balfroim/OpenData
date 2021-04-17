@@ -3,7 +3,6 @@ from dataset.models import ProxyDataset
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-from profil.models import Profil
 import itertools, collections
 
 class Quiz(models.Model):
@@ -67,8 +66,8 @@ class Answer(models.Model):
 
 
 class QuizSubmission(models.Model):
-    profil = models.ForeignKey(Profil, on_delete=models.CASCADE, related_name="quizzes_taken",
-                               help_text="Le profil utilisateur qui a fait la soumission.", null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken",
+                               help_text="L'utilisateur qui a fait la soumission.", null=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='submissions',
                              help_text="Le quiz en question.")
     taken_at = models.DateTimeField(help_text="La date de soumission.")
