@@ -16,7 +16,7 @@ class Theme(models.Model):
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
     color = ColorField(default='#FF0000')  # TODO: changer automatiquement la couleur du svg
 
-    subscribed_users = models.ManyToManyField(Profile, related_name='subscriptions', blank=True)
+    subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions', blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -35,7 +35,7 @@ class ProxyDataset(models.Model):
     theme = models.ForeignKey(Theme, null=True, on_delete=models.SET_NULL, related_name='datasets')
 
     title = models.CharField(max_length=256)
-    description = models.CharField(max_length=256, default='')
+    description = models.CharField(max_length=2048, default='')
     modified = models.DateTimeField(auto_now_add=True)
     exports = models.JSONField()
 
@@ -44,7 +44,7 @@ class ProxyDataset(models.Model):
     has_calendar = models.BooleanField(default=False)
     has_custom = models.BooleanField(default=False)
 
-    liking_users = models.ManyToManyField(Profile, related_name='likes', blank=True)
+    liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
     popularity_score = models.IntegerField(default=0, editable=False)
 
     def __str__(self):

@@ -11,10 +11,23 @@
       height: calc(100vh - 11rem);
       border: none;
     }
+
+    .button-tabs {
+        display: flex;
+        align-items: center;
+    }
+
+    .button-tabs > * + * {
+        margin-left: 4px;
+    }
+
+    .separator {
+        flex: 1;
+    }
   </style>
 {% endblock %}
 {% block main %}
-  <p>
+  <div class="button-tabs">
     {% for type, class, _ in dataset.iframes %}
     <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
       <i class="{{ class }}"></i>
@@ -23,10 +36,21 @@
     {% if 'xls' in dataset.exports %}
     <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
     {% endif %}
+    <div class="separator"></div>
     {% with n_likes=dataset.liking_users.count %}
     <span>{{ n_likes }} like{{ n_likes|pluralize }}</span>
     {% endwith %}
-  </p>
+    <form action="{% url 'toggle_like' dataset_id=dataset.id %}" method="post">
+      {% csrf_token %}
+      <button>
+        {% if dataset in user.profile.liked_datasets.all %}
+        J'aime déjà
+        {% else %}
+        Je n'aime pas
+        {% endif %}
+      </button>
+    </form>
+  </div>
   <div class="tabs">
     {% for type, _, url in dataset.iframes %}
     <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
