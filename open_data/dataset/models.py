@@ -5,14 +5,18 @@ from colorfield.fields import ColorField
 
 from .svg import validate_svg
 from open_data.settings import IFRAME_URL
+from user.models import Profile
 
 
 class Theme(models.Model):
     name = models.CharField(max_length=256, unique=True)
     slug = models.CharField(max_length=256)
     hidden = models.BooleanField(default=False)
+
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
     color = ColorField(default='#FF0000')  # TODO: changer automatiquement la couleur du svg
+
+    subscribed_users = models.ManyToManyField(Profile, related_name='subscriptions')
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -33,13 +37,14 @@ class ProxyDataset(models.Model):
     title = models.CharField(max_length=256)
     description = models.CharField(max_length=256, default='')
     modified = models.DateTimeField(auto_now_add=True)
+    exports = models.JSONField()
 
     has_map = models.BooleanField(default=False)
     has_analysis = models.BooleanField(default=False)
     has_calendar = models.BooleanField(default=False)
     has_custom = models.BooleanField(default=False)
 
-    exports = models.JSONField()
+    liking_users = models.ManyToManyField(Profile, related_name='likes')
     popularity_score = models.IntegerField(default=0, editable=False)
 
     def __str__(self):
@@ -89,5 +94,3 @@ class ProxyDataset(models.Model):
     @property
     def iframe_url(self):
         return f'{IFRAME_URL}{self.id}/'
-
-

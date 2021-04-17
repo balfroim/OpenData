@@ -25,6 +25,7 @@
       <i class="fas fa-download"></i>
     </a>
     {% endif %}
+    <span>{{ dataset.liking_users.count }} likes</span>
   </p>
   <div class="tabs">
     {% for type, _, url in dataset.iframes %}
