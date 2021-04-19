@@ -16,7 +16,7 @@ class Theme(models.Model):
     # TODO?: keep icon, image, or both?
     icon = models.CharField(max_length=4, default='')
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
-    color = ColorField(default='#FF0000')  # TODO: changer automatiquement la couleur du svg
+    color = ColorField(default='#ff0000')
 
     subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions', blank=True)
 
@@ -33,7 +33,7 @@ class Theme(models.Model):
         return self.datasets.order_by('-popularity_score')[:7]
 
     def __str__(self):
-        return f'{self.icon}{self.name}{" (hidden)" if self.hidden else ""}'
+        return f'{self.icon} {self.name}{" (hidden)" if self.hidden else ""}'
 
 
 class ProxyDataset(models.Model):

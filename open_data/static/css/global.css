@@ -138,6 +138,14 @@ nav button, nav .button {
   float: right;
 }
 
+/* Svg colors */
+.svg {
+  display: inline-block;
+  background: var(--image-color);
+  mask-image: var(--image-src);
+  mask-size: cover;
+}
+
 /* Fade-in animation */
 main > * {
   opacity: 0;

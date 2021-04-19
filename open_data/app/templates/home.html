@@ -47,28 +47,23 @@
     }
 
     .carousel-cell {
-      width: 384px;
-      height: 256px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      width: 384px;
+      height: 256px;
       margin: 0 10px;
       padding: 10px;
       border-radius: 32px;
-      text-decoration: none;
-      color: #111111;
+      color: inherit;
       background-color: ghostwhite;
+      text-decoration: none;
     }
 
     .carousel-cell-img {
       width: 128px;
       height: 128px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 5px;
-      border: 2px solid;
-      border-radius: 128px;
+      margin: auto;
     }
 
     .carousel-cell-title {
@@ -119,7 +114,7 @@
       {% for dataset in featured_datasets %}
       <a class="carousel-cell" href="{% url 'dataset' dataset_id=dataset.id %}">
         {% if dataset.theme.image %}
-        <img class="carousel-cell-img" src="{{ dataset.theme.image.url }}" alt="Logo {{ dataset.theme.name }}" />
+        <span class="carousel-cell-img svg" data-src="{{ dataset.theme.image.url }}" data-color="{{ dataset.theme.color }}"></span>
         {% endif %}
         <span class="carousel-cell-title">{{ dataset.multiline_title }}</span>
       </a>
