@@ -103,12 +103,12 @@
     <h2>Explorer</h2>
     <div class="pills">
       {% for theme in themes %}
-      <span>
+      <a href="#">
         {% if theme.icon %}
         <span>{{ theme.icon }}</span>
         {% endif %}
-        <a href="#{{ theme.slug }}">{{ theme.name }}</a>
-      </span>
+        <span>{{ theme.name }}</span>
+      </a>
       {% endfor %}
     </div>
   </section>
