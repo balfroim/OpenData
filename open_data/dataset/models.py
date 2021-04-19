@@ -13,8 +13,7 @@ class Theme(models.Model):
     slug = models.CharField(max_length=256)
     hidden = models.BooleanField(default=False)
 
-    # TODO?: keep icon, image, or both?
-    icon = models.CharField(max_length=4, default='')
+    icon = models.CharField(max_length=4, default='', blank=True)
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
     color = ColorField(default='#ff0000')
 
