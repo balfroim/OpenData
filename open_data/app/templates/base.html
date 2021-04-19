@@ -17,6 +17,7 @@
   <body>
     {# Modals before the header take the entire page. #}
     {% include 'modals/login.html' %}
+    {% block modals %}{% endblock %}
     <header>
       {% include 'navbar.html' %}
     </header>

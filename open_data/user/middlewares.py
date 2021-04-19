@@ -1,9 +1,6 @@
-import random
-
 from django.contrib.auth import login
-from django.contrib.auth.models import User
 
-from user.models import Profile
+from .models import User, Profile, generate_name
 
 
 class AnonymousUserMiddleware:
@@ -12,9 +9,9 @@ class AnonymousUserMiddleware:
 
     def __call__(self, request):
         if not request.user.is_authenticated:
-            username = f"Datanonymous#{random.randrange(10000)}"
-            user = User.objects.create_user(username=username)
-            profile = Profile.objects.create(user=user)
+            name = generate_name()
+            user = User.objects.create_user(username=name)
+            profile = Profile.objects.create(user=user, name=name)
             profile.save()
             login(request, user)
         return self.get_response(request)

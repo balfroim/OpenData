@@ -99,6 +99,7 @@ DATABASES = {
 
 # Authentication
 
+AUTH_USER_MODEL = 'user.User'
 LOGIN_URL = '/log-in/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
