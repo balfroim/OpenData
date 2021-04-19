@@ -63,11 +63,17 @@ button:hover, .button:hover {
   background-color: var(--secondary);
 }
 
+@media screen and (max-width: 900px) {
+  .responsive {
+    flex-direction: column;
+  }
+}
+
 .errorlist {
   padding: 8px 32px;
   color: white;
   background-color: var(--error);
-  border: 3px solid var(-error);
+  border: 3px solid var(--error);
   border-radius: var(--rounded);
   font-weight: bold;
 }
@@ -139,7 +145,7 @@ nav button, nav .button {
 }
 
 /* Svg colors */
-.svg {
+.svg { /* https://stackoverflow.com/a/56669846 */
   display: inline-block;
   background: var(--image-color);
   mask-image: var(--image-src);

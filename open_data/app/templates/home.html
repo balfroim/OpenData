@@ -7,17 +7,19 @@
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
   <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <style>
-    main {
-      --page-width: 80%;
-      column-count: 2;
-    }
+    @media screen and (min-width: 1200px) {
+      main {
+        --page-width: 80%;
+        column-count: 2;
+      }
 
-    main > h1 {
-      column-span: all;
-    }
+      main > h1 {
+        column-span: all;
+      }
 
-    main > section {
-      break-inside: avoid;
+      main > section {
+        break-inside: avoid;
+      }
     }
 
     .pills {
