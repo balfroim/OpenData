@@ -5,12 +5,6 @@ for (const element of document.querySelectorAll('main > *')) {
   i += 1;
 }
 
-// Svg colors
-for (const element of document.querySelectorAll('.svg')) {
-  element.style.setProperty('--image-src', `url(${element.dataset.src})`)
-  element.style.setProperty('--image-color', element.dataset.color)
-}
-
 // Tabs
 for (const parent of document.querySelectorAll('.tabs')) {
   const tabs = parent.querySelectorAll('.tab');
