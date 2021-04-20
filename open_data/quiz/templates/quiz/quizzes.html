@@ -2,7 +2,7 @@
 {% load static quiz %}
 {% block title %}Quiz de la semaine{% endblock %}
 {% block head %}
-  <script defer src="{% static 'js/quiz.js' %}"></script>
+  <script type="module" src="{% static 'js/quiz.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
 {% endblock %}
 {% block main %}

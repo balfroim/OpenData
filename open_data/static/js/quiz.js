@@ -1,5 +1,3 @@
-'use strict';
-
 for (const form of document.getElementsByClassName('quiz-form')) {
   const id = form.dataset.quizId;
   form.addEventListener('submit', async event => {
@@ -10,7 +8,11 @@ for (const form of document.getElementsByClassName('quiz-form')) {
       body: new URLSearchParams(new FormData(form)),
     });
 
-    const html = await response.text();
-    form.parentElement.outerHTML = html;
+    if (response.ok) {
+      const html = await response.text();
+      form.parentElement.outerHTML = html;
+    } else {
+      form.parentElement.innerHTML = '<div class="card"><p>Une erreur est survenue.</p></div>'
+    }
   });
 }
