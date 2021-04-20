@@ -13,6 +13,9 @@ class BadgeAward(models.Model):
     def __getattr__(self, attr):
         return getattr(self._badge, attr)
 
+    def __str__(self):
+        return f"\"{self.name}\" [{self.user.profile.name}"
+
     @property
     def badge(self):
         return self
@@ -33,3 +36,13 @@ class BadgeAward(models.Model):
     @property
     def progress(self):
         return self._badge.progress(self.user, self.level)
+
+    @property
+    def image(self):
+        try:
+            images = self._badge.images
+        except AttributeError:
+            return "default.png"
+        if isinstance(images, str):
+            return images
+        return images[self.level]

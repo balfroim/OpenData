@@ -25,6 +25,7 @@ class QuizFailedBadge(Badge):
         "on_quiz_result"
     ]
     multiple = False
+    images = "cancel.png"
 
     def award(self, **state):
         user = state["user"]

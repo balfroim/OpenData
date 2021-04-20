@@ -2,6 +2,8 @@
 {% badges_for_user user as badges %}
 {% for badge in badges %}
     <ul>
-        <li>{{ badge.name }}</li>
+        <li>
+            {% badge_detail badge %}
+        </li>
     </ul>
 {% endfor %}
