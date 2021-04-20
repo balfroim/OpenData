@@ -1,1 +1,9 @@
-{{ badges }}
+{% load pinax_badges_tags %}
+{% badges_for_user user as badges %}
+{% for badge in badges %}
+    <ul>
+        <li>
+            {% badge_detail badge %}
+        </li>
+    </ul>
+{% endfor %}

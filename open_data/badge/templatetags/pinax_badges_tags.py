@@ -27,3 +27,8 @@ def badges_for_user(user):
         {% badges_for_user user as badges %}
     """
     return BadgeAward.objects.filter(user=user).order_by("-awarded_at")
+
+
+@register.inclusion_tag('badge_detail.html')
+def badge_detail(badge):
+    return {'badge': badge}
