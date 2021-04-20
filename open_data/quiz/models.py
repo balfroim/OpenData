@@ -1,9 +1,12 @@
-# coding=utf-8
-from dataset.models import ProxyDataset
-from django.contrib.auth.models import User
+import itertools
+import collections
+
 from django.db import models
 from django.utils import timezone
-import itertools, collections
+
+from user.models import User
+from dataset.models import ProxyDataset
+
 
 class Quiz(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='quizzes_created', null=True,

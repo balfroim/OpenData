@@ -1,10 +1,11 @@
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+from user.models import User
+
 
 class BadgeAward(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="badges_earned", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="badges_earned", on_delete=models.CASCADE)
     awarded_at = models.DateTimeField(default=timezone.now)
     slug = models.CharField(max_length=255)
     level = models.IntegerField()

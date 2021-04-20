@@ -3,7 +3,7 @@
     <div>
       {% if user.profile.is_registered %}
       <div>
-        <a href="{% url 'profile' username=user.username %}">Mon profil</a>
+        <a href="{% url 'my_profile' %}">Mon profil</a>
       </div>
       <div>
         <a href="{% url 'badges:badge_list' %}">Mes badges</a>

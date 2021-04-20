@@ -37,7 +37,7 @@ input {
   font-size: large;
 }
 
-input[type="text"], input[type="password"], button[type="submit"] {
+input[type="text"], input[type="password"], input[type="email"], textarea, button[type="submit"] {
   width: 100%;
 }
 
@@ -63,11 +63,17 @@ button:hover, .button:hover {
   background-color: var(--secondary);
 }
 
+@media screen and (max-width: 900px) {
+  .responsive {
+    flex-direction: column;
+  }
+}
+
 .errorlist {
   padding: 8px 32px;
   color: white;
   background-color: var(--error);
-  border: 3px solid var(-error);
+  border: 3px solid var(--error);
   border-radius: var(--rounded);
   font-weight: bold;
 }
@@ -136,6 +142,16 @@ nav button, nav .button {
 
 .right {
   float: right;
+}
+
+/* Svg colors */
+.svg { /* https://stackoverflow.com/a/56669846 */
+  display: inline-block;
+  background: var(--image-color);
+  mask-image: var(--image-src);
+  -webkit-mask-image: var(--image-src);
+  mask-size: cover;
+  -webkit-mask-size: cover;
 }
 
 /* Fade-in animation */
