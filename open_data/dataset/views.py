@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-
+from badge.registry import BadgeCache
 from .models import ProxyDataset
 
 
@@ -16,5 +16,5 @@ def toggle_like(request, dataset_id):
         request.user.profile.liked_datasets.remove(dataset)
     else:
         request.user.profile.liked_datasets.add(dataset)
-
+    BadgeCache.instance().possibly_award_badge("on_dataset_liked", user=request.user)
     return redirect('dataset', dataset_id=dataset.id)
