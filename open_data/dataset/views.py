@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from .models import ProxyDataset
+from .models import Theme, ProxyDataset
 
 
-def main(request, dataset_id):
+def theme_page(request, theme_id):
+    theme = get_object_or_404(Theme, id=theme_id)
+    return render(request, 'theme.html', {'theme': theme})
+
+
+def dataset_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     return render(request, 'dataset.html', {'dataset': dataset})
 

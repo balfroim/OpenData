@@ -13,7 +13,7 @@ class QuizFailedBadge(Badge):
     slug = "quiz-fail"
     levels = [
         # Se tromper dans un quiz
-        "Error humanum est",
+        "Errare humanum est",
         # Se tromper dans 5 quiz
         "Persevare diabolicum"
     ]

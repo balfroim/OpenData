@@ -15,11 +15,10 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # removes email from REQUIRED_FIELDS
 
-    email = models.EmailField(_('Email address'), unique=True)  # changes email to unique and blank to false
+    email = models.EmailField(_('Email address'), unique=True, null=True)  # changes email to unique and blank to false
 
     def __str__(self):
         return self.username
-
 
 
 class Profile(models.Model):
