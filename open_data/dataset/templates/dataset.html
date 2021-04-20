@@ -37,17 +37,10 @@
     <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
     {% endif %}
     <div class="separator"></div>
-    <form action="{% url 'toggle_like' dataset_id=dataset.id %}" method="post">
-      {% csrf_token %}
-      <button>
-        {% if dataset in user.profile.liked_datasets.all %}
-        <i class="fas fa-heart"></i>
-        {% else %}
-        <i class="far fa-heart"></i>
-        {% endif %}
-        <span>{{ dataset.liking_users.count }}</span>
-      </button>
-    </form>
+    <button id="like-button">
+      <i id="like-icon" class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
+      <span id="like-number">{{ dataset.liking_users.count }}</span>
+    </button>
     <button>
       <i class="fas fa-comment"></i>
       4
@@ -64,4 +57,24 @@
     </div>
     {% endfor %}
   </div>
+  <script>
+    const likeButton = document.querySelector('#like-button');
+    const likeNumber = document.querySelector('#like-number');
+    const likeIcon = document.querySelector('#like-icon');
+    likeButton.addEventListener('click', async () => {
+      const json = await fetch('{% url 'toggle_like' dataset_id=dataset.id %}', {
+        method: 'POST',
+        headers: new Headers({ 'X-CSRFToken': '{{ csrf_token }}' }),
+      });
+      const response = await json.json();
+      likeNumber.textContent = response.n_likes;
+      if (response.liked) {
+        likeIcon.classList.remove('far');
+        likeIcon.classList.add('fas');
+      } else {
+        likeIcon.classList.remove('fas');
+        likeIcon.classList.add('far');
+      }
+    });
+  </script>
 {% endblock %}
