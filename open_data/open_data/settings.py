@@ -150,4 +150,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 API_URL = 'https://data.namur.be/api/v2/'
 IFRAME_URL = 'https://data.namur.be/explore/embed/dataset/'
 
-NOTIFICATIONS_NOTIFICATION_MODEL = 'badge.BadgeNotification'
+DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
