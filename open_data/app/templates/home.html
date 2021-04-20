@@ -3,9 +3,9 @@
 {% block title %}Accueil{% endblock %}
 {% block head %}
   <script defer src="{% static 'js/quiz.js' %}"></script>
-  <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
-  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
   <style>
     @media screen and (min-width: 1200px) {
       main {
@@ -100,7 +100,7 @@
     <h2>Explorer</h2>
     <div class="pills">
       {% for theme in themes %}
-      <a href="#">
+      <a href="{% url 'theme' theme_id=theme.id %}">
         {% if theme.icon %}
         <span>{{ theme.icon }}</span>
         {% endif %}

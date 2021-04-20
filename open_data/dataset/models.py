@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 from colorfield.fields import ColorField
 
@@ -10,7 +9,6 @@ from user.models import Profile
 
 class Theme(models.Model):
     name = models.CharField(max_length=256, unique=True)
-    slug = models.CharField(max_length=256)
     hidden = models.BooleanField(default=False)
 
     icon = models.CharField(max_length=4, default='', blank=True)
@@ -18,11 +16,6 @@ class Theme(models.Model):
     color = ColorField(default='#ff0000')
 
     subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions', blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        return super(Theme, self).save(*args, **kwargs)
 
     @classmethod
     def get_displayed(cls):

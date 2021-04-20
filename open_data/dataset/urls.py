@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('<str:dataset_id>/', views.main, name='dataset'),
-    path('<str:dataset_id>/like', views.toggle_like, name='toggle_like'),
+    path('theme/<str:theme_id>/', views.theme_page, name='theme'),
+    path('dataset/<str:dataset_id>/', views.dataset_page, name='dataset'),
+    path('dataset/<str:dataset_id>/like', views.toggle_like, name='toggle_like'),
 ]

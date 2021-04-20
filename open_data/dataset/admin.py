@@ -6,7 +6,7 @@ from .models import Theme, ProxyDataset
 
 @admin.register(Theme)
 class ThemeAdmin(admin.ModelAdmin):
-    readonly_fields = ['name', 'slug', 'preview_image']
+    readonly_fields = ['name', 'preview_image']
 
     def preview_image(self, obj):
         return mark_safe(f'<img src="{obj.image.url}" alt="Preview image" width="128" height="128">')

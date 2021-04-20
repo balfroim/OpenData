@@ -49,3 +49,10 @@ for (const mask of masks) {
     });
   }
 }
+
+// Pop-ups
+for (const element of document.querySelectorAll('.popup')) {
+  element.addEventListener('animationend', () => {
+    element.classList.remove('active');
+  });
+}

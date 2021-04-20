@@ -110,7 +110,7 @@ nav button, nav .button {
   cursor: pointer;
 }
 
-/* Modals, drop-downs, and tabs */
+/* Modals, drop-downs, pop-ups, and tabs */
 .modal-mask {
   position: absolute;
   z-index: 1;
@@ -120,7 +120,7 @@ nav button, nav .button {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-mask:not(.active), .tab:not(.active) {
+.modal-mask:not(.active), .popup:not(.active), .tab:not(.active) {
   display: none !important;
 }
 
@@ -136,12 +136,35 @@ nav button, nav .button {
   background-color: white;
 }
 
+.popup {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 2;
+  width: 400px;
+  margin-left: -200px;
+  padding: 16px 32px;
+  background-color: white;
+  border-radius: var(--rounded);
+  box-shadow: 0 0 16px black;
+  animation-name: slide;
+  animation-duration: 3s;
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+}
+
 .left {
   float: left;
 }
 
 .right {
   float: right;
+}
+
+@keyframes slide {
+  0% { transform: translateY(200px); }
+  30% { transform: translateY(0); }
+  100% { }
 }
 
 /* Svg colors */
