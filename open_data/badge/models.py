@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from notifications.base.models import AbstractNotification
 
 from user.models import User
 
@@ -47,10 +46,3 @@ class BadgeAward(models.Model):
         if isinstance(images, str):
             return images
         return images[self.level]
-
-
-class BadgeNotification(AbstractNotification):
-    badge = models.OneToOneField(BadgeAward, related_name="notification", on_delete=models.CASCADE)
-
-    class Meta(AbstractNotification.Meta):
-        abstract = False
