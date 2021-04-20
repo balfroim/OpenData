@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from notifications.base.models import AbstractNotification
 
 from user.models import User
 
@@ -12,6 +13,9 @@ class BadgeAward(models.Model):
 
     def __getattr__(self, attr):
         return getattr(self._badge, attr)
+
+    def __str__(self):
+        return f"\"{self.name}\" [{self.user.profile.name}"
 
     @property
     def badge(self):
@@ -33,3 +37,20 @@ class BadgeAward(models.Model):
     @property
     def progress(self):
         return self._badge.progress(self.user, self.level)
+
+    @property
+    def image(self):
+        try:
+            images = self._badge.images
+        except AttributeError:
+            return "default.png"
+        if isinstance(images, str):
+            return images
+        return images[self.level]
+
+
+class BadgeNotification(AbstractNotification):
+    badge = models.OneToOneField(BadgeAward, related_name="notification", on_delete=models.CASCADE)
+
+    class Meta(AbstractNotification.Meta):
+        abstract = False
