@@ -28,7 +28,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", null=True, blank=True)
-    name = models.CharField(max_length=32, default=generate_name)
+    name = models.CharField(max_length=24, default=generate_name)
     description = models.TextField(max_length=200, default='', blank=True)
     is_registered = models.BooleanField(default=False)
 
