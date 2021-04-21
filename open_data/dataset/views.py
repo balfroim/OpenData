@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
@@ -21,9 +21,11 @@ def dataset_page(request, dataset_id):
 def popularized_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     try:
-        return render(request, f'popularized/{dataset_id}.html', {'dataset': dataset})
+        response = render(request, f'popularized/{dataset_id}.html', {'dataset': dataset})
+        response.headers['X-Frame-Options'] = 'sameorigin'
+        return response
     except TemplateDoesNotExist:
-        return HttpResponse("")
+        return HttpResponseNotFound()
 
 
 @require_POST
