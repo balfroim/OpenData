@@ -21,17 +21,14 @@ def dataset_page(request, dataset_id):
 def search_page(request):
     search_query = request.GET["q"]
     keywords = [Keyword.preprocess(token) for token in search_query.split(' ')]
-    datasets = []
+    datasets = set()
     for keyword in keywords:
-        try:
-            matching_datasets = Keyword.objects.get(word__contains=keyword).datasets.all()
-        except ObjectDoesNotExist:
-            pass
-        else:
-            datasets += matching_datasets
-    print(datasets)
+        keyword_objets = Keyword.objects.filter(word__contains=keyword).all()
+        for keyword_obj in keyword_objets:
+            keyword_datasets = keyword_obj.datasets.all()
+            datasets.update(keyword_datasets)
 
-    return render(request, 'search.html')
+    return render(request, 'search.html', context={"datasets": datasets})
 
 
 @require_POST

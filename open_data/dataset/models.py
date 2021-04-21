@@ -101,3 +101,6 @@ class Keyword(models.Model):
     @classmethod
     def preprocess(cls, keyword):
         return keyword.lower()
+
+    def __str__(self):
+        return self.word
