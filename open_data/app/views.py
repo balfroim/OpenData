@@ -18,7 +18,3 @@ def home(request):
 def quizzes(request):
     quizzes = [QuizForm(quiz, request.POST) for quiz in Quiz.objects.all()]
     return render(request, 'quiz.html', {'quizzes': quizzes})
-
-
-def search(request):
-    return render(request, 'search.html')

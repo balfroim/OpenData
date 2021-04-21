@@ -30,8 +30,10 @@
 <div id="explore-dropdown" class="modal-mask">
   <div class="left dropdown">
     <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
-      <input type="search" name="q">
-      <button><span class="fa fa-search"></span></button>
+        <label>
+            <input type="search" name="q">
+        </label>
+        <button><span class="fa fa-search"></span></button>
     </form>
     {% for theme in themes %}
     <div class="explore-item theme{{ forloop.counter }}-dropdown-button">

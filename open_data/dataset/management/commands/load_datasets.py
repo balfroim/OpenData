@@ -2,21 +2,28 @@ import requests
 from dictor import dictor
 from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
+from django.utils.html import strip_tags
 
 from open_data.settings import API_URL, TIME_ZONE
 from dataset.models import ProxyDataset, Theme, Keyword
 
+import spacy
+
 DATASETS_PER_PAGE = 100
+NLP = spacy.load("fr_core_news_sm")
 
 
-def generate_keywords(dataset, keywords):
-    if keywords:
-        for keyword in keywords:
-            obj, created = Keyword.objects.update_or_create(
-                word=Keyword.preprocess(keyword)
-            )
-            obj.datasets.add(dataset)
-            obj.save()
+def generate_keywords(dataset, base_keywords):
+    keywords = set(base_keywords) or set()
+    doc = NLP(strip_tags(dataset.title + " " + dataset.description))
+    keywords.update((ent.text for ent in doc.ents))
+    keywords = {Keyword.preprocess(keyword) for keyword in keywords}
+    for keyword in keywords:
+        obj, created = Keyword.objects.update_or_create(
+            word=keyword
+        )
+        obj.datasets.add(dataset)
+        obj.save()
 
 
 class Command(BaseCommand):
