@@ -4,9 +4,19 @@ from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
 
 from open_data.settings import API_URL, TIME_ZONE
-from dataset.models import ProxyDataset, Theme
+from dataset.models import ProxyDataset, Theme, Keyword
 
 DATASETS_PER_PAGE = 100
+
+
+def generate_keywords(dataset, keywords):
+    if keywords:
+        for keyword in keywords:
+            obj, created = Keyword.objects.update_or_create(
+                word=Keyword.preprocess(keyword)
+            )
+            obj.datasets.add(dataset)
+            obj.save()
 
 
 class Command(BaseCommand):
@@ -55,6 +65,8 @@ class Command(BaseCommand):
                 self.stdout.write(f'{id!r} proxy dataset created.')
             else:
                 self.stdout.write(f'{id!r} proxy dataset updated.')
+
+            generate_keywords(obj, dictor(metas, 'default.keyword'))
 
         self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
