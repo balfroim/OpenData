@@ -1,10 +1,12 @@
-from django.db import models
-from django.utils.safestring import mark_safe
 from colorfield.fields import ColorField
+from django.db import models
+from django.template.loader import TemplateDoesNotExist, get_template
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
-from .svg import validate_svg
 from open_data.settings import IFRAME_URL
 from user.models import Profile
+from .svg import validate_svg
 
 
 class Theme(models.Model):
@@ -57,7 +59,18 @@ class ProxyDataset(models.Model):
         return not (self.has_map or self.has_calendar or self.has_custom)
 
     @property
+    def has_popularized(self):
+        try:
+            get_template(f'popularized/{self.id}.html')
+        except TemplateDoesNotExist:
+            return False
+        else:
+            return True
+
+    @property
     def iframes(self):
+        if self.has_popularized:
+            yield 'popularized', 'fas fa-chalkboard-teacher', self.popularized_url
         if self.has_custom:
             yield 'custom', 'fas fa-info-circle', self.custom_url
         if self.has_calendar:
@@ -88,6 +101,10 @@ class ProxyDataset(models.Model):
     @property
     def custom_url(self):
         return f'{self.iframe_url}custom/?datasetcard=true'
+
+    @property
+    def popularized_url(self):
+        return reverse('popularized', kwargs={"dataset_id": self.id})
 
     @property
     def iframe_url(self):

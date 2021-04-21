@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
-from .models import Theme, ProxyDataset
 from badge.registry import BadgeCache
+from .models import Theme, ProxyDataset
 
 
 def theme_page(request, theme_id):
@@ -14,6 +16,14 @@ def theme_page(request, theme_id):
 def dataset_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     return render(request, 'dataset.html', {'dataset': dataset})
+
+
+def popularized_page(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    try:
+        return render(request, f'popularized/{dataset_id}.html', {'dataset': dataset})
+    except TemplateDoesNotExist:
+        return HttpResponse("")
 
 
 @require_POST
