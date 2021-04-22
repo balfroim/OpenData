@@ -2,6 +2,7 @@ from colorfield.fields import ColorField
 from django.db import models
 from django.template.loader import TemplateDoesNotExist, get_template
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 
 from open_data.settings import IFRAME_URL
@@ -121,3 +122,21 @@ class Keyword(models.Model):
 
     def __str__(self):
         return self.word
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(Profile, related_name="comments", on_delete=models.SET_NULL, null=True, blank=True)
+    dataset = models.ForeignKey(ProxyDataset, related_name="comments", on_delete=models.CASCADE)
+    deleted = models.BooleanField(default=False, help_text="Si le commentaire a été supprimé.")
+    content = models.CharField(max_length=256, help_text="Le contenu du commentaire.")
+    posted_at = models.DateTimeField(help_text="Quand le commentaire a été posté.")
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.posted_at = timezone.now()
+        return super(Comment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        content = self.content if not self.deleted else "[COMMENTAIRE SUPPRIME]"
+        author = self.author or "[UTILISATEUR SUPPRIME]"
+        return f"[{self.posted_at}] {author} said : {content}"

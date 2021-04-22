@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load quiz %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
   <style>
@@ -26,6 +27,31 @@
     }
   </style>
 {% endblock %}
+
+{% block modals %}
+    <div id="quiz-modal" class="modal-mask">
+        <div class="modal">
+            {% for quiz in dataset.quizzes.all %}
+                {% show_quiz quiz user %}
+            {% empty %}
+                <p>Pas de quizzes.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="comments-modal" class="modal-mask">
+        <div class="modal">
+            <ul>
+            {% for comment in dataset.comments.all %}
+                <li>{{ comment }}</li>
+            {% empty %}
+                <p>Sans commentaires...</p>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
 {% block main %}
   <div class="button-tabs">
     {% for type, class, _ in dataset.iframes %}
@@ -41,12 +67,12 @@
       <i id="like-icon" class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
       <span id="like-number">{{ dataset.liking_users.count }}</span>
     </button>
-    <button>
+    <button class="comments-modal-button">
       <i class="fas fa-comment"></i>
-      4
+      {{ dataset.comments.count }}
     </button>
-    <button>
-      Quiz
+    <button class="quiz-modal-button">
+      Quiz ({{ dataset.quizzes.count }})
       <i class="fas fa-question"></i>
     </button>
   </div>
