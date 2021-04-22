@@ -4,8 +4,10 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
+from .models import Theme, ProxyDataset, Keyword
 from badge.registry import BadgeCache
-from .models import Theme, ProxyDataset
+
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def theme_page(request, theme_id):
@@ -16,6 +18,19 @@ def theme_page(request, theme_id):
 def dataset_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     return render(request, 'dataset.html', {'dataset': dataset})
+
+
+def search_page(request):
+    search_query = request.GET["q"]
+    keywords = [Keyword.preprocess(token) for token in search_query.split(' ')]
+    datasets = set()
+    for keyword in keywords:
+        keyword_objets = Keyword.objects.filter(word__contains=keyword).all()
+        for keyword_obj in keyword_objets:
+            keyword_datasets = keyword_obj.datasets.all()
+            datasets.update(keyword_datasets)
+
+    return render(request, 'search.html', context={"datasets": datasets})
 
 
 def popularized_page(request, dataset_id):
@@ -40,3 +55,6 @@ def toggle_like(request, dataset_id):
     BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
 
     return JsonResponse({'liked': liked, 'n_likes': dataset.liking_users.count()})
+
+
+
