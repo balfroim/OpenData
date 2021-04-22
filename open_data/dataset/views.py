@@ -1,5 +1,7 @@
+from django.http import HttpResponseNotFound
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
 from .models import Theme, ProxyDataset, Keyword
@@ -29,6 +31,16 @@ def search_page(request):
             datasets.update(keyword_datasets)
 
     return render(request, 'search.html', context={"datasets": datasets})
+
+
+def popularized_page(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    try:
+        response = render(request, f'popularized/{dataset_id}.html', {'dataset': dataset})
+        response.headers['X-Frame-Options'] = 'sameorigin'
+        return response
+    except TemplateDoesNotExist:
+        return HttpResponseNotFound()
 
 
 @require_POST

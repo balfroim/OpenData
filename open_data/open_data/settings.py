@@ -151,3 +151,5 @@ API_URL = 'https://data.namur.be/api/v2/'
 IFRAME_URL = 'https://data.namur.be/explore/embed/dataset/'
 
 DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
+
+BADGES_PATH = BASE_DIR / 'badges.json'

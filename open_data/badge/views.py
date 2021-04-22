@@ -15,15 +15,17 @@ def badge_list(request):
         }
     else:
         user_badges = []
+
     badges_awarded = BadgeAward.objects.values("slug", "level").annotate(num=Count("pk"))
     badges_dict = defaultdict(list)
     for badge in badges_awarded:
+        badge_info = BadgeCache.instance().get_badge(badge["slug"])
         badges_dict[badge["slug"]].append({
             "level": badge["level"],
-            "name": BadgeCache.instance().get_badge(badge["slug"]).levels[badge["level"]].name,
-            "description": BadgeCache.instance().get_badge(badge["slug"]).levels[badge["level"]].description,
+            "name": badge_info.levels[badge["level"]].name,
+            "description": badge_info.levels[badge["level"]].description,
             "count": badge["num"],
-            "user_has": (badge["slug"], badge["level"]) in user_badges
+            "user_has": (badge["slug"], badge["level"]) in user_badges,
         })
 
     for badge_group in badges_dict.values():
