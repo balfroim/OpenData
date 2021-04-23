@@ -139,4 +139,4 @@ class Comment(models.Model):
     def __str__(self):
         content = self.content if not self.deleted else "[COMMENTAIRE SUPPRIME]"
         author = self.author or "[UTILISATEUR SUPPRIME]"
-        return f"[{self.posted_at}] {author} said : {content}"
+        return f"[{self.posted_at}] {author} a dit : {content}"
