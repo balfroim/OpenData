@@ -46,7 +46,6 @@ def badge_list(request):
         if (badge['x'], badge['y']) in visible_positions:
             badge['visible'] = True
 
-    print(badges)
     return render(request, 'badges.html', {'badges': badges})
 
 
