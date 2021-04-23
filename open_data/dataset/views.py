@@ -4,10 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
-from .models import Theme, ProxyDataset, Keyword
 from badge.registry import BadgeCache
-
-from django.core.exceptions import ObjectDoesNotExist
+from .models import Theme, ProxyDataset, Keyword, Comment
 
 
 def theme_page(request, theme_id):
@@ -57,4 +55,17 @@ def toggle_like(request, dataset_id):
     return JsonResponse({'liked': liked, 'n_likes': dataset.liking_users.count()})
 
 
+def comments_page(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    return render(request, "modals/comments.html",
+                  context={"dataset": dataset, "is_registered": request.user.profile.is_registered})
 
+
+@require_POST
+def add_comment(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    author = request.user.profile
+    content = request.POST["content"]
+    comment = Comment.objects.create(dataset=dataset, author=author, content=content)
+    comment.save()
+    return comments_page(request, dataset_id)

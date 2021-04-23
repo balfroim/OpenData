@@ -128,7 +128,7 @@ class Comment(models.Model):
     author = models.ForeignKey(Profile, related_name="comments", on_delete=models.SET_NULL, null=True, blank=True)
     dataset = models.ForeignKey(ProxyDataset, related_name="comments", on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False, help_text="Si le commentaire a été supprimé.")
-    content = models.CharField(max_length=256, help_text="Le contenu du commentaire.")
+    content = models.TextField(max_length=512, help_text="Le contenu du commentaire.")
     posted_at = models.DateTimeField(help_text="Quand le commentaire a été posté.")
 
     def save(self, *args, **kwargs):

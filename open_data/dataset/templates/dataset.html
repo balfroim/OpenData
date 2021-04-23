@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
-{% load quiz %}
+{% load quiz dataset %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
-  <style>
-    main {
-        --page-width: 100%;
-    }
+    <style>
+        main {
+            --page-width: 100%;
+        }
 
-    iframe {
-      width: 100%;
-      height: calc(100vh - 9rem);
-      border: none;
-    }
+        iframe {
+            width: 100%;
+            height: calc(100vh - 9rem);
+            border: none;
+        }
 
-    .button-tabs {
-        display: flex;
-        align-items: center;
-    }
+        .button-tabs {
+            display: flex;
+            align-items: center;
+        }
 
-    .button-tabs > * + * {
-        margin-left: 4px;
-    }
+        .button-tabs > * + * {
+            margin-left: 4px;
+        }
 
-    .separator {
-        flex: 1;
-    }
-  </style>
+        .separator {
+            flex: 1;
+        }
+    </style>
 {% endblock %}
 
 {% block modals %}
@@ -39,68 +39,82 @@
         </div>
     </div>
 
-    <div id="comments-modal" class="modal-mask">
-        <div class="modal">
-            <ul>
-            {% for comment in dataset.comments.all %}
-                <li>{{ comment }}</li>
-            {% empty %}
-                <p>Sans commentaires...</p>
-            {% endfor %}
-            </ul>
-        </div>
-    </div>
+    {% show_comments dataset user %}
 {% endblock %}
 
 {% block main %}
-  <div class="button-tabs">
-    {% for type, class, _ in dataset.iframes %}
-    <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
-      <i class="{{ class }}"></i>
-    </button>
-    {% endfor %}
-    {% if 'xls' in dataset.exports %}
-    <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
-    {% endif %}
-    <div class="separator"></div>
-    <button id="like-button">
-      <i id="like-icon" class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
-      <span id="like-number">{{ dataset.liking_users.count }}</span>
-    </button>
-    <button class="comments-modal-button">
-      <i class="fas fa-comment"></i>
-      {{ dataset.comments.count }}
-    </button>
-    <button class="quiz-modal-button">
-      Quiz ({{ dataset.quizzes.count }})
-      <i class="fas fa-question"></i>
-    </button>
-  </div>
-  <div class="tabs">
-    {% for type, _, url in dataset.iframes %}
-    <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
-      <iframe src="{{ url }}"></iframe>
+    <div class="button-tabs">
+        {% for type, class, _ in dataset.iframes %}
+            <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
+                <i class="{{ class }}"></i>
+            </button>
+        {% endfor %}
+        {% if 'xls' in dataset.exports %}
+            <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
+        {% endif %}
+        <div class="separator"></div>
+        <button id="like-button">
+            <i id="like-icon"
+               class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
+            <span id="like-number">{{ dataset.liking_users.count }}</span>
+        </button>
+        <button class="comments-modal-button">
+            <i class="fas fa-comment"></i>
+            {{ dataset.comments.count }}
+        </button>
+        <button class="quiz-modal-button">
+            Quiz ({{ dataset.quizzes.count }})
+            <i class="fas fa-question"></i>
+        </button>
     </div>
-    {% endfor %}
-  </div>
-  <script>
-    const likeButton = document.querySelector('#like-button');
-    const likeNumber = document.querySelector('#like-number');
-    const likeIcon = document.querySelector('#like-icon');
-    likeButton.addEventListener('click', async () => {
-      const json = await fetch('{% url 'toggle_like' dataset_id=dataset.id %}', {
-        method: 'POST',
-        headers: new Headers({ 'X-CSRFToken': '{{ csrf_token }}' }),
-      });
-      const response = await json.json();
-      likeNumber.textContent = response.n_likes;
-      if (response.liked) {
-        likeIcon.classList.remove('far');
-        likeIcon.classList.add('fas');
-      } else {
-        likeIcon.classList.remove('fas');
-        likeIcon.classList.add('far');
-      }
-    });
-  </script>
+    <div class="tabs">
+        {% for type, _, url in dataset.iframes %}
+            <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
+                <iframe src="{{ url }}"></iframe>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        const likeButton = document.querySelector('#like-button');
+        const likeNumber = document.querySelector('#like-number');
+        const likeIcon = document.querySelector('#like-icon');
+        likeButton.addEventListener('click', async () => {
+            const json = await fetch('{% url 'toggle_like' dataset_id=dataset.id %}', {
+                method: 'POST',
+                headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
+            });
+            const response = await json.json();
+            likeNumber.textContent = response.n_likes;
+            if (response.liked) {
+                likeIcon.classList.remove('far');
+                likeIcon.classList.add('fas');
+            } else {
+                likeIcon.classList.remove('fas');
+                likeIcon.classList.add('far');
+            }
+        });
+    </script>
+    <script>
+        const commentModal = document.querySelector('#comments-modal');
+        const addCommentForm = document.querySelector('#add-comment-form');
+        if (commentModal)
+        {
+            addCommentForm.addEventListener('submit', async event => {
+                event.preventDefault();
+
+                const response = await fetch('add-comment', {
+                    method: 'POST',
+                    body: new URLSearchParams(new FormData(addCommentForm)),
+                    headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
+                });
+
+                if (response.ok) {
+                    const html = await response.text();
+                    console.log(html)
+                    commentModal.outerHTML = html;
+                }
+            });
+        }
+
+    </script>
 {% endblock %}
