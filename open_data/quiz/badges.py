@@ -19,16 +19,16 @@ class QuizFailedBadge(Badge):
         ),
         BadgeDetail(
             name="Persevare diabolicum",
-            description="Se tromper dans cinq quiz",
+            description="Se tromper dans cinq quiz.",
             image="cancel.png"
-        )
+        ),
     ]
     level_thresholds = [
         1,
-        5
+        5,
     ]
     events = [
-        "on_quiz_result"
+        "on_quiz_result",
     ]
     multiple = False
 
@@ -41,17 +41,21 @@ class QuizFailedBadge(Badge):
 class QuizPerfectBadge(Badge):
     slug = "quiz-perfect"
     levels = [
-        # Répondre parfaitement à un quiz
-        "Question pour un champion",
-        # Répondre parfaitement à 5 quiz
-        "Veni, Vidi, Vici"
+        BadgeDetail(
+            name="Question pour un champion",
+            description="Répondre parfaitement à un quiz.",
+        ),
+        BadgeDetail(
+            name="Veni, vidi, vici",
+            description="Répondre parfaitement à cinq quiz.",
+        )
     ]
     level_thresholds = [
         1,
-        5
+        5,
     ]
     events = [
-        "on_quiz_result"
+        "on_quiz_result",
     ]
     multiple = False
 
