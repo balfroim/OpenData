@@ -1,4 +1,4 @@
-from badge.base import Badge, BadgeAwarded
+from badge.base import Badge, BadgeDetail, BadgeAwarded
 
 
 def check_threshold(levels, thresholds, observed_value):
@@ -12,17 +12,21 @@ def check_threshold(levels, thresholds, observed_value):
 class LikedDatasetBadge(Badge):
     slug = "dataset-like"
     levels = [
-        # Liker un dataset
-        "J'aime donc je suis",
-        # Liker 5 datasets
-        "Open relationship"
+        BadgeDetail(
+            name="J'aime donc je suis",
+            description="Liker un dataset."
+        ),
+        BadgeDetail(
+            name="Open relationship",
+            description="Liker cinq datasets."
+        ),
     ]
     level_thresholds = [
         1,
-        5
+        5,
     ]
     events = [
-        "on_dataset_liked"
+        "on_dataset_liked",
     ]
     multiple = False
 
