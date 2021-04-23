@@ -21,38 +21,34 @@
 {% block main %}
     <h1>Profil</h1>
     <h2>{{ profile.name }}</h2>
-    {% if form %}
-        <button class="profile-modal-button">Modifier</button>
-    {% endif %}
     <div class="responsive profile">
         <div>
             <img
-                    src="https://picsum.photos/128"
-                    alt="Photo de profil"
-                    class="rounded avatar"
+                src="https://picsum.photos/128"
+                alt="Photo de profil"
+                class="rounded avatar"
             >
         </div>
-        <div>
-            <p class="card">
-                {{ profile.description }}
-            </p>
-        </div>
+        <p class="card bio">
+            {{ profile.description }}
+        </p>
     </div>
-    <h2>Badges</h2>
-    <div class="card">
-        <img src="https://picsum.photos/64?random=0" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=1" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=2" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=3" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=4" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=5" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=6" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=7" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=8" alt="Badge" class="rounded">
-        <img src="https://picsum.photos/64?random=9" alt="Badge" class="rounded">
+    {% if form %}
+        <button class="profile-modal-button">Modifier</button>
+    {% endif %}
+    <h2>Derniers badges</h2>
+    <div class="card" style="display: flex; position: relative">
+        {% for badge in last_badges %}
+            <div>
+                <img src="{{ badge.image }}" width="64">
+                <span class="tooltip">{{ badge.name }}</span>
+            </div>
+        {% endfor %}
     </div>
+    {% if form %}
+        <a href="{% url 'pinax_badges:badge_list' %}">Voir plus...</a>
+    {% endif %}
     <h2>Derniers commentaires</h2>
-
     {% for comment in last_comments %}
         <div class="card">
             <div class="message">

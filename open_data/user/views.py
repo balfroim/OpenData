@@ -2,8 +2,9 @@ from django.contrib.auth import login
 from django.shortcuts import redirect, render, get_object_or_404
 
 from .models import User
-from dataset.models import Comment
 from .forms import SignInForm, ProfileForm
+from dataset.models import Comment
+from badge.models import BadgeAward
 
 
 def sign_in(request):
@@ -32,8 +33,15 @@ def sign_in(request):
 
 def profile(request, username):
     user = get_object_or_404(User, username=username)
+
+    last_badges = user.earned_badges.order_by('-awarded_at')[:10]
     last_comments = Comment.objects.filter(author=user.profile).order_by('-posted_at')[:5]
-    return render(request, 'profile.html', {'profile': user.profile, "last_comments": last_comments})
+
+    return render(request, 'profile.html', {
+        'profile': user.profile,
+        'last_badges': last_badges,
+        'last_comments': last_comments,
+    })
 
 
 def my_profile(request):
@@ -45,5 +53,13 @@ def my_profile(request):
             return redirect('my_profile')
     else:
         form = ProfileForm(instance=profile)
+
+    last_badges = request.user.badges_earned.order_by('-awarded_at')[:10]
     last_comments = Comment.objects.filter(author=profile).order_by('-posted_at')[:5]
-    return render(request, 'profile.html', {'profile': profile, 'form': form, "last_comments": last_comments})
+
+    return render(request, 'profile.html', {
+        'profile': profile,
+        'form': form,
+        'last_badges': last_badges,
+        'last_comments': last_comments,
+    })

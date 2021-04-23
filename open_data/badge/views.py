@@ -24,7 +24,7 @@ def badge_list(request):
                 'visible': False,
                 'earned': False,
             }
-            
+
     # Annotate earned badges
     visible_positions = set()
     if user.is_authenticated:
