@@ -1,5 +1,7 @@
-from badge.models import BadgeAward
-from badge.signals import badge_awarded_signal
+from django.templatetags.static import static
+
+from .models import BadgeAward
+from .signals import badge_awarded_signal
 
 
 def abstract_property(name):
@@ -17,9 +19,10 @@ class BadgeAwarded:
 
 
 class BadgeDetail:
-    def __init__(self, name=None, description=None):
+    def __init__(self, name=None, description=None, image='default.png'):
         self.name = name
         self.description = description
+        self.image = static(f'images/badges/{image}')
 
 
 class Badge:

@@ -10,7 +10,7 @@ register = template.Library()
 
 @register.inclusion_tag('quiz/quizzes.html')
 def show_quizzes(quizzes):
-    return {"quizzes": quizzes}
+    return {"quizzes": quizzes.all()}
 
 
 @register.inclusion_tag('quiz/quiz.html')

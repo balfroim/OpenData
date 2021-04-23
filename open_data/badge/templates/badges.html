@@ -1,9 +1,38 @@
-{% load pinax_badges_tags %}
-{% badges_for_user user as badges %}
-{% for badge in badges %}
-    <ul>
-        <li>
-            {% badge_detail badge %}
-        </li>
-    </ul>
-{% endfor %}
+{% extends 'base.html' %}
+{% load static pinax_badges_tags %}
+{% block title %}Mes badges{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/badges.css' %}">
+{% endblock %}
+{% block main %}
+<h1>Mes badges</h1>
+<div class="badges">
+  {% for badge in badges.values %}
+  <div
+    class="{% if not badge.visible %}locked {% elif not badge.earned %}visible {% endif %}badge badge{{ forloop.counter }}-tab-button"
+    style="grid-area: {{ badge.y }} / {{ badge.x }};"
+  >
+    <img src="{{ badge.image }}">
+    <span class="tooltip">
+      {% if badge.visible %}
+      {{ badge.name }}
+      {% else %}
+      ?
+      {% endif %}
+    </span>
+  </div>
+  {% endfor %}
+</div>
+<div class="tabs">
+  {% for badge in badges.values %}
+  <div id="badge{{ forloop.counter }}-tab" class="card tab">
+    {% if badge.earned or badge.visible %}
+    <p><b>{{ badge.name }}</b></p>
+    <p>{{ badge.description }}</p>
+    {% else %}
+    <p><b>?</b></p>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -110,6 +110,24 @@ nav button, nav .button {
   cursor: pointer;
 }
 
+/* Tooltips */
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: 110%;
+  z-index: 1;
+  width: 128px;
+  padding: 4px 8px;
+  border-radius: var(--rounded);
+  background-color: white;
+  box-shadow: 0 0 4px black;
+  text-align: center;
+}
+
+*:hover > .tooltip {
+  visibility: visible;
+}
+
 /* Modals, drop-downs, pop-ups, and tabs */
 .modal-mask {
   position: absolute;
