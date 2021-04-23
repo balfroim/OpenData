@@ -1,6 +1,3 @@
-from collections import defaultdict
-
-from django.db.models import Count
 from django.shortcuts import render
 
 from badge.models import BadgeAward
@@ -8,32 +5,49 @@ from badge.registry import BadgeCache
 
 
 def badge_list(request):
-    if request.user.is_authenticated:
-        user_badges = {
-            (slug, level) for slug, level in
-            BadgeAward.objects.filter(user=request.user).values_list("slug", "level")
-        }
-    else:
-        user_badges = []
+    user = request.user
+    cache = BadgeCache.instance()
 
-    badges_awarded = BadgeAward.objects.values("slug", "level").annotate(num=Count("pk"))
-    badges_dict = defaultdict(list)
-    for badge in badges_awarded:
-        badge_info = BadgeCache.instance().get_badge(badge["slug"])
-        badges_dict[badge["slug"]].append({
-            "level": badge["level"],
-            "name": badge_info.levels[badge["level"]].name,
-            "description": badge_info.levels[badge["level"]].description,
-            "count": badge["num"],
-            "user_has": (badge["slug"], badge["level"]) in user_badges,
-        })
+    # Make a list of every available badge
+    badges = {}
+    for badge in cache._registry.values():  # TODO: make this a public field (or available at least)
+        for level in range(len(badge.levels)):
+            name = f'{badge.slug}:{level}'
+            badges[name] = {
+                'slug': badge.slug,
+                'level': level,
+                'name': badge.levels[level].name,
+                'description': badge.levels[level].description,
+                'image': badge.levels[level].image,
+                'x': badge.positions[level][0],
+                'y': badge.positions[level][1],
+                'visible': False,
+                'earned': False,
+            }
+            
+    # Annotate earned badges
+    visible_positions = set()
+    if user.is_authenticated:
+        for badge_obj in user.badges_earned.all():
+            name = f'{badge_obj.slug}:{badge_obj.level}'
+            badge = badges[name]
 
-    for badge_group in badges_dict.values():
-        badge_group.sort(key=lambda o: o["level"])
+            badge['earned'] = True
 
-    return render(request, "badges.html", {
-        "badges": sorted(badges_dict.items()),
-    })
+            x, y = badge['x'], badge['y']
+            visible_positions.add((x, y))
+            visible_positions.add((x, y - 1))
+            visible_positions.add((x + 1, y))
+            visible_positions.add((x, y + 1))
+            visible_positions.add((x - 1, y))
+
+    # Annotate visible badges
+    for badge in badges.values():
+        if (badge['x'], badge['y']) in visible_positions:
+            badge['visible'] = True
+
+    print(badges)
+    return render(request, 'badges.html', {'badges': badges})
 
 
 def badge_detail(request, slug, level):

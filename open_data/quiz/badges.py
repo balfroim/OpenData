@@ -1,4 +1,4 @@
-from badge.base import Badge, BadgeAwarded
+from badge.base import Badge, BadgeDetail, BadgeAwarded
 
 
 def check_threshold(levels, thresholds, observed_value):
@@ -12,10 +12,16 @@ def check_threshold(levels, thresholds, observed_value):
 class QuizFailedBadge(Badge):
     slug = "quiz-fail"
     levels = [
-        # Se tromper dans un quiz
-        "Errare humanum est",
-        # Se tromper dans 5 quiz
-        "Persevare diabolicum"
+        BadgeDetail(
+            name="Errare humanum est",
+            description="Se tromper dans un quiz.",
+            image="cancel.png"
+        ),
+        BadgeDetail(
+            name="Persevare diabolicum",
+            description="Se tromper dans cinq quiz",
+            image="cancel.png"
+        )
     ]
     level_thresholds = [
         1,
@@ -25,7 +31,6 @@ class QuizFailedBadge(Badge):
         "on_quiz_result"
     ]
     multiple = False
-    images = "cancel.png"
 
     def award(self, **state):
         user = state["user"]
