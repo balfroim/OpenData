@@ -1,18 +1,31 @@
-from dataset.models import Theme, ProxyDataset, ProxyDatasetStat
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+
+from dataset.models import Theme, ProxyDataset, Keyword, Comment
 
 
 @admin.register(Theme)
 class ThemeAdmin(admin.ModelAdmin):
-    readonly_fields = ["name", "slug", "preview_image"]
+    readonly_fields = ['name', 'preview_image']
 
     def preview_image(self, obj):
-        return mark_safe(f'<img src="{obj.image.url}" width=128px height=128px/>')
+        return mark_safe(f'<img src="{obj.image.url}" alt="Preview image" width="128" height="128">')
+
 
 @admin.register(ProxyDataset)
 class ProxyDatasetAdmin(admin.ModelAdmin):
-    readonly_fields = ["modified"]
+    readonly_fields = ['modified']
+    search_fields = ['title']
 
 
-    search_fields = ["title"]
+@admin.register(Keyword)
+class KeywordAdmin(admin.ModelAdmin):
+    # search_fields = ["dataset"]
+    pass
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    readonly_fields = ['posted_at']
+    search_fields = ['author', "dataset"]
+    autocomplete_fields = ["author", "dataset"]

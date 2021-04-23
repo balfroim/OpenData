@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profil{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/data.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <script defer src="{% static 'js/fade-in.js' %}"></script>
+{% endblock %}
+{% block main %}
+
+<main>
+    <header>
+        <div class="container">
+            <div class="profile">
+                <div class="profile-image">
+                    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
+                </div>
+                <div class="profile-user-settings">
+                    <h1 class="profile-user-name">Santé</h1>
+                    <button class="btn profile-edit-btn">S'abonner</button>
+                </div>
+                <div class="profile-stats">
+                    <ul>
+                        <li><span class="profile-stat-count">4</span> datasets</li>
+                        <li><span class="profile-stat-count">188</span> abonnés</li>
+                        <li><span class="profile-stat-count">206</span> j'aime</li>
+                        <li><span class="profile-stat-count">20</span> téléchargements</li>
+                    </ul>
+                </div>
+                <div class="profile-bio">
+                    <p><span class="profile-real-name">Santé</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+                </div>
+            </div>
+            <!-- End of profile section -->
+        </div>
+        <!-- End of container -->
+    </header>
+	<div class="container">
+		<div class="gallery">
+			<div class="gallery-item1" tabindex="0" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}'">
+                <div class="imgBx1">
+				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
+                </div>
+                <div class="dataset-title">
+                    <h2>COVID-19 Pandémie - Province de Namur - Nombre de cas confirmés par commune</h2>
+                </div>
+                <div class="data-stats">
+                        <ul>
+                            <li> <span class="fa fa-heart"></span> <span class="data-stat-count">4</span></li>
+                            <li> <span class="fa fa-comment"></span> <span class="data-stat-count">100</span></li>
+                            <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
+                        </ul>
+                </div><br>
+                <div class="content1">
+                    <p>Ce jeu de données est basé sur le tableau du nombre de cas de COVID-19 confirmés par commune fourni par l'institution publique Sciensano
+                        et disponible depuis ce 31 mars 2020. Nous n'avons pris ici que les données de la Province de Namur. Les données sont mises à jour à midi sur notre plateforme.</p>
+                    <div class="sub-information">
+                        <h3>Données : </h3>
+                        <span>37 éléments</span>
+                        <h3>Date de dernière modification : </h3>
+                        <span>7 avril 2021 12:00</span>
+                    </div>
+                </div>
+			</div>
+            <div class="gallery-item1" tabindex="0" onclick="location.href='#';">
+                <div class="imgBx1">
+				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
+                </div>
+                <div class="dataset-title">
+                    <h2>COVID-19 Pandémie </h2>
+                </div>
+                <div class="data-stats">
+                        <ul>
+                            <li> <span class="fa fa-heart"></span> <span class="data-stat-count">4</span></li>
+                            <li> <span class="fa fa-comment"></span> <span class="data-stat-count">100</span></li>
+                            <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
+                        </ul>
+                </div><br>
+                <div class="content1">
+                    <p>Ce jeu de données est basé sur le tableau du nombre de cas de COVID-19 confirmés par commune fourni par l'institution publique Sciensano
+                        et disponible depuis ce 31 mars 2020. Nous n'avons pris ici que les données de la Province de Namur. Les données sont mises à jour à midi sur notre plateforme.</p>
+                    <div class="sub-information">
+                        <h3>Données : </h3>
+                        <span>37 éléments</span>
+                        <h3>Date de dernière modification : </h3>
+                        <span>7 avril 2021 12:00</span>
+                    </div>
+                </div>
+			</div>
+            <div class="gallery-item1" tabindex="0" onclick="location.href='#';">
+                <div class="imgBx1">
+				    <img src="/uploads/themes/doctors.svg" alt="Logo Santé">
+                </div>
+                <div class="dataset-title">
+                    <h2>COVID-19 Pandémie - Province de Namur - Nombre de cas confirmés par commune</h2>
+                </div>
+                <div class="data-stats">
+                        <ul>
+                            <li> <span class="fa fa-heart"></span> <span class="data-stat-count">4</span></li>
+                            <li> <span class="fa fa-comment"></span> <span class="data-stat-count">100</span></li>
+                            <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
+                        </ul>
+                </div><br>
+                <div class="content1">
+                    <p>Ce jeu de données est basé sur le tableau du nombre de cas de COVID-19 confirmés par commune fourni par l'institution publique Sciensano
+                        et disponible depuis ce 31 mars 2020. Nous n'avons pris ici que les données de la Province de Namur. Les données sont mises à jour à midi sur notre plateforme.</p>
+                    <div class="sub-information">
+                        <h3>Données : </h3>
+                        <span>37 éléments</span>
+                        <h3>Date de dernière modification : </h3>
+                        <span>7 avril 2021 12:00</span>
+                    </div>
+                </div>
+			</div>
+
+
+
+
+			</div>
+
+		</div>
+		<!-- End of gallery -->
+
+
+	</div>
+	<!-- End of container -->
+</main>
+{% endblock %}

@@ -108,7 +108,7 @@ img {
     font-size: 1.4rem;
     line-height: 1.8;
     border: 0.1rem solid black;
-    background-color: red;
+    background-color: var(--primary);
     color: white;
     border-radius: 0.3rem;
     padding: 0 2.4rem;
@@ -159,7 +159,7 @@ img {
     position: relative;
     max-width: 300px;
     height: 280px;
-    background-color: steelblue;
+    background-color: var(--primary);
     padding: 20px 15px;
     display: flex;
     flex-direction: column;
@@ -209,7 +209,7 @@ img {
     position: relative;
     margin-top: -20px;
     padding: 10px 15px;
-    text-align: center;
+    text-align: left;
     color: white;
     visibility: hidden;
     opacity: 0;

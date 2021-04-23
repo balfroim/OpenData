@@ -1,19 +1,27 @@
 import requests
-from dataset.models import Theme
 from dictor import dictor
 from django.core.management.base import BaseCommand, CommandError
+
 from open_data.settings import API_URL, TIME_ZONE
+from dataset.models import Theme
 
 
 class Command(BaseCommand):
     help = 'Load themes from the API.'
 
     def handle(self, *args, **options):
-        url = API_URL + 'catalog/facets?facet=theme'
+        url = f'{API_URL}catalog/facets?facet=theme'
         data = requests.get(url).json()
-        theme_names = [dictor(facet, "name") for facet in dictor(data, "facets.0.facets")]
-        for theme_name in theme_names:
-            # https://docs.djangoproject.com/en/3.1/ref/models/querysets/#get-or-create
-            theme_instance, created = Theme.objects.get_or_create(name=theme_name)
+
+        themes = [dictor(facet, 'name') for facet in dictor(data, 'facets.0.facets')]
+
+        total_count = len(themes)
+        created_count = 0
+
+        for theme in themes:
+            obj, created = Theme.objects.get_or_create(name=theme)
             if created:
-                theme_instance.save()
+                created_count += 1
+                self.stdout.write(f'{obj.slug} theme created.')
+
+        self.stdout.write(self.style.SUCCESS(f'Done: {total_count} themes, {created_count} added.'))

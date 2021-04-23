@@ -1,0 +1,21 @@
+<div id="comments-modal" class="modal-mask" data-dataset-id="{{ dataset.id }}">
+    <div class="modal">
+        <ul>
+            {% for comment in dataset.comments.all %}
+                <li>{{ comment }}</li>
+            {% empty %}
+                <p>Sans commentaires...</p>
+            {% endfor %}
+        </ul>
+
+        {% if is_registered %}
+            <form style="display: flex; justify-content: center;" id="add-comment-form">
+                {% csrf_token %}
+                <label>
+                    <input type="text" name="content">
+                </label>
+                <button><span class="fas fa-comment-medical"></span></button>
+            </form>
+        {% endif %}
+    </div>
+</div>

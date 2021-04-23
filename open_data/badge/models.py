@@ -1,0 +1,61 @@
+from django.db import models
+from django.utils import timezone
+from django.templatetags.static import static
+
+from user.models import User
+
+
+class BadgeAward(models.Model):
+    user = models.ForeignKey(User, related_name="badges_earned", on_delete=models.CASCADE)
+    awarded_at = models.DateTimeField(default=timezone.now)
+    slug = models.CharField(max_length=255)
+    level = models.IntegerField()
+
+    def __getattr__(self, attr):
+        return getattr(self._badge, attr)
+
+    def __str__(self):
+        return f"\"{self.name}\" [{self.user.profile.name}]"
+
+    @property
+    def badge(self):
+        return self
+
+    @property
+    def _badge(self):
+        from badge.registry import BadgeCache
+        return BadgeCache.instance().get_badge(self.slug)
+
+    @property
+    def name(self):
+        return self._badge.levels[self.level].name
+
+    @property
+    def description(self):
+        return self._badge.levels[self.level].description
+
+    @property
+    def progress(self):
+        return self._badge.progress(self.user, self.level)
+
+    @property
+    def x(self):
+        return self._badge.positions[self.level][0]
+    
+    @property
+    def y(self):
+        return self._badge.positions[self.level][1]
+
+    @property
+    def image(self):
+        try:
+            images = self._badge.images
+        except AttributeError:
+            name = 'default.png'
+        else:
+            if isinstance(images, str):
+                name = images
+            else:
+                name = images[self.level]
+        
+        return static(f'images/badges/{name}')

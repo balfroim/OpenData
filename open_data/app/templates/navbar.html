@@ -1,46 +1,41 @@
-{% load static %}
-{% load notifications_tags %}
-<nav>
+{% load static notifications_tags %}
+<nav class="responsive">
   <a href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
   </a>
   <a href="{% url 'home' %}">
     Accueil
-    <span class="fa fa-home"></span>
+    <i class="fas fa-home"></i>
   </a>
-  <a href="{% url 'quizzes' %}">
-    Quiz
-    <span class="fa fa-question"></span>
-  </a>
-  <span class="explore-button">
-    Explorer &darr;
-  </span>
-  <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
-    <input type="search" name="q">
-    <button><span class="fa fa-search"></span></button>
-  </form>
+  <button class="explore-dropdown-button">
+    Explorer
+    <i class="fas fa-arrow-down"></i>
+  </button>
   <div class="separator"></div>
-
   {% if user.is_staff %}
-  <a href="/admin">
-    Admin
-  </a>
+    <a href="{% url 'admin:index' %}">
+      <i class="fas fa-unlock-alt"></i>
+      Admin
+    </a>
   {% endif %}
-
-  <a>
-    <span class="fa fa-bell"></span>
-    {% live_notify_badge %}
+  <a href="{% url 'quizzes' %}">
+    <i class="fas fa-question"></i>
+    Quiz de la semaine
   </a>
-  <a href="/forum">
-    <span class="fa fa-users"></span>
-    Forum
-  </a>
-  <a href="/scores">
-    <span class="fa fa-star"></span>
+  <a href="{% url 'scores' %}">
+    <i class="fas fa-star"></i>
     Tableau des scores
   </a>
-  <button class="profile-button">
-    <span class="fa fa-lg fa-user"></span>
-    Profil &darr;
+  <span class="clickable notifications-dropdown-button">
+    <i class="fas fa-bell"></i>
+    {% live_notify_badge %}
+  </span>
+  <button class="profile-dropdown-button">
+    <i class="fas fa-lg fa-user"></i>
+    {% if user.profile.is_registered %}
+    {{ user.profile.name }}
+    {% else %}
+    Profile
+    {% endif %}
   </button>
 </nav>

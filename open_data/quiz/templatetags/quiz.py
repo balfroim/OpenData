@@ -10,16 +10,16 @@ register = template.Library()
 
 @register.inclusion_tag('quiz/quizzes.html')
 def show_quizzes(quizzes):
-    return {"quizzes": quizzes}
+    return {"quizzes": quizzes.all()}
 
 
 @register.inclusion_tag('quiz/quiz.html')
 def show_quiz(quiz, user):
     try:
-        choices = QuizSubmission.objects.get(quiz=quiz, user=user).choices
+        submission = QuizSubmission.objects.get(quiz=quiz, user=user)
+        return {"quiz": quiz, "form": QuizForm(quiz, submission.choices), "submittable": False}
     except QuizSubmission.DoesNotExist:
-        choices = None
-    return {"quiz": quiz, "form": QuizForm(quiz, choices), "submittable": not choices}
+        return {"quiz": quiz, "form": QuizForm(quiz), "submittable": True}
 
 
 @register.filter

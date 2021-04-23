@@ -1,8 +1,11 @@
-# coding=utf-8
-from dataset.models import ProxyDataset
-from django.contrib.auth.models import User
+import itertools
+import collections
+
 from django.db import models
 from django.utils import timezone
+
+from user.models import User
+from dataset.models import ProxyDataset
 
 
 class Quiz(models.Model):
@@ -67,12 +70,11 @@ class Answer(models.Model):
 
 class QuizSubmission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken",
-                             help_text="L'utilisateur qui a fait la soumission.")
+                               help_text="L'utilisateur qui a fait la soumission.", null=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='submissions',
                              help_text="Le quiz en question.")
     taken_at = models.DateTimeField(help_text="La date de soumission.")
     choices = models.JSONField(default=list, help_text="Les réponses que l'utilisateur a cochées.")
-    good_answers_count = models.IntegerField(default=0, help_text="Le nombre de question bien répondue.")
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -82,3 +84,11 @@ class QuizSubmission(models.Model):
     @property
     def is_perfect_score(self):
         return self.good_answers_count == self.quiz.correct_answers_count
+
+    @property
+    def good_answers_count(self):
+        choices = list(itertools.chain.from_iterable(self.choices))
+        counter = collections.Counter(itertools.chain(*choices))
+        if "correct" not in counter.keys():
+            return 0
+        return counter["correct"]

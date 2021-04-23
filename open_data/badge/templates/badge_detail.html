@@ -1,0 +1,11 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<img class="badge" src="{{ STATIC_PREFIX }}images/badges/{{ badge.image }}" alt=""/>
+{{ badge.name }}
+
+<style>
+    .badge {
+        width: 64px;
+        height: 64px;
+    }
+</style>

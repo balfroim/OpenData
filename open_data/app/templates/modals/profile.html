@@ -1,16 +1,17 @@
-<div id="profile-mask" class="inactive mask">
+<div id="profile-dropdown" class="modal-mask">
   <div class="right dropdown">
     <div>
-      <a href="/profile">Mon profil</a>
-    </div>
-    <div>
-      <a href="/profile">Mes badges</a>
-    </div>
-    <div>
-      {% if user.is_authenticated %}
+      {% if user.profile.is_registered %}
+      <div>
+        <a href="{% url 'my_profile' %}">Mon profil</a>
+      </div>
+      <div>
+        <a href="{% url 'badges:badge_list' %}">Mes badges</a>
+      </div>
+      <br>
       <a class="button" href="{% url 'log_out' %}?next={{ request.path }}">Déconnexion</a>
       {% else %}
-      <button class="login-button">Connexion</button>
+      <button class="login-modal-button">Connexion</button>
       {% endif %}
     </div>
   </div>
