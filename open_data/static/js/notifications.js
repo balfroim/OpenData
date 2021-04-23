@@ -8,7 +8,7 @@ function fill_notifications_dropdown(data) {
     const description = document.createElement('span');
     const image = document.createElement('img');
     description.textContent = notification.verb;
-    image.src = `/static/images/badges/${notification.data.image}`;
+    image.src = notification.data.image;
     image.width = 32;
     image.style = 'margin-right: 16px;';
 

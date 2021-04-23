@@ -127,4 +127,21 @@
     <h2>Quiz du jour</h2>
     {% show_quiz today_quiz user %}
   </section>
+   <section>
+   <h2>Derniers commentaires</h2>
+   {# TODO: Tags ?? #}
+       {% for comment in last_comments %}
+           <div class="card">
+               <div class="message">
+                   <div class="message-header">
+                       <span>{{ comment.posted_at|date:'d F Y H:m'}}</span>
+                       <a href="{% url 'dataset' comment.dataset.id %}">Voir dans son contexte</a>
+                   </div>
+                   <div>
+                       {{ comment.content }}
+                   </div>
+               </div>
+           </div>
+       {% endfor %}
+   </section>
 {% endblock %}

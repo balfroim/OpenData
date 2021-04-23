@@ -7,6 +7,10 @@
   margin-right: 16px;
 }
 
+.bio {
+  width: 100%;
+}
+
 .message {
   margin-bottom: 24px;
 }
@@ -16,4 +20,8 @@
   justify-content: space-between;
   font-style: italic;
   font-size: smaller;
+}
+
+.rounded {
+  border-radius: 100%;
 }
