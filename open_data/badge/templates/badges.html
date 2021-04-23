@@ -1,9 +1,29 @@
-{% load pinax_badges_tags %}
+{% extends 'base.html' %}
+{% load static pinax_badges_tags %}
+{% block title %}Mes badges{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/badges.css' %}">
+{% endblock %}
+{% block main %}
 {% badges_for_user user as badges %}
-{% for badge in badges %}
-    <ul>
-        <li>
-            {% badge_detail badge %}
-        </li>
-    </ul>
-{% endfor %}
+<h1>Mes badges</h1>
+<div class="badges">
+  {% for badge in badges %}
+  <div
+    class="badge badge{{ forloop.counter }}-tab-button"
+    style="grid-area: {{ badge.y }} / {{ badge.x }};"
+  >
+    <img src="{{ badge.image }}">
+    <span class="tooltip">{{ badge.name }}</span>
+  </div>
+  {% endfor %}
+</div>
+<div class="tabs">
+  {% for badge in badges %}
+  <div id="badge{{ forloop.counter }}-tab" class="card tab">
+    <p><b>{{ badge.name }}</b></p>
+    <p>{{ badge.description }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

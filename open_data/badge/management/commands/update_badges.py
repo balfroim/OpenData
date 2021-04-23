@@ -10,6 +10,7 @@ class Command(BaseCommand):
     help = 'Update the badge list with newly added badges.'
 
     def handle(self, *args, **options):
+        # Fetch actual data
         badge_cache = BadgeCache.instance()._registry  # TODO: this is a hack, fix it (later)
         try:
             with open(BADGES_PATH, 'r') as file:
@@ -17,8 +18,9 @@ class Command(BaseCommand):
         except FileNotFoundError:
             badges = {}
 
-        added_badges = set()
+        # Add new badges
         current_badges = set()
+        added_badges = set()
         for badge in badge_cache.values():
             for level in range(len(badge.levels)):
                 name = f'{badge.slug}:{level}'
@@ -34,6 +36,7 @@ class Command(BaseCommand):
                         badges[name] = {'x': 0, 'y': 0}
                         self.stdout.write(f'{name!r} badge added.')
 
+        # Delete old badges
         deleted_badges = set()
         for name in badges:
             if not name.startswith('deleted:') and name not in current_badges:
@@ -45,8 +48,9 @@ class Command(BaseCommand):
             badges[deleted_name] = badges[name]
             del badges[name]
 
+        # Write data back
         with open(BADGES_PATH, 'w') as file:
             json.dump(badges, file, indent='  ')
 
-        n_badges = len(current_badges) + len(added_badges) - len(deleted_badges)
+        n_badges = len(current_badges) - len(deleted_badges)
         self.stdout.write(self.style.SUCCESS(f'{n_badges} badges found: {len(added_badges)} added, {len(deleted_badges)} removed.'))

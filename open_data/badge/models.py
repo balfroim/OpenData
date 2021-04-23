@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.templatetags.static import static
 
 from user.models import User
 
@@ -14,7 +15,7 @@ class BadgeAward(models.Model):
         return getattr(self._badge, attr)
 
     def __str__(self):
-        return f"\"{self.name}\" [{self.user.profile.name}"
+        return f"\"{self.name}\" [{self.user.profile.name}]"
 
     @property
     def badge(self):
@@ -38,11 +39,23 @@ class BadgeAward(models.Model):
         return self._badge.progress(self.user, self.level)
 
     @property
+    def x(self):
+        return self._badge.positions[self.level][0]
+    
+    @property
+    def y(self):
+        return self._badge.positions[self.level][1]
+
+    @property
     def image(self):
         try:
             images = self._badge.images
         except AttributeError:
-            return "default.png"
-        if isinstance(images, str):
-            return images
-        return images[self.level]
+            name = 'default.png'
+        else:
+            if isinstance(images, str):
+                name = images
+            else:
+                name = images[self.level]
+        
+        return static(f'images/badges/{name}')
