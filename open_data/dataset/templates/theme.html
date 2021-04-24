@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}{{ theme.name }}{% endblock %}
 {% block head %}
 <style>
@@ -7,6 +8,7 @@
     height: 128px;
   }
 </style>
+<link rel="stylesheet" href="{% static 'css/theme.css' %}">
 {% endblock %}
 {% block main %}
 <h1>{{ theme.name }}</h1>
