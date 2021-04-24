@@ -4,9 +4,13 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
-from open_data.settings import NLP
+from django.core.exceptions import ObjectDoesNotExist
+from dataset.management.commands.load_datasets import filter_nouns
 
 from .models import Theme, ProxyDataset, Keyword, Comment
+
+from collections import Counter
+from itertools import repeat, chain
 
 DATASETS_PER_PAGE = 100
 
@@ -25,17 +29,17 @@ def search_page(request):
     query = request.GET["q"]
     keywords = set()
     for token in query.split(" "):
-        word = NLP(token)[0]
-        if word.pos_ in ("VERB", "NOUN", "PROPN") and len(word) > 2:
-            keywords.add(word)
-    datasets = set()
+        # TODO: generate synonyms ??
+        keywords.update(filter_nouns(token))
+    datasets = list()
     for keyword in keywords:
-        keyword_objets = Keyword.objects.filter(word__contains=keyword).all()
-        for keyword_obj in keyword_objets:
-            keyword_datasets = keyword_obj.datasets.all()
-            datasets.update(keyword_datasets)
-
-    return render(request, 'search.html', context={"datasets": datasets})
+        try:
+            keyword_obj = Keyword.objects.get(word=keyword)
+        except ObjectDoesNotExist:
+            continue
+        datasets.extend(keyword_obj.datasets.all())
+    # TODO: ordonnée par pertinence des mots clés
+    return render(request, 'search.html', context={"datasets": Counter(datasets).most_common()})
 
 
 def popularized_page(request, dataset_id):

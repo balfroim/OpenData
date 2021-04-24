@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Recherche{% endblock %}
 {% block main %}
-  <h1>Recherche</h1>
+  <h1>Recherche ({{ datasets|length }} résultat{{ datasets|length|pluralize }})</h1>
     <ul>
-        {% for dataset in datasets %}
+        {% for dataset, count in datasets %}
             <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>
         {% endfor %}
     </ul>
-
 {% endblock %}
