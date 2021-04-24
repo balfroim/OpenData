@@ -91,7 +91,7 @@ class Badge:
         If the Badge class defines a message, send it to the user who was just
         awarded the badge.
         """
-        user_message = getattr(badge_award.badge, "user_message", None)
+        user_message = getattr(badge_award, "user_message", None)
         if callable(user_message):
             message = user_message(badge_award)
         else:
