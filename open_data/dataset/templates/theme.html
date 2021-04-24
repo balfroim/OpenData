@@ -39,7 +39,7 @@
 <div class="container">
         <div class="gallery">
           {% for dataset in theme.datasets.all %}
-          <div class="gallery-item" tabindex="0" onclick="location.href='#';">
+          <div class="gallery-item" tabindex="{{ forloop.counter }}" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}';">
             {% if theme.image %}
             <div class="imgBx1">
               <!--Faut peut-être refactor le style avec le fichier css-->
