@@ -35,13 +35,38 @@
               <p>Cette catégorie reprend tous les datasets du thème {{theme.name}}</p>
           </div>
       </div>
-  </div>
-<div class="datasets">
-  {% for dataset in theme.datasets.all %}
-  <div class="card dataset">
-    <div>{{ forloop.counter }} {{ dataset.title }}</div>
-    <div>{{ dataset.description|safe }}</div>
-  </div>
-  {% endfor %}
+</div>
+<div class="container">
+        <div class="gallery">
+          {% for dataset in theme.datasets.all %}
+          <div class="gallery-item" tabindex="0" onclick="location.href='#';">
+            {% if theme.image %}
+            <div class="imgBx1">
+              <!--Faut peut-être refactor le style avec le fichier css-->
+              <span class="svg theme-img" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}"></span>
+            </div>
+            {% endif %}
+            <div class="dataset-title">
+              <h2>{{ dataset.title }}</h2>
+            </div>
+            <div class="data-stats">
+              <ul>
+                <li> <span class="fa fa-heart"></span> <span class="data-stat-count">4</span></li>
+                <li> <span class="fa fa-comment"></span> <span class="data-stat-count">100</span></li>
+                <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
+              </ul>
+            </div><br>
+            <div class="content1">
+              <p>Description du jeu de données ?</p>
+              <div class="sub-information">
+                <h3>Données : </h3>
+                <span>37 éléments</span> <!--Absent du modèle-->
+                <h3>Date de dernière modification : </h3>
+                <span>{{ dataset.modified }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
 </div>
 {% endblock %}
