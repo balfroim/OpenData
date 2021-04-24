@@ -1,29 +1,47 @@
 import requests
+import spacy
 from dictor import dictor
 from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-
 from open_data.settings import API_URL, TIME_ZONE
+
 from dataset.models import ProxyDataset, Theme, Keyword
 
-import spacy
-
 DATASETS_PER_PAGE = 100
+
 NLP = spacy.load("fr_core_news_sm")
 
 
-def generate_keywords(dataset, base_keywords):
-    keywords = set(base_keywords) or set()
-    doc = NLP(strip_tags(dataset.title + " " + dataset.description))
-    keywords.update((ent.text for ent in doc.ents))
-    keywords = {Keyword.preprocess(keyword) for keyword in keywords}
+def filter_nouns(text) -> set:
+    nouns = set()
+    for token in NLP(text):
+        if len(token) <= 2 or '.' in token.lemma_:
+            continue
+        if 'covid' in token.lemma_:
+            nouns.add('covid')
+            continue
+        if token.pos_ in ("NOUN", "PROPN"):
+            nouns.add(token.lemma_.lower().replace("\"", "".replace("-", "")))
+            continue
+    return nouns
+
+
+def generate_keywords(dataset, base_keywords, keywords_datasets):
+    keywords = set()
+    for base_keyword in (base_keywords or set()):
+        keywords.update(filter_nouns(base_keyword))
+    for subtitle in dataset.title.split(" - "):
+        keywords.update(filter_nouns(subtitle))
+    keywords.update(filter_nouns(strip_tags(dataset.description)))
+    # TODO: custom view, popularized view and id
+    # TODO: filtrer les urls, pluriels etc
     for keyword in keywords:
-        obj, created = Keyword.objects.update_or_create(
-            word=keyword
-        )
-        obj.datasets.add(dataset)
-        obj.save()
+        try:
+            keywords_datasets[keyword].add(dataset)
+        except KeyError:
+            keywords_datasets[keyword] = {dataset}
+    return keywords_datasets
 
 
 class Command(BaseCommand):
@@ -32,17 +50,20 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    # TODO: peut être ajouter un argument no keyword ?
     def handle(self, *args, **options):
         datasets = self.fetch_all_datasets()
 
         total_count = len(datasets)
         created_count = 0
 
+        # datasets = filter(lambda ds: 'covid' in dictor(ds, "dataset.dataset_id"), datasets)
+        keywords_datasets = dict()
         for dataset in datasets:
             links = map_links(dataset['links'])
             metas = dictor(dataset, 'dataset.metas')
 
-            id = dictor(dataset, 'dataset.dataset_id')
+            dataset_id = dictor(dataset, 'dataset.dataset_id')
             theme = dictor(metas, 'default.theme.0')
             title = dictor(metas, 'default.title')
             description = dictor(metas, 'default.description') or ''
@@ -52,7 +73,7 @@ class Command(BaseCommand):
             popularity_score = dictor(metas, 'explore.popularity_score')
 
             obj, created = ProxyDataset.objects.update_or_create(
-                id=id,
+                id=dataset_id,
                 defaults={
                     'theme': Theme.objects.get(name=theme) if theme else None,
                     'title': title,
@@ -69,13 +90,19 @@ class Command(BaseCommand):
 
             if created:
                 created_count += 1
-                self.stdout.write(f'{id!r} proxy dataset created.')
+                self.stdout.write(f'{dataset_id!r} proxy dataset created.')
             else:
-                self.stdout.write(f'{id!r} proxy dataset updated.')
+                self.stdout.write(f'{dataset_id!r} proxy dataset updated.')
 
-            generate_keywords(obj, dictor(metas, 'default.keyword'))
+            keywords_datasets = generate_keywords(obj, dictor(metas, 'default.keyword'), keywords_datasets)
 
         self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
+
+        for keyword, datasets in keywords_datasets.items():
+            self.stdout.write(f'Add {keyword!r} keyword for {datasets}.')
+            keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
+            for dataset in datasets:
+                Keyword.datasets.through.objects.get_or_create(keyword=keyword_obj, proxydataset=dataset)
 
     def fetch_all_datasets(self):
         datasets = []

@@ -29,17 +29,30 @@
 {% endblock %}
 
 {% block modals %}
-    <div id="quiz-modal" class="modal-mask">
+    <div id="quiz-modal" class="modal-mask center">
         <div class="modal">
             {% for quiz in dataset.quizzes.all %}
                 {% show_quiz quiz user %}
-            {% empty %}
+                {% empty %}
                 <p>Pas de quizzes.</p>
             {% endfor %}
         </div>
     </div>
 
     {% show_comments dataset user %}
+
+    <div id="linked-dataset-modal" class="modal-mask center">
+        <div class="modal">
+            {% for count, datasets in linked_datasets_by_nb_common_keywords.items %}
+                <h2>{{ count }} mot-clé{{ count|pluralize }} en commun</h2>
+                <ul>
+                    {% for dataset in datasets %}
+                        <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block main %}
@@ -62,9 +75,24 @@
             <i class="fas fa-comment"></i>
             {{ dataset.comments.count }}
         </button>
-        <button class="quiz-modal-button">
-            Quiz ({{ dataset.quizzes.count }})
-            <i class="fas fa-question"></i>
+        {% if dataset.quizzes.count %}
+            <button class="quiz-modal-button">
+                <i class="fas fa-tasks"></i>
+                {{ dataset.quizzes.count }} quiz{{ dataset.quizzes.count|pluralize:"zes"  }}
+
+            </button>
+        {% endif %}
+        {% if nb_linked_datasets %}
+            <button class="linked-dataset-modal-button">
+                <i class="fas fa-link"></i>
+                {{ nb_linked_datasets }}
+                jeu{{ nb_linked_datasets|pluralize:'x' }}
+                similaire{{ nb_linked_datasets|pluralize }}
+            </button>
+        {% endif %}
+        <button class="linked-dataset-modal-button">
+            <i class="fas fa-question-circle"></i>
+            0 questions
         </button>
     </div>
     <div class="tabs">
@@ -97,8 +125,7 @@
     <script>
         const commentModal = document.querySelector('#comments-modal');
         const addCommentForm = document.querySelector('#add-comment-form');
-        if (commentModal)
-        {
+        if (commentModal) {
             addCommentForm.addEventListener('submit', async event => {
                 event.preventDefault();
 
@@ -109,9 +136,7 @@
                 });
 
                 if (response.ok) {
-                    const html = await response.text();
-                    console.log(html)
-                    commentModal.outerHTML = html;
+                    commentModal.outerHTML = await response.text();
                 }
             });
         }
