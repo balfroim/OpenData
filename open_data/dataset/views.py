@@ -1,3 +1,4 @@
+import itertools
 from collections import Counter
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -20,7 +21,32 @@ def theme_page(request, theme_id):
 
 def dataset_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    return render(request, 'dataset.html', {'dataset': dataset})
+    linked_datasets_by_nb_common_keywords = dict()
+    for other_dataset in ProxyDataset.objects.all():
+        if other_dataset == dataset:
+            continue
+        nb_common_keywords = len(dataset.keywords.all().intersection(other_dataset.keywords.all()))
+        if nb_common_keywords == 0:
+            continue
+        try:
+            linked_datasets_by_nb_common_keywords[nb_common_keywords].add(other_dataset)
+        except KeyError:
+            linked_datasets_by_nb_common_keywords[nb_common_keywords] = {other_dataset}
+
+    keys = sorted(linked_datasets_by_nb_common_keywords.keys(), reverse=True)
+    linked_datasets_by_nb_common_keywords = {
+        k: linked_datasets_by_nb_common_keywords[k]
+        for k
+        in keys
+        if k > 5
+    }
+    print(linked_datasets_by_nb_common_keywords)
+    nb_linked_datasets = len(list(itertools.chain(*linked_datasets_by_nb_common_keywords.values())))
+    return render(request,
+                  'dataset.html',
+                  {'dataset': dataset,
+                   'nb_linked_datasets': nb_linked_datasets,
+                   'linked_datasets_by_nb_common_keywords': linked_datasets_by_nb_common_keywords})
 
 
 def search_page(request):

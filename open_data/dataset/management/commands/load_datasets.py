@@ -1,13 +1,16 @@
 import requests
+import spacy
 from dictor import dictor
 from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-from open_data.settings import API_URL, TIME_ZONE, NLP
+from open_data.settings import API_URL, TIME_ZONE
 
 from dataset.models import ProxyDataset, Theme, Keyword
 
 DATASETS_PER_PAGE = 100
+
+NLP = spacy.load("fr_core_news_sm")
 
 
 def filter_nouns(text) -> set:
