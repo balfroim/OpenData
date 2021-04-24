@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+import spacy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -153,3 +154,5 @@ IFRAME_URL = 'https://data.namur.be/explore/embed/dataset/'
 DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
 
 BADGES_PATH = BASE_DIR / 'badges.json'
+
+NLP = spacy.load("fr_core_news_sm")

@@ -1,11 +1,14 @@
+from badge.registry import BadgeCache
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
+from open_data.settings import NLP
 
-from badge.registry import BadgeCache
 from .models import Theme, ProxyDataset, Keyword, Comment
+
+DATASETS_PER_PAGE = 100
 
 
 def theme_page(request, theme_id):
@@ -19,8 +22,12 @@ def dataset_page(request, dataset_id):
 
 
 def search_page(request):
-    search_query = request.GET["q"]
-    keywords = [Keyword.preprocess(token) for token in search_query.split(' ')]
+    query = request.GET["q"]
+    keywords = set()
+    for token in query.split(" "):
+        word = NLP(token)[0]
+        if word.pos_ in ("VERB", "NOUN", "PROPN") and len(word) > 2:
+            keywords.add(word)
     datasets = set()
     for keyword in keywords:
         keyword_objets = Keyword.objects.filter(word__contains=keyword).all()
