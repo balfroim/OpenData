@@ -2,11 +2,25 @@ import secrets
 
 from django.db import models
 from django.utils.translation import gettext as _
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 
 
 def generate_name():
-    return f'user{secrets.randbelow(1000000)}'
+    return f'user{secrets.randbelow(1000000000)}'
+
+
+class UserManager(UserManager):
+    def create_user(self, *args, **kwargs):
+        name = generate_name()
+        user = super().create_user(name, *args, **kwargs)
+        Profile.objects.create(user=user, name=name)
+        return user
+
+    def create_superuser(self, *args, **kwargs):
+        user = self.create_user(*args, **kwargs, is_staff=True, is_superuser=True)
+        user.profile.is_registered = True
+        user.profile.save()
+        return user
 
 
 class User(AbstractUser):
@@ -16,6 +30,8 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []  # removes email from REQUIRED_FIELDS
 
     email = models.EmailField(_('Email address'), unique=True, null=True, default=None)  # changes email to unique and blank to false
+
+    objects = UserManager()
 
     def save(self, *args, **kwargs):
         if not self.email:
