@@ -1,16 +1,14 @@
-from badge.registry import BadgeCache
+from collections import Counter
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
-from django.core.exceptions import ObjectDoesNotExist
-from dataset.management.commands.load_datasets import filter_nouns
 
+from badge.registry import BadgeCache
 from .models import Theme, ProxyDataset, Keyword, Comment
-
-from collections import Counter
-from itertools import repeat, chain
 
 DATASETS_PER_PAGE = 100
 
@@ -30,7 +28,7 @@ def search_page(request):
     keywords = set()
     for token in query.split(" "):
         # TODO: generate synonyms ??
-        keywords.update(filter_nouns(token))
+        keywords.add(token.lower())
     datasets = list()
     for keyword in keywords:
         try:
@@ -38,8 +36,16 @@ def search_page(request):
         except ObjectDoesNotExist:
             continue
         datasets.extend(keyword_obj.datasets.all())
-    # TODO: ordonnée par pertinence des mots clés
-    return render(request, 'search.html', context={"datasets": Counter(datasets).most_common()})
+    nb_datasets = len(datasets)
+    # TODO: ordonnée par pertinence des mots clés ?
+    datasets_by_keyword_match = dict()
+    for dataset, count in Counter(datasets).most_common():
+        try:
+            datasets_by_keyword_match[count].add(dataset)
+        except KeyError:
+            datasets_by_keyword_match[count] = {dataset}
+    return render(request, 'search.html',
+                  context={"datasets_by_keyword_match": datasets_by_keyword_match, "nb_datasets": nb_datasets})
 
 
 def popularized_page(request, dataset_id):
