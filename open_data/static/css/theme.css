@@ -73,6 +73,7 @@ img {
     width: 160px;
     border-radius: 50%;
     border: 1px solid;
+    --image-color: {{ theme.color }}
 }
 
 .theme-presentation,

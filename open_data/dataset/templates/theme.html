@@ -2,12 +2,12 @@
 {% load static %}
 {% block title %}{{ theme.name }}{% endblock %}
 {% block head %}
-<style>
+<!--<style>
   .theme-img {
     width: 128px;
     height: 128px;
   }
-</style>
+</style>-->
 <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 {% endblock %}
 {% block main %}
@@ -17,7 +17,7 @@
           {% if theme.image %}
           <div class="theme-image">
             <!--Faut peut-être refactor le style avec le fichier css-->
-            <span class="svg theme-img" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}"></span>
+            <img class="svg theme-image" src="url({{ theme.image.url }})" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}">
           </div>
           {% endif %}
           <div class="theme-presentation">
@@ -43,7 +43,7 @@
             {% if theme.image %}
             <div class="imgBx1">
               <!--Faut peut-être refactor le style avec le fichier css-->
-              <span class="svg theme-img" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}"></span>
+              <img class="svg theme-image" src="url({{ theme.image.url }})" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}">
             </div>
             {% endif %}
             <div class="dataset-title">
