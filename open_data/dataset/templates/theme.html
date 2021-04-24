@@ -12,11 +12,30 @@
 {% endblock %}
 {% block main %}
 <h1>{{ theme.name }}</h1>
-<div>
-  {% if theme.image %}
-  <span class="svg theme-img" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}"></span>
-  {% endif %}
-</div>
+<div class="container">
+      <div class="theme">
+          {% if theme.image %}
+          <div class="theme-image">
+            <!--Faut peut-être refactor le style avec le fichier css-->
+            <span class="svg theme-img" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}"></span>
+          </div>
+          {% endif %}
+          <div class="theme-presentation">
+            <button class="btn theme-subscribe-btn">S'abonner</button>
+          </div>
+          <div class="theme-stats">
+              <ul>
+                  <li><span class="theme-stat-count">4</span> datasets</li>
+                  <li><span class="theme-stat-count">188</span> abonnés</li>
+                  <li><span class="theme-stat-count">206</span> j'aime</li>
+                  <li><span class="theme-stat-count">20</span> téléchargements</li>
+              </ul>
+          </div>
+          <div class="theme-description">
+              <p>Cette catégorie reprend tous les datasets du thème {{theme.name}}</p>
+          </div>
+      </div>
+  </div>
 <div class="datasets">
   {% for dataset in theme.datasets.all %}
   <div class="card dataset">
