@@ -30,18 +30,18 @@
 <div id="explore-dropdown" class="modal-mask">
   <div class="left dropdown">
     <form style="display: flex; justify-content: center;" action="{% url 'search' %}">
-      <input type="search" name="q">
-      <button><span class="fa fa-search"></span></button>
+        <label>
+            <input type="search" name="q">
+        </label>
+        <button><span class="fa fa-search"></span></button>
     </form>
     {% for theme in themes %}
-    {% if not theme.hidden %}
     <div class="explore-item theme{{ forloop.counter }}-dropdown-button">
-      {% if theme.image %}
-      <img src="{{ theme.image.url }}" alt="" />
+      {% if theme.icon %}
+      <span>{{ theme.icon }}</span>
       {% endif %}
-      {{ theme.name }}
+      <span>{{ theme.name }}</span>
     </div>
-    {% endif %}
     {% endfor %}
   </div>
 </div>
@@ -56,13 +56,11 @@
     <h4>Les plus populaires</h4>
     {% for dataset in theme.popular_datasets %}
     <div class="explore-item">
-      <a href="{% url 'dataset' dataset_id=dataset.id %}">
-        {{ dataset }}
-      </a>
+      <a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a>
     </div>
     {% endfor %}
     <p>
-      <a href="{% url 'theme' theme_name=theme.name %}">Voir plus...</a>
+      <a href="{% url 'theme' theme_id=theme.id %}">Voir plus...</a>
     </p>
   </div>
 </div>

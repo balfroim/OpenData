@@ -100,6 +100,7 @@ DATABASES = {
 
 # Authentication
 
+AUTH_USER_MODEL = 'user.User'
 LOGIN_URL = '/log-in/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
@@ -149,3 +150,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 
 API_URL = 'https://data.namur.be/api/v2/'
 IFRAME_URL = 'https://data.namur.be/explore/embed/dataset/'
+
+DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
+
+BADGES_PATH = BASE_DIR / 'badges.json'

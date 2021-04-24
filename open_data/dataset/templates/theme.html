@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{{ theme.name }}{% endblock %}
+{% block head %}
+<style>
+  .theme-img {
+    width: 128px;
+    height: 128px;
+  }
+</style>
+{% endblock %}
+{% block main %}
+<h1>{{ theme.name }}</h1>
+<div>
+  {% if theme.image %}
+  <span class="svg theme-img" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}"></span>
+  {% endif %}
+</div>
+<div class="datasets">
+  {% for dataset in theme.datasets.all %}
+  <div class="card dataset">
+    <div>{{ forloop.counter }} {{ dataset.title }}</div>
+    <div>{{ dataset.description|safe }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

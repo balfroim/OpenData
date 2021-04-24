@@ -1,5 +1,5 @@
 {% load static notifications_tags %}
-<nav>
+<nav class="responsive">
   <a href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
   </a>
@@ -7,24 +7,20 @@
     Accueil
     <i class="fas fa-home"></i>
   </a>
-  <a href="{% url 'quizzes' %}">
-    Quiz
-    <i class="fas fa-question"></i>
-  </a>
   <button class="explore-dropdown-button">
     Explorer
     <i class="fas fa-arrow-down"></i>
   </button>
   <div class="separator"></div>
   {% if user.is_staff %}
-  <a href="{% url 'admin:index' %}">
-    <i class="fas fa-unlock-alt"></i>
-    Admin
-  </a>
+    <a href="{% url 'admin:index' %}">
+      <i class="fas fa-unlock-alt"></i>
+      Admin
+    </a>
   {% endif %}
-  <a href="{% url 'forum' %}">
-    <i class="fas fa-users"></i>
-    Forum
+  <a href="{% url 'quizzes' %}">
+    <i class="fas fa-question"></i>
+    Quiz de la semaine
   </a>
   <a href="{% url 'scores' %}">
     <i class="fas fa-star"></i>
@@ -36,6 +32,10 @@
   </span>
   <button class="profile-dropdown-button">
     <i class="fas fa-lg fa-user"></i>
-    Profil
+    {% if user.profile.is_registered %}
+    {{ user.profile.name }}
+    {% else %}
+    Profile
+    {% endif %}
   </button>
 </nav>

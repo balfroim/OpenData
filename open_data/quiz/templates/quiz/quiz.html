@@ -1,5 +1,5 @@
 {% load quiz %}
-<div class="centered card">
+<div class="card">
   <div>
     <p><i>{{ quiz.title }}</i></p>
     <p>
@@ -11,7 +11,7 @@
       correctement répondu à ce quiz, mettez vos connaissances à l'épreuve!
       {% if quiz.dataset.id %}
       Aucune idée ? N'hésitez pas à explorer
-      <a href="https://data.namur.be/explore/dataset/{{ quiz.dataset.id }}" target="_blank">
+      <a href="{% url 'dataset' dataset_id=quiz.dataset.id %}">
         le jeu de données source
       </a> !
       {% endif %}

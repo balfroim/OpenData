@@ -6,7 +6,6 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('forum/', TemplateView.as_view(template_name='forum.html'), name='forum'),
-    path('search/', views.search, name='search'),
     path('scores/', TemplateView.as_view(template_name='scores.html'), name='scores'),
     path('theme/<str:theme_name>', TemplateView.as_view(template_name='theme.html'), name='theme'),
 ]

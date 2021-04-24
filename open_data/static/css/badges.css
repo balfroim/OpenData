@@ -1,0 +1,39 @@
+:root {
+  --badge-size: 48px;
+}
+
+.badges {
+  max-height: 500px;
+  display: grid;
+  padding: 64px;
+  overflow: auto;
+  grid-template-columns: repeat(auto-fill, var(--badge-size));
+  gap: 4px;
+  margin-bottom: 32px;
+}
+
+.badge {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary);
+  border-radius: var(--rounded);
+  cursor: pointer;
+}
+
+.badge:hover {
+  background-color: #bbc;
+}
+
+.badge > img {
+  width: var(--badge-size);
+}
+
+.visible.badge > img {
+  filter: opacity(0.3);
+}
+
+.locked.badge > img {
+  filter: brightness(0.1) opacity(0.3);
+}

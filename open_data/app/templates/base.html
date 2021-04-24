@@ -15,12 +15,15 @@
     {% block head %}{% endblock %}
   </head>
   <body>
-    {# Modals before the header take the entire page. #}
+    {# Popups #}
+    <div id="badge-popup" class="popup"></div>
+    {# Modals #}
     {% include 'modals/login.html' %}
+    {% block modals %}{% endblock %}
     <header>
       {% include 'navbar.html' %}
     </header>
-    {# Modals after the header doesn't cover the navbar. #}
+    {# Dropdowns #}
     {% include 'modals/explore.html' %}
     {% include 'modals/notifications.html' %}
     {% include 'modals/profile.html' %}
