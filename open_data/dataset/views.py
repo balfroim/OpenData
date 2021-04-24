@@ -100,6 +100,7 @@ def toggle_like(request, dataset_id):
 
 def comments_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    BadgeCache.instance().possibly_award_badge('on_comment_read', user=request.user)
     return render(request, "modals/comments.html",
                   context={"dataset": dataset, "is_registered": request.user.profile.is_registered})
 
@@ -111,4 +112,5 @@ def add_comment(request, dataset_id):
     content = request.POST["content"]
     comment = Comment.objects.create(dataset=dataset, author=author, content=content)
     comment.save()
+    BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
     return comments_page(request, dataset_id)
