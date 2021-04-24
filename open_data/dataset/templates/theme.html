@@ -2,12 +2,6 @@
 {% load static %}
 {% block title %}{{ theme.name }}{% endblock %}
 {% block head %}
-<!--<style>
-  .theme-img {
-    width: 128px;
-    height: 128px;
-  }
-</style>-->
 <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 {% endblock %}
 {% block main %}
@@ -25,9 +19,9 @@
           </div>
           <div class="theme-stats">
               <ul>
-                  <li><span class="theme-stat-count">4</span> datasets</li>
-                  <li><span class="theme-stat-count">188</span> abonnés</li>
-                  <li><span class="theme-stat-count">206</span> j'aime</li>
+                  <li><span class="theme-stat-count">{{ theme.datasets.count }}</span> datasets</li>
+                  <li><span class="theme-stat-count">{{ theme.subscribed_users.count }}</span> abonnés</li>
+                  <!--<li><span class="theme-stat-count">206</span> j'aime</li>-->
                   <li><span class="theme-stat-count">20</span> téléchargements</li>
               </ul>
           </div>
@@ -51,16 +45,16 @@
             </div>
             <div class="data-stats">
               <ul>
-                <li> <span class="fa fa-heart"></span> <span class="data-stat-count">4</span></li>
-                <li> <span class="fa fa-comment"></span> <span class="data-stat-count">100</span></li>
+                <li> <span class="fa fa-heart"></span> <span class="data-stat-count">{{ dataset.liking_users.count }}</span></li>
+                <li> <span class="fa fa-comment"></span> <span class="data-stat-count">{{ dataset.comments.count }}</span></li>
                 <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
               </ul>
             </div><br>
             <div class="content1">
-              <p>Description du jeu de données ?</p>
+              <p> Cliquez sur la vignette pour avoir plus d'informations </p>
               <div class="sub-information">
-                <h3>Données : </h3>
-                <span>37 éléments</span> <!--Absent du modèle-->
+                <!--<h3>Données : </h3>
+                <span>37 éléments</span> Absent du modèle-->
                 <h3>Date de dernière modification : </h3>
                 <span>{{ dataset.modified }}</span>
               </div>
