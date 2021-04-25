@@ -1,15 +1,8 @@
 from badge.base import Badge, BadgeDetail, BadgeAwarded
+from badge.stereotypes import ThresholdedBadge
 
 
-def check_threshold(levels, thresholds, observed_value):
-    award = None
-    for lvl in range(len(levels)):
-        if observed_value >= thresholds[lvl]:
-            award = BadgeAwarded(level=lvl+1)
-    return award
-
-
-class QuizFailedBadge(Badge):
+class QuizFailedBadge(ThresholdedBadge):
     slug = "quiz-fail"
     levels = [
         BadgeDetail(
@@ -32,20 +25,12 @@ class QuizFailedBadge(Badge):
     events = [
         "on_quiz_result",
     ]
-    multiple = False
 
-    def award(self, **state):
-        user = state["user"]
-        nb_failed_quizzes = len([quiz for quiz in user.quizzes_taken.all() if not quiz.is_perfect_score])
-        award = check_threshold(self.levels, self.level_thresholds, nb_failed_quizzes)
-        if award:
-            score = self.levels[award.level].score
-            user.profile.add_score(score)
-            print(f'{user.profile.score} (+ {score})')
-            return award
+    def thresholded_value(self, user):
+        return len([quiz for quiz in user.quizzes_taken.all() if not quiz.is_perfect_score])
 
 
-class QuizPerfectBadge(Badge):
+class QuizPerfectBadge(ThresholdedBadge):
     slug = "quiz-perfect"
     levels = [
         BadgeDetail(
@@ -66,15 +51,6 @@ class QuizPerfectBadge(Badge):
     events = [
         "on_quiz_result",
     ]
-    multiple = False
 
-    def award(self, **state):
-        user = state["user"]
-        nb_perfect_score_quizzes = len([quiz for quiz in user.quizzes_taken.all() if quiz.is_perfect_score])
-        award = check_threshold(self.levels, self.level_thresholds, nb_perfect_score_quizzes)
-        if award:
-            score = self.levels[award.level].score
-            print(self.levels[award.level])
-            user.profile.add_score(score)
-            print(f'{user.profile.score} (+ {score})')
-            return award
+    def thresholded_value(self, user):
+        return len([quiz for quiz in user.quizzes_taken.all() if quiz.is_perfect_score])
