@@ -22,6 +22,6 @@ class Command(BaseCommand):
             obj, created = Theme.objects.get_or_create(name=theme)
             if created:
                 created_count += 1
-                self.stdout.write(f'{obj.slug} theme created.')
+                self.stdout.write(f'{obj.name!r} theme created.')
 
         self.stdout.write(self.style.SUCCESS(f'Done: {total_count} themes, {created_count} added.'))
