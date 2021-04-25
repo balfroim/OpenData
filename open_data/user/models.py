@@ -31,18 +31,16 @@ class Profile(models.Model):
     name = models.CharField(max_length=24, default=generate_name)
     description = models.TextField(max_length=200, default='', blank=True)
     is_registered = models.BooleanField(default=False)
-    score = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
-    def add_score(self, amount):
-        self.score = max(0, self.score + amount)
-        self.save()
-
-    def set_score(self, score):
-        self.score = max(0, score)
-        self.save()
+    @property
+    def score(self):
+        total_score = 0
+        for badge in self.user.badges_earned.all():
+            total_score += badge.score
+        return total_score
 
     @property
     def rank(self):

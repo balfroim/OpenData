@@ -19,12 +19,9 @@ class ThresholdedBadge(Badge, metaclass=ABCMeta):
 
     def award(self, **state):
         user = state["user"]
-
+        award = None
         for lvl, badge_detail in enumerate(self.levels):
             if self.thresholded_value(user) >= self.level_thresholds[lvl]:
                 award = BadgeAwarded(level=lvl+1)
-                if award:
-                    user.profile.add_score(badge_detail.score)
-                    print(f"{user.profile.score} (+{badge_detail.score})")
-                    return award
+        return award
 
