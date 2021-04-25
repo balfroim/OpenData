@@ -1,1 +1,168 @@
-Ceci est une vue vulgarisée.
+<style>
+    .row {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .col {
+        float: left;
+        width: 50%;
+    }
+
+    table,
+    td {
+        border: 1px solid #333;
+        padding: 10px;
+    }
+
+    thead,
+    tfoot {
+        background-color: #0e2240;
+        color: #fff;
+    }
+</style>
+
+<h1>COVID-19 Pandémie - Belgique - Hospitalisations par date et Province</h1>
+<small>Durant la crise sanitaire liée à l'épidémie du COVID-19, Sciensano et le service fédéral belge de la Santé publique
+    publient des rapports sur l'évolution de la situation en Belgique. Ces données ont été recueillies sur epistat.wiv-isp.be
+    à partir des rapports officiels quotidiens.</small>
+<div class="row">
+    <div class="col">
+        <h2>Hospitalisations en Belgique : Situation au 24 avril 2021</h2>
+        <p>Actuellement, 2853 personnes sont hospitalisées dont 875 en soins intensifs, 506 sous assistance respiratoire,
+            61 sous ECMO (Oxygénation par membrane extracorporelle)</p>
+        <p>Durant les 24 dernières heures, il y a eu:</p>
+        <ul>
+            <li>228 hospitalisations</li>
+            <li>320 sorties</li>
+        </ul>
+        <p>Le nombre de personnes hospitalisées a donc diminué de 92 ces dernières 24 heures.</p>
+        <p>Nombre de lits disponibles en soins intensifs: 83</p>
+
+
+    </div>
+
+    <div class="col">
+        <h2>Actualités liées à ce jeu de données</h2>
+        <ul>
+            <li>
+                <a href="https://www.rtbf.be/info/belgique/detail_96-des-lits-de-soins-intensifs-sont-actuellement-occupes-voici-les-provinces-ou-la-situation-est-la-plus-critique?id=10737429">9 avril 2021: voici les provinces où la situation est la plus critique </a>
+            </li>
+            <li>
+                <a href="https://www.lavenir.net/cnt/dmf20210423_01574575/coronavirus-les-hospitalisations-sous-la-barre-des-3-000">
+                    23 avril 2021: Hospitalisations sous la barre des 3000
+                </a>
+            </li>
+            <li>
+                <a href="https://www.sudinfo.be/id389427/article/2021-04-24/un-peu-de-repit-dans-nos-hopitaux-ou-le-nombre-de-lits-disponibles-aux-soins">
+                    24 avril 2021: Le nombre de lits disponibles en soins intensifs remonte
+                </a>
+            </li>
+        </ul>
+        <h2>Tableaux récapitulatifs par région</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="12">Situation par région - Fédération Wallonie-Bruxelles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>Bruxelles</td>
+                    <td>Namur</td>
+                    <td>Brabant Wallon</td>
+                    <td>Hainaut</td>
+                    <td>Liège</td>
+                    <td>Luxembourg</td>
+                </tr>
+                <tr>
+                    <td>Hospitalisations</td>
+                    <td>466</td>
+                    <td>144</td>
+                    <td>32</td>
+                    <td>503</td>
+                    <td>291</td>
+                    <td>59</td>
+                </tr>
+                <tr>
+                    <td>Soins intensifs</td>
+                    <td></td>
+                    <td></td>
+                    <td>11</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Assistance respiratoire</td>
+                    <td></td>
+                    <td></td>
+                    <td>5</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>sous ECMO</td>
+                    <td></td>
+                    <td></td>
+                    <td>0</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="6">Situation par région - Communauté flamande</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>Anvers</td>
+                    <td>Flandre Orientale</td>
+                    <td>Flandre Occidentale</td>
+                    <td>Brabant Flamand</td>
+                    <td>Limbourg</td>
+                </tr>
+                <tr>
+                    <td>Hospitalisations</td>
+                    <td>390</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Soins intensifs</td>
+                    <td>120</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Assistance respiratoire</td>
+                    <td>72</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>sous ECMO</td>
+                    <td>5</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
