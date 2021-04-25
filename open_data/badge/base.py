@@ -3,13 +3,9 @@ from django.templatetags.static import static
 from .models import BadgeAward
 from .signals import badge_awarded_signal
 
+from abc import ABCMeta, abstractmethod
 
-def abstract_property(name):
-    def attr(*args):
-        msg = "attribute %r must be defined on child class." % name
-        raise NotImplementedError(msg)
-
-    return property(attr, attr)
+from collections.abc import Collection
 
 
 class BadgeAwarded:
@@ -26,13 +22,30 @@ class BadgeDetail:
         self.score = score if score is not None else 0
 
 
-class Badge:
+class Badge(metaclass=ABCMeta):
     async_ = False
-    multiple = abstract_property("multiple")
-    levels = abstract_property("levels")
-    slug = abstract_property("slug")
-    events = abstract_property("events")
 
+    @property
+    @abstractmethod
+    def multiple(self) -> bool:
+        pass
+
+    @property
+    @abstractmethod
+    def levels(self) -> Collection[BadgeDetail]:
+        pass
+
+    @property
+    @abstractmethod
+    def slug(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def events(self) -> Collection[str]:
+        pass
+
+    @abstractmethod
     def award(self, **state):
         raise NotImplementedError("must be implemented on base class")
 
