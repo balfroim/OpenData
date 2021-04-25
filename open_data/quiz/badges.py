@@ -15,12 +15,14 @@ class QuizFailedBadge(Badge):
         BadgeDetail(
             name="Errare humanum est",
             description="Se tromper dans un quiz.",
-            image="cancel.png"
+            image="cancel.png",
+            score=5
         ),
         BadgeDetail(
             name="Persevare diabolicum",
             description="Se tromper dans cinq quiz.",
-            image="cancel.png"
+            image="cancel.png",
+            score=25
         ),
     ]
     level_thresholds = [
@@ -35,7 +37,12 @@ class QuizFailedBadge(Badge):
     def award(self, **state):
         user = state["user"]
         nb_failed_quizzes = len([quiz for quiz in user.quizzes_taken.all() if not quiz.is_perfect_score])
-        return check_threshold(self.levels, self.level_thresholds, nb_failed_quizzes)
+        award = check_threshold(self.levels, self.level_thresholds, nb_failed_quizzes)
+        if award:
+            score = self.levels[award.level].score
+            user.profile.add_score(score)
+            print(f'{user.profile.score} (+ {score})')
+            return award
 
 
 class QuizPerfectBadge(Badge):
@@ -44,10 +51,12 @@ class QuizPerfectBadge(Badge):
         BadgeDetail(
             name="Question pour un champion",
             description="Répondre parfaitement à un quiz.",
+            score=20
         ),
         BadgeDetail(
             name="Veni, vidi, vici",
             description="Répondre parfaitement à cinq quiz.",
+            score=100
         )
     ]
     level_thresholds = [
@@ -62,4 +71,10 @@ class QuizPerfectBadge(Badge):
     def award(self, **state):
         user = state["user"]
         nb_perfect_score_quizzes = len([quiz for quiz in user.quizzes_taken.all() if quiz.is_perfect_score])
-        return check_threshold(self.levels, self.level_thresholds, nb_perfect_score_quizzes)
+        award = check_threshold(self.levels, self.level_thresholds, nb_perfect_score_quizzes)
+        if award:
+            score = self.levels[award.level].score
+            print(self.levels[award.level])
+            user.profile.add_score(score)
+            print(f'{user.profile.score} (+ {score})')
+            return award

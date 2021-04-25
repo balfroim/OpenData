@@ -14,11 +14,13 @@ class LikedDatasetBadge(Badge):
     levels = [
         BadgeDetail(
             name="J'aime donc je suis",
-            description="Liker un dataset."
+            description="Liker un dataset.",
+            score=10
         ),
         BadgeDetail(
             name="Open relationship",
-            description="Liker cinq datasets."
+            description="Liker cinq datasets.",
+            score=50
         ),
     ]
     level_thresholds = [
@@ -33,4 +35,9 @@ class LikedDatasetBadge(Badge):
     def award(self, **state):
         user = state["user"]
         nb_liked_dataset = len(user.profile.liked_datasets.all())
-        return check_threshold(self.levels, self.level_thresholds, nb_liked_dataset)
+        award = check_threshold(self.levels, self.level_thresholds, nb_liked_dataset)
+        if award:
+            score = self.levels[award.level].score
+            user.profile.add_score(score)
+            print(f'{user.profile.score} (+ {score})')
+            return award
