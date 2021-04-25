@@ -3,6 +3,7 @@ import random
 from django.shortcuts import render
 
 from dataset.models import Theme, ProxyDataset, Comment
+from user.models import Profile
 from quiz.forms import QuizForm
 from quiz.models import Quiz
 
@@ -19,3 +20,8 @@ def home(request):
 def quizzes(request):
     quizzes = [QuizForm(quiz, request.POST) for quiz in Quiz.objects.all()]
     return render(request, 'quiz.html', {'quizzes': quizzes})
+
+
+def scoreboard(request):
+    users = Profile.objects.filter(is_registered=True).order_by('-score')
+    return render(request, 'scoreboard.html', {'users': users})
