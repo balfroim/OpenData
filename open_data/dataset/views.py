@@ -93,7 +93,7 @@ def toggle_like(request, dataset_id):
     else:
         request.user.profile.liked_datasets.remove(dataset)
 
-    BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_dataset_like', user=request.user)
 
     return JsonResponse({'liked': liked, 'n_likes': dataset.liking_users.count()})
 

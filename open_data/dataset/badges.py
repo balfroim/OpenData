@@ -1,15 +1,8 @@
-from badge.base import Badge, BadgeDetail, BadgeAwarded
+from badge.base import BadgeDetail
+from badge.stereotypes import ThresholdedBadge
 
 
-def check_threshold(levels, thresholds, observed_value):
-    award = None
-    for lvl in range(len(levels)):
-        if observed_value >= thresholds[lvl]:
-            award = BadgeAwarded(level=lvl+1)
-    return award
-
-
-class LikedDatasetBadge(Badge):
+class LikedDatasetBadge(ThresholdedBadge):
     slug = "dataset-like"
     levels = [
         BadgeDetail(
@@ -30,14 +23,6 @@ class LikedDatasetBadge(Badge):
     events = [
         "on_dataset_like",
     ]
-    multiple = False
 
-    def award(self, **state):
-        user = state["user"]
-        nb_liked_dataset = len(user.profile.liked_datasets.all())
-        award = check_threshold(self.levels, self.level_thresholds, nb_liked_dataset)
-        if award:
-            score = self.levels[award.level].score
-            user.profile.add_score(score)
-            print(f'{user.profile.score} (+ {score})')
-            return award
+    def thresholded_value(self, user):
+        return len(user.profile.liked_datasets.all())

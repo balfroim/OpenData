@@ -50,8 +50,12 @@ class BadgeConfig(AppConfig):
             except ModuleNotFoundError:
                 pass
             else:
-                classes = [cls for name, cls in inspect.getmembers(module, inspect.isclass)
-                           if is_badge(cls) and not is_abstract(cls)]
+                classes = [
+                    cls
+                    for name, cls
+                    in inspect.getmembers(module, inspect.isclass)
+                    if is_badge(cls) and not is_abstract(cls)
+                ]
                 for cls in classes:
                     # Retrieve positions from json file
                     # TODO: move this somewhere else...

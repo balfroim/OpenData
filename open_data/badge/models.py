@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from django.templatetags.static import static
 
 from user.models import User
 
