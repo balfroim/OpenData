@@ -5,7 +5,7 @@ from .signals import badge_awarded_signal
 
 from abc import ABCMeta, abstractmethod
 
-from collections.abc import Collection
+from collections.abc import Collection, MutableSequence
 
 
 class BadgeAwarded:
@@ -32,7 +32,7 @@ class Badge(metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def levels(self) -> Collection[BadgeDetail]:
+    def levels(self) -> MutableSequence[BadgeDetail]:
         pass
 
     @property
