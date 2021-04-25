@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 {% endblock %}
 {% block main %}
+<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/data/theme/{{ theme.id }}">{{ theme.name }}</a>
 <h1>{{ theme.name }}</h1>
 <div class="container">
       <div class="theme">

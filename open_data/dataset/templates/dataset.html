@@ -43,6 +43,7 @@
 {% endblock %}
 
 {% block main %}
+<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/data/theme/{{ dataset.theme.id }}">{{ dataset.theme.name }}</a> > <a href="data/dataset/{{dataset.id}}"> {{dataset.title}}</a>
     <div class="button-tabs">
         {% for type, class, _ in dataset.iframes %}
             <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
