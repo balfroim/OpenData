@@ -26,7 +26,7 @@ class LikedDatasetBadge(Badge):
         5,
     ]
     events = [
-        "on_dataset_liked",
+        "on_dataset_like",
     ]
     multiple = False
 

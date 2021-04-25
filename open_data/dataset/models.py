@@ -116,10 +116,6 @@ class Keyword(models.Model):
     datasets = models.ManyToManyField(ProxyDataset, related_name='keywords', blank=True)
     word = models.CharField(max_length=64, primary_key=True)
 
-    @classmethod
-    def preprocess(cls, keyword):
-        return keyword.lower()
-
     def __str__(self):
         return self.word
 
