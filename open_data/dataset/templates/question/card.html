@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="message">
+    <div class="message-header">
+      <span>{{ content.posted_at|date:'d F Y H:m' }}</span>
+      <span>{{ content.display_author }}</span>
+{#      {% if context_link %}#}
+{#        <a href="{{ context_link }}">Voir dans son contexte</a>#}
+{#      {% endif %}#}
+    </div>
+    <div>
+      {{ content.display_text }}
+    </div>
+  </div>
+</div>

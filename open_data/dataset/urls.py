@@ -12,7 +12,7 @@ urlpatterns = [
     path('dataset/<str:dataset_id>/question/add', views.add_question, name='add-question'),
     path('question/<int:question_id>', views.question_page, name='question'),
     path('question/<int:question_id>/rmv', views.rmv_question, name='rmv-question'),
-    # path('question/<int:question_id>/answer/add', views.add_answer, name='add-answer'),
-    # path('answer/<int:answer_id>/rmv', views.rmv_answer, name='rmv-answer'),
+    path('question/<int:question_id>/answer/add', views.add_answer, name='add-answer'),
+    path('answer/<int:answer_id>/rmv', views.rmv_answer, name='rmv-answer'),
     path('search/', views.search_page, name='search'),
 ]

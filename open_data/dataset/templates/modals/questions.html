@@ -1,17 +1,8 @@
+{% load question %}
 <h2>Posez vos questions</h2>
 
 {% for question in dataset.questions.all %}
-    <div class="card">
-        <div class="message">
-            <div class="message-header">
-                <span>{{ question.content.posted_at|date:'d F Y H:m' }}</span>
-                <span>{{ question.display_author }}</span>
-            </div>
-            <div>
-                {{ question.content.display_text }}
-            </div>
-        </div>
-    </div>
+    {% question_card question %}
     {% empty %}
     <p>Il n'y a pas de questions pour le moment</p>
 {% endfor %}

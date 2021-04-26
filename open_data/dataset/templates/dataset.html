@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load quiz dataset %}
+{% load quiz dataset question %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
     <style>
@@ -41,7 +41,7 @@
 
     <div id="questions-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
         <div class="modal">
-            {% show_comments dataset user %}
+            {% questions_modal dataset user %}
         </div>
     </div>
 

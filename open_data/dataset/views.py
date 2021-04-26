@@ -8,7 +8,7 @@ from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 
-from .models import Theme, ProxyDataset, Keyword, Question, Content
+from .models import Theme, ProxyDataset, Keyword, Question, Content, Answer
 from badge.registry import BadgeCache
 
 DATASETS_PER_PAGE = 100
@@ -112,7 +112,7 @@ def toggle_like(request, dataset_id):
 def questions_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     BadgeCache.instance().possibly_award_badge('on_comment_read', user=request.user)
-    return render(request, "modals/comments.html",
+    return render(request, "modals/questions.html",
                   context={"dataset": dataset, "is_registered": request.user.profile.is_registered})
 
 
@@ -134,20 +134,22 @@ def question_page(request, question_id):
 @require_POST
 def rmv_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
-    question.delete()
+    question.content.deleted = True
+    question.content.save()
     return HttpResponse(status=204)
 
 
-# @require_POST
-# def add_answer(request, question_id):
-#     question = get_object_or_404(Question, id=question_id)
-#     # TODO
-#     return HttpResponse()
-
-# @require_POST
-# def rmv_answer(request, answer_id):
-#     answer = get_object_or_404(Answer, id=answer_id)
+@require_POST
+def add_answer(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
+    Answer.objects.create(question=question, content=content)
+    return HttpResponse()
 
 
-
-
+@require_POST
+def rmv_answer(request, answer_id):
+    answer = get_object_or_404(Answer, id=answer_id)
+    answer.content.deleted = True
+    answer.content.save()
+    return HttpResponse(status=204)
