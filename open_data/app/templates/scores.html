@@ -2,12 +2,5 @@
 {% block title %}Tableau des scores{% endblock %}
 {% block main %}
 <a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/scores">Tableau des scores <i class="fas fa-star"></i></a>
-    <h1>Tableau des scores</h1>
-    <ol>
-        {% for user in users %}
-
-            <li>{{ user.name }} [{{ user.score }}]</li>
-
-        {% endfor %}
-    </ol>
+  <h1>Tableau des scores</h1>
 {% endblock %}

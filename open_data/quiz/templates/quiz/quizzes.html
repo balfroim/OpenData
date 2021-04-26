@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
 {% endblock %}
 {% block main %}
+<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/quiz">Quiz de la semaine</a>
   <h1>Quiz de la semaine</h1>
   <div class="quizzes">
   {% for quiz in quizzes %}
