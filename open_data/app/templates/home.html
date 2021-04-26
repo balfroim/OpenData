@@ -4,75 +4,9 @@
 {% block head %}
   <script type="module" src="{% static 'js/quiz.js' %}"></script>
   <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
   <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
-  <style>
-    @media screen and (min-width: 1200px) {
-      main {
-        --page-width: 80%;
-        column-count: 2;
-      }
-
-      main > h1 {
-        column-span: all;
-      }
-
-      main > section {
-        break-inside: avoid;
-      }
-    }
-
-    .pills {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .pills > * {
-      margin: 2px;
-      padding: 2px 6px;
-      border: 8px solid var(--secondary);
-      border-radius: 64px;
-      background-color: var(--secondary);
-      font-weight: bold;
-      transition: all .1s;
-    }
-
-    .pills > *:hover {
-      color: white;
-      background-color: var(--primary);
-      border-color: var(--primary);
-    }
-
-    .pills a {
-      color: inherit;
-      text-decoration: inherit;
-    }
-
-    .carousel-cell {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 384px;
-      height: 256px;
-      margin: 0 10px;
-      padding: 10px;
-      border-radius: 32px;
-      color: inherit;
-      background-color: ghostwhite;
-      text-decoration: none;
-    }
-
-    .carousel-cell-img {
-      width: 128px;
-      height: 128px;
-      margin: auto;
-    }
-
-    .carousel-cell-title {
-      text-align: center;
-      font-weight: bold;
-    }
-  </style>
 {% endblock %}
 {% block main %}
   <h1>Accueil</h1>
@@ -97,7 +31,7 @@
     </p>
   </section>
   <section>
-    <h2>Explorer les jeux de données</h2>
+    <h2>Explorer les données</h2>
     <div class="pills">
       {% for theme in themes %}
       <a href="{% url 'theme' theme_id=theme.id %}">
@@ -127,22 +61,22 @@
     <h2>Quiz du jour</h2>
     {% show_quiz today_quiz user %}
   </section>
-   <section>
-   <h2>Dernières questions</h2>
-   {# TODO: Tags ?? #}
-       {% for question in last_questions %}
-           <div class="card">
-               <div class="message">
-                   <div class="message-header">
-                       <span>{{ question.posted_at|date:'d F Y H:m'}}</span>
-                       <span>{{ question.author_or_deleted }}</span>
-                       <a href="{% url 'dataset' question.dataset.id %}">Voir dans son contexte</a>
-                   </div>
-                   <div>
-                       {{ question.content_or_deleted }}
-                   </div>
-               </div>
-           </div>
-       {% endfor %}
-   </section>
+  <section>
+    <h2>Dernières questions</h2>
+    {# TODO: Tags ?? #}
+    {% for question in last_questions %}
+      <div class="card">
+        <div class="message">
+          <div class="message-header">
+            <span>{{ question.posted_at|date:'d F Y H:m'}}</span>
+            <span>{{ question.author_or_deleted }}</span>
+            <a href="{% url 'dataset' question.dataset.id %}">Voir dans son contexte</a>
+          </div>
+          <div>
+            {{ question.content_or_deleted }}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
 {% endblock %}
