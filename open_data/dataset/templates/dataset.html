@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% load quiz dataset question %}
+{% load static quiz dataset question %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
+  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <style>
         main {
             --page-width: 100%;
@@ -39,9 +40,9 @@
         </div>
     </div>
 
-    <div id="questions-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
+    <div id="comments-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
         <div class="modal">
-            {% questions_modal dataset user %}
+            {% show_comments dataset user %}
         </div>
     </div>
 
@@ -77,9 +78,9 @@
                class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
             <span id="like-number">{{ dataset.liking_users.count }}</span>
         </button>
-        <button class="questions-modal-button">
+        <button class="comments-modal-button">
             <i class="fas fa-question-circle"></i>
-            {{ dataset.questions.count }}
+            {{ dataset.comments.count }}
         </button>
         {% if dataset.quizzes.count %}
             <button class="quiz-modal-button">
@@ -124,21 +125,20 @@
         });
     </script>
     <script>
-        const questionModal = document.querySelector('#questions-modal');
-        const addQuestionForm = document.querySelector('#add-question-form');
-        if (questionModal) {
-            addQuestionForm.addEventListener('submit', async event => {
+        const commentModal = document.querySelector('#comments-modal');
+        const addCommentForm = document.querySelector('#add-comment-form');
+        if (commentModal) {
+            addCommentForm.addEventListener('submit', async event => {
                 event.preventDefault();
 
-                const response = await fetch("{% url "add-question" dataset.id %}", {
+                const response = await fetch('add-comment', {
                     method: 'POST',
-                    body: new URLSearchParams(new FormData(addQuestionForm)),
+                    body: new URLSearchParams(new FormData(addCommentForm)),
                     headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
                 });
 
-                console.log(response)
                 if (response.ok) {
-                    questionModal.querySelector('.modal').innerHTML = await response.text();
+                    commentModal.querySelector('.modal').innerHTML = await response.text();
                 }
             });
         }
