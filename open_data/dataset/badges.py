@@ -25,4 +25,4 @@ class LikedDatasetBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        return len(user.profile.liked_datasets.all())
+        return user.profile.liked_datasets.count()

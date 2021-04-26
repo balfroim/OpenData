@@ -1,14 +1,13 @@
 import importlib
 import inspect
-import json
 
 from django.apps import AppConfig
-from open_data.settings import CUSTOM_APPS, BADGES_PATH
+from open_data.settings import CUSTOM_APPS
 
 
 def is_abstract(cls):
     try:
-        return bool(cls.__abstractmethods__)
+        return len(cls.__abstractmethods__) > 0
     except AttributeError:
         return False
 
@@ -36,13 +35,6 @@ class BadgeConfig(AppConfig):
 
         from badge.registry import BadgeCache
 
-        # Get badges' positions from json
-        try:
-            with open(BADGES_PATH, 'r') as file:
-                positions = json.load(file)
-        except FileNotFoundError:
-            positions = {}
-
         # Import dynamically all the Badge subclasses in the installed apps.
         for module_name in CUSTOM_APPS:
             try:
@@ -59,11 +51,6 @@ class BadgeConfig(AppConfig):
                 for cls in classes:
                     # Retrieve positions from json file
                     # TODO: move this somewhere else...
-                    cls.positions = []
-                    for i in range(len(cls.levels)):
-                        name = f'{cls.slug}:{i}'
-                        position = positions.get(name, {'x': 0, 'y': 0})
-                        cls.positions.append([position['x'], position['y']])
 
                     BadgeCache.instance().register(cls)
 

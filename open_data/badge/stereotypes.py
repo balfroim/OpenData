@@ -1,6 +1,6 @@
-from badge.base import Badge, BadgeAwarded
-
 from abc import ABCMeta, abstractmethod
+
+from badge.base import Badge, BadgeAwarded
 
 
 class ThresholdedBadge(Badge, metaclass=ABCMeta):
@@ -22,6 +22,5 @@ class ThresholdedBadge(Badge, metaclass=ABCMeta):
         award = None
         for lvl, badge_detail in enumerate(self.levels):
             if self.thresholded_value(user) >= self.level_thresholds[lvl]:
-                award = BadgeAwarded(level=lvl+1)
+                award = BadgeAwarded(level=lvl + 1)
         return award
-

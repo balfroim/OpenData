@@ -1,11 +1,10 @@
+from abc import ABCMeta, abstractmethod
+from collections.abc import Collection, MutableSequence
+
 from django.templatetags.static import static
 
 from .models import BadgeAward
 from .signals import badge_awarded_signal
-
-from abc import ABCMeta, abstractmethod
-
-from collections.abc import Collection, MutableSequence
 
 
 class BadgeAwarded:
