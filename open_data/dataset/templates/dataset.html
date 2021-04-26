@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% load quiz dataset %}
+{% load static quiz dataset %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
+  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <style>
         main {
             --page-width: 100%;
