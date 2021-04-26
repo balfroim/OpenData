@@ -9,8 +9,12 @@
   </div>
   <h1>Tableau des scores</h1>
   <ol>
-    {% for user in users %}
-    <li>{{ user.name }} : {{ user.score }} points.</li>
+    {% for profile in profiles %}
+    <li>
+      <a href="{% url 'profile' username=profile.user.username %}">
+        {{ profile.name }}
+      </a>
+      <span>: {{ profile.score }} points.</span>
     {% endfor %}
   </ol>
 {% endblock %}
