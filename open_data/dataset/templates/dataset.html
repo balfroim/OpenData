@@ -39,7 +39,12 @@
         </div>
     </div>
 
-    {% show_comments dataset user %}
+    <div id="comments-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
+        <div class="modal">
+            {% show_comments dataset user %}
+        </div>
+    </div>
+
 
     <div id="linked-dataset-modal" class="modal-mask center">
         <div class="modal">
@@ -73,28 +78,23 @@
             <span id="like-number">{{ dataset.liking_users.count }}</span>
         </button>
         <button class="comments-modal-button">
-            <i class="fas fa-comment"></i>
+            <i class="fas fa-question-circle"></i>
             {{ dataset.comments.count }}
         </button>
         {% if dataset.quizzes.count %}
             <button class="quiz-modal-button">
                 <i class="fas fa-tasks"></i>
-                {{ dataset.quizzes.count }} quiz{{ dataset.quizzes.count|pluralize:"zes"  }}
-
+                {{ dataset.quizzes.count }} quiz
             </button>
         {% endif %}
         {% if nb_linked_datasets %}
             <button class="linked-dataset-modal-button">
                 <i class="fas fa-link"></i>
                 {{ nb_linked_datasets }}
-                jeu{{ nb_linked_datasets|pluralize:'x' }}
-                similaire{{ nb_linked_datasets|pluralize }}
+                recommendation{{ nb_linked_datasets|pluralize }}
             </button>
         {% endif %}
-        <button class="linked-dataset-modal-button">
-            <i class="fas fa-question-circle"></i>
-            0 questions
-        </button>
+
     </div>
     <div class="tabs">
         {% for type, _, url in dataset.iframes %}
@@ -137,7 +137,7 @@
                 });
 
                 if (response.ok) {
-                    commentModal.outerHTML = await response.text();
+                    commentModal.querySelector('.modal').innerHTML = await response.text();
                 }
             });
         }

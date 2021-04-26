@@ -1,29 +1,27 @@
-<div id="comments-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
-    <div class="modal">
-            {% for comment in dataset.comments.all %}
-                <div class="card">
-                    <div class="message">
-                        <div class="message-header">
-                            <span>{{ comment.posted_at|date:'d F Y H:m'}}</span>
-                            <a href="{% url 'dataset' comment.dataset.id %}">Voir dans son contexte</a>
-                        </div>
-                        <div>
-                            {{ comment.content }}
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <p>Sans commentaire...</p>
-            {% endfor %}
+<h2>Posez vos questions</h2>
 
-        {% if is_registered %}
-            <form style="display: flex; justify-content: center;" id="add-comment-form">
-                {% csrf_token %}
-                <label>
-                    <input type="text" name="content">
-                </label>
-                <button><span class="fas fa-comment-medical"></span></button>
-            </form>
-        {% endif %}
+{% for comment in dataset.comments.all %}
+    <div class="card">
+        <div class="message">
+            <div class="message-header">
+                <span>{{ comment.posted_at|date:'d F Y H:m'}}</span>
+                <a href="{% url 'dataset' comment.dataset.id %}">Voir dans son contexte</a>
+            </div>
+            <div>
+                {{ comment.content }}
+            </div>
+        </div>
     </div>
-</div>
+    {% empty %}
+    <p>Sans commentaire...</p>
+{% endfor %}
+
+{% if is_registered %}
+    <form style="display: flex; justify-content: center;" id="add-comment-form">
+        {% csrf_token %}
+        <label>
+            <input type="text" name="content">
+        </label>
+        <button><span class="fas fa-comment-medical"></span></button>
+    </form>
+{% endif %}
