@@ -2,14 +2,13 @@ import itertools
 from collections import Counter
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseNotFound
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponseNotFound
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
-from badge.registry import BadgeCache
 from .models import Theme, ProxyDataset, Keyword, Comment
+from badge.registry import BadgeCache
 
 DATASETS_PER_PAGE = 100
 
@@ -40,8 +39,13 @@ def dataset_page(request, dataset_id):
         in keys
         if k > 5
     }
+
     print(linked_datasets_by_nb_common_keywords)
     nb_linked_datasets = len(list(itertools.chain(*linked_datasets_by_nb_common_keywords.values())))
+
+    if request.GET.get('origin', '') == 'quiz':
+        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect', user=request.user)
+
     return render(request,
                   'dataset.html',
                   {'dataset': dataset,
@@ -114,3 +118,9 @@ def add_comment(request, dataset_id):
     comment.save()
     BadgeCache.instance().possibly_award_badge('on_comment_add', user=request.user)
     return comments_page(request, dataset_id)
+
+
+def download_dataset(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
+    BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
+    return redirect(dataset.exports['xls'])
