@@ -1,19 +1,9 @@
+{% load question %}
 <section>
   <h2>Dernières questions</h2>
   <div class="card">
     {% for question in questions %}
-    <div class="message">
-      <div class="message-header">
-        <span>{{ question.posted_at|date:'d F Y H:m'}}</span>
-        <span>{{ question.author_or_deleted }}</span>
-        <a href="{% url 'dataset' question.dataset.id %}">
-          Voir dans son contexte
-        </a>
-      </div>
-      <div>
-        {{ question.content_or_deleted }}
-      </div>
-    </div>
+    {% question_card question user %}
     {% empty %}
     Aucune question...
     {% endfor %}
