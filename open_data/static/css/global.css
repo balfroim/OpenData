@@ -51,6 +51,11 @@ button, .button {
   font-weight: bold;
 }
 
+a.button {
+  display: inline-block;
+  text-decoration: none;
+}
+
 button:hover, .button:hover {
   color: currentColor;
   background-color: transparent;
@@ -108,10 +113,6 @@ nav > button {
 }
 
 /* Utils */
-.clickable {
-  cursor: pointer;
-}
-
 .separator {
   flex: 1;
 }
