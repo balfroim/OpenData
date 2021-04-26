@@ -130,12 +130,13 @@
             addQuestionForm.addEventListener('submit', async event => {
                 event.preventDefault();
 
-                const response = await fetch('add-question', {
+                const response = await fetch("{% url "add-question" dataset.id %}", {
                     method: 'POST',
                     body: new URLSearchParams(new FormData(addQuestionForm)),
                     headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
                 });
 
+                console.log(response)
                 if (response.ok) {
                     questionModal.querySelector('.modal').innerHTML = await response.text();
                 }

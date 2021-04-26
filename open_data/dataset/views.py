@@ -6,8 +6,9 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
+from django.urls import reverse
 
-from .models import Theme, ProxyDataset, Keyword, Question
+from .models import Theme, ProxyDataset, Keyword, Question, Content
 from badge.registry import BadgeCache
 
 DATASETS_PER_PAGE = 100
@@ -77,10 +78,12 @@ def search_page(request):
     return render(request, 'search.html',
                   context={"datasets_by_keyword_match": datasets_by_keyword_match, "nb_datasets": nb_datasets})
 
+
 def download_dataset(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
     BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
     return redirect(dataset.exports['xls'])
+
 
 def popularized_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
@@ -106,7 +109,7 @@ def toggle_like(request, dataset_id):
     return JsonResponse({'liked': liked, 'n_likes': dataset.liking_users.count()})
 
 
-def comments_page(request, dataset_id):
+def questions_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     BadgeCache.instance().possibly_award_badge('on_comment_read', user=request.user)
     return render(request, "modals/comments.html",
@@ -116,11 +119,10 @@ def comments_page(request, dataset_id):
 @require_POST
 def add_question(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    author = request.user.profile
-    content = request.POST["content"]
-    Question.objects.create(dataset=dataset, author=author, content=content)
+    content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
+    Question.objects.create(dataset=dataset, content=content)
     BadgeCache.instance().possibly_award_badge('on_comment_add', user=request.user)
-    return HttpResponse(status=204)
+    return redirect(reverse("questions", kwargs={"dataset_id": dataset.id}))
 
 
 def question_page(request, question_id):

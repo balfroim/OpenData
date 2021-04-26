@@ -120,27 +120,40 @@ class Keyword(models.Model):
         return self.word
 
 
-class Question(models.Model):
-    author = models.ForeignKey(Profile, related_name="questions", on_delete=models.SET_NULL, null=True, blank=True)
-    dataset = models.ForeignKey(ProxyDataset, related_name="questions", on_delete=models.CASCADE)
-    deleted = models.BooleanField(default=False, help_text="Si la question a été supprimée.")
-    content = models.TextField(max_length=512, help_text="Le contenu de la question.")
-    posted_at = models.DateTimeField(help_text="Quand la question a été posée.")
+class Content(models.Model):
+    author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL, null=True, blank=True)
+    deleted = models.BooleanField(default=False)
+    text = models.TextField(max_length=512)
+    posted_at = models.DateTimeField()
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.posted_at = timezone.now()
-        return super(Question, self).save(*args, **kwargs)
+        return super(Content, self).save(*args, **kwargs)
 
-    @property
-    def content_or_deleted(self):
-        return self.content if not self.deleted else mark_safe("<i>Cette question a été supprimée</i>")
+    def display_text(self):
+        return self.text if not self.deleted else mark_safe("<i>Cette question a été supprimée</i>")
 
-    @property
-    def author_or_deleted(self):
+    def display_author(self):
         if self.author and self.author.user.is_active:
             return self.author.name
         return mark_safe("<i>Cet utilisateur a été supprimé</i>")
 
     def __str__(self):
-        return f"[{self.posted_at}] {self.author_or_deleted} a dit : {self.content_or_deleted}"
+        return f"[{self.posted_at}] {self.display_author()} : {self.display_text()}"
+
+
+class Question(models.Model):
+    dataset = models.ForeignKey(ProxyDataset, related_name="questions", on_delete=models.CASCADE)
+    content = models.OneToOneField(Content, related_name="question", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"[{self.content.posted_at}] {self.content.display_author()} : {self.content.display_text()}"
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, related_name="answers", on_delete=models.CASCADE)
+    content = models.OneToOneField(Content, related_name="answer", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"[{self.content.posted_at}] {self.content.display_author()} : {self.content.display_text()}"

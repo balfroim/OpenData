@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from dataset.models import Theme, ProxyDataset, Keyword, Question
+from dataset.models import Theme, ProxyDataset, Keyword, Question, Content, Answer
 
 
 @admin.register(Theme)
@@ -20,12 +20,20 @@ class ProxyDatasetAdmin(admin.ModelAdmin):
 
 @admin.register(Keyword)
 class KeywordAdmin(admin.ModelAdmin):
-    # search_fields = ["dataset"]
-    pass
+    search_fields = ["dataset"]
+
+
+@admin.register(Content)
+class ContentAdmin(admin.ModelAdmin):
+    readonly_fields = ["posted_at"]
+    search_fields = ["author", "text"]
 
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    readonly_fields = ['posted_at']
-    search_fields = ['author', "dataset"]
-    autocomplete_fields = ["author", "dataset"]
+    search_fields = ["content", "dataset"]
+
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    search_fields = ["content", "question"]

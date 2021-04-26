@@ -4,11 +4,11 @@
     <div class="card">
         <div class="message">
             <div class="message-header">
-                <span>{{ question.posted_at|date:'d F Y H:m' }}</span>
-                <span>{{ question.author_or_deleted }}</span>
+                <span>{{ question.content.posted_at|date:'d F Y H:m' }}</span>
+                <span>{{ question.display_author }}</span>
             </div>
             <div>
-                {{ question.content_or_deleted }}
+                {{ question.content.display_text }}
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
 {% endfor %}
 
 {% if is_registered %}
-    <form style="display: flex; justify-content: center;" id="add-comment-form">
+    <form style="display: flex; justify-content: center;" id="add-question-form">
         {% csrf_token %}
         <label>
             <textarea name="content"></textarea>

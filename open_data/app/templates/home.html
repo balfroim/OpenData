@@ -68,12 +68,12 @@
       <div class="card">
         <div class="message">
           <div class="message-header">
-            <span>{{ question.posted_at|date:'d F Y H:m'}}</span>
+            <span>{{ question.content.posted_at|date:'d F Y H:m' }}</span>
             <span>{{ question.author_or_deleted }}</span>
             <a href="{% url 'dataset' question.dataset.id %}">Voir dans son contexte</a>
           </div>
           <div>
-            {{ question.content_or_deleted }}
+            {{ question.content.display_text }}
           </div>
         </div>
       </div>
