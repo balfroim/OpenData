@@ -5,8 +5,7 @@ from django.views.decorators.http import require_POST
 
 from .models import User
 from .forms import SignInForm, ProfileForm
-from dataset.models import Comment
-from badge.models import BadgeAward
+from dataset.models import Question
 
 
 def sign_in(request):
@@ -43,7 +42,7 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
 
     last_badges = user.earned_badges.order_by('-awarded_at')[:10]
-    last_comments = Comment.objects.filter(author=user.profile).order_by('-posted_at')[:5]
+    last_comments = Question.objects.filter(author=user.profile).order_by('-posted_at')[:5]
 
     return render(request, 'profile.html', {
         'profile': user.profile,
@@ -63,7 +62,7 @@ def my_profile(request):
         form = ProfileForm(instance=profile)
 
     last_badges = request.user.badges_earned.order_by('-awarded_at')[:10]
-    last_comments = Comment.objects.filter(author=profile).order_by('-posted_at')[:5]
+    last_comments = Question.objects.filter(author=profile).order_by('-posted_at')[:5]
 
     return render(request, 'profile.html', {
         'profile': profile,

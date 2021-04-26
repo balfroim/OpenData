@@ -120,19 +120,25 @@ class Keyword(models.Model):
         return self.word
 
 
-class Comment(models.Model):
-    author = models.ForeignKey(Profile, related_name="comments", on_delete=models.SET_NULL, null=True, blank=True)
-    dataset = models.ForeignKey(ProxyDataset, related_name="comments", on_delete=models.CASCADE)
-    deleted = models.BooleanField(default=False, help_text="Si le commentaire a été supprimé.")
-    content = models.TextField(max_length=512, help_text="Le contenu du commentaire.")
-    posted_at = models.DateTimeField(help_text="Quand le commentaire a été posté.")
+class Question(models.Model):
+    author = models.ForeignKey(Profile, related_name="questions", on_delete=models.SET_NULL, null=True, blank=True)
+    dataset = models.ForeignKey(ProxyDataset, related_name="questions", on_delete=models.CASCADE)
+    deleted = models.BooleanField(default=False, help_text="Si la question a été supprimée.")
+    content = models.TextField(max_length=512, help_text="Le contenu de la question.")
+    posted_at = models.DateTimeField(help_text="Quand la question a été posée.")
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.posted_at = timezone.now()
-        return super(Comment, self).save(*args, **kwargs)
+        return super(Question, self).save(*args, **kwargs)
+
+    @property
+    def content_or_deleted(self):
+        return self.content if not self.deleted else mark_safe("<i>Cette question a été suprimée</i>")
+
+    @property
+    def author_or_deleted(self):
+        return self.author.name if self.author else mark_safe("<i>Cet utilisateur a été suprimé</i>")
 
     def __str__(self):
-        content = self.content if not self.deleted else "[COMMENTAIRE SUPPRIME]"
-        author = self.author or "[UTILISATEUR SUPPRIME]"
-        return f"[{self.posted_at}] {author} a dit : {content}"
+        return f"[{self.posted_at}] {self.author_or_deleted} a dit : {self.content_or_deleted}"

@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
-from .models import Theme, ProxyDataset, Keyword, Comment
+from .models import Theme, ProxyDataset, Keyword, Question
 from badge.registry import BadgeCache
 
 DATASETS_PER_PAGE = 100
@@ -110,12 +110,12 @@ def comments_page(request, dataset_id):
 
 
 @require_POST
-def add_comment(request, dataset_id):
+def add_question(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     author = request.user.profile
     content = request.POST["content"]
-    comment = Comment.objects.create(dataset=dataset, author=author, content=content)
-    comment.save()
+    question = Question.objects.create(dataset=dataset, author=author, content=content)
+    question.save()
     BadgeCache.instance().possibly_award_badge('on_comment_add', user=request.user)
     return comments_page(request, dataset_id)
 

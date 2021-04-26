@@ -1,14 +1,15 @@
 <h2>Posez vos questions</h2>
 
-{% for comment in dataset.comments.all %}
+{% for question in dataset.questions.all %}
     <div class="card">
         <div class="message">
             <div class="message-header">
-                <span>{{ comment.posted_at|date:'d F Y H:m'}}</span>
-                <a href="{% url 'dataset' comment.dataset.id %}">Voir dans son contexte</a>
+                <span>{{ question.posted_at|date:'d F Y H:m'}}</span>
+                <span>{{ question.author_or_deleted }}</span>
+{#                <a href="{% url 'dataset' question.dataset.id %}">Voir dans son contexte</a>#}
             </div>
             <div>
-                {{ comment.content }}
+                {{ question.content_or_deleted }}
             </div>
         </div>
     </div>
