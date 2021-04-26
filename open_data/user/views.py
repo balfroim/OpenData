@@ -1,12 +1,11 @@
 from django.contrib.auth import login
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from dataset.models import Content
 from .forms import SignInForm, ProfileForm
 from .models import User
+from dataset.models import Content
 
 
 def sign_in(request):
@@ -63,6 +62,4 @@ def profile(request, username):
 
 
 def my_profile(request):
-    return redirect(
-        reverse('profile', kwargs={"username": request.user.username})
-    )
+    return redirect('profile', username=request.user.username)

@@ -10,10 +10,13 @@
   <h1>Tableau des scores</h1>
   <ol>
     {% for user in users %}
-      <li>
-        <a href="{% url 'profile' user.username %}">{{ user.profile.name }}</a>
-        : {{ user.profile.score }} points.
-      </li>
+    <li>
+      <a href="{% url 'profile' username=user.username %}">
+        {{ user.profile.name }}
+      </a> : <span>
+        {{ user.profile.score }} points.
+      </span>
+    </li>
     {% endfor %}
   </ol>
 {% endblock %}
