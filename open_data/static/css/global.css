@@ -51,6 +51,11 @@ button, .button {
   font-weight: bold;
 }
 
+a.button {
+  display: inline-block;
+  text-decoration: none;
+}
+
 button:hover, .button:hover {
   color: currentColor;
   background-color: transparent;
@@ -61,12 +66,6 @@ button:hover, .button:hover {
   padding: 16px;
   border-radius: var(--rounded);
   background-color: var(--secondary);
-}
-
-@media screen and (max-width: 900px) {
-  .responsive {
-    flex-direction: column;
-  }
 }
 
 .errorlist {
@@ -91,23 +90,45 @@ nav > * + * {
   margin-left: 16px;
 }
 
-nav > .separator {
-  flex: 1;
-}
-
-nav a {
-  color: inherit;
-  text-decoration: unset;
-}
-
-nav button, nav .button {
+nav > button {
+  padding: 4px 8px;
   color: var(--primary);
   background-color: white;
   border-color: white;
 }
 
-.clickable {
-  cursor: pointer;
+@media screen and (max-width: 900px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav > * + * {
+    margin-left: 0;
+    margin-top: 4px;
+  }
+
+  nav > button:not(.nostyle) {
+    order: 1;
+  }
+}
+
+/* Utils */
+.separator {
+  flex: 1;
+}
+
+a.nostyle, a.nostyle:visited {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+button.nostyle {
+	padding: 0;
+	color: inherit;
+	border: none;
+	background: none;
+	font: inherit;
+	outline: inherit;
 }
 
 /* Tooltips */

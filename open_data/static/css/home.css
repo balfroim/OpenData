@@ -1,0 +1,65 @@
+@media screen and (min-width: 1200px) {
+  main {
+    --page-width: 80%;
+    column-count: 2;
+  }
+
+  main > h1 {
+    column-span: all;
+  }
+
+  main > section {
+    break-inside: avoid;
+  }
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pills > * {
+  margin: 2px;
+  padding: 2px 6px;
+  border: 8px solid var(--secondary);
+  border-radius: 64px;
+  background-color: var(--secondary);
+  font-weight: bold;
+  transition: all .1s;
+}
+
+.pills > *:hover {
+  color: white;
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.pills a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.carousel-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 384px;
+  height: 256px;
+  margin: 0 10px;
+  padding: 10px;
+  border-radius: 32px;
+  color: inherit;
+  background-color: ghostwhite;
+  text-decoration: none;
+}
+
+.carousel-cell-img {
+  width: 128px;
+  height: 128px;
+  margin: auto;
+}
+
+.carousel-cell-title {
+  text-align: center;
+  font-weight: bold;
+}
