@@ -42,12 +42,12 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
 
     last_badges = user.earned_badges.order_by('-awarded_at')[:10]
-    last_comments = Question.objects.filter(author=user.profile).order_by('-posted_at')[:5]
+    # last_comments = Question.objects.filter(author=user.profile).order_by('-posted_at')[:5]
 
     return render(request, 'profile.html', {
         'profile': user.profile,
         'last_badges': last_badges,
-        'last_comments': last_comments,
+        # 'last_comments': last_comments,
     })
 
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static question %}
 {% block title %}Profil{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
@@ -54,19 +54,9 @@
         <a href="{% url 'pinax_badges:badge_list' %}">Voir plus...</a>
     {% endif %}
     <h2>Derniers commentaires</h2>
-    {% for comment in last_comments %}
-        <div class="card">
-            <div class="message">
-                <div class="message-header">
-                    <span>{{ comment.posted_at|date:'d F Y H:m'}}</span>
-                    <a href="{% url 'dataset' comment.dataset.id %}">Voir dans son contexte</a>
-                </div>
-                <div>
-                    {{ comment.content }}
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+{#    {% for comment in las %}#}
+{#        {% question comment user %}#}
+{#    {% endfor %}#}
     <a href="#">Voir plus...</a>
     </div>
 {% endblock %}

@@ -11,4 +11,38 @@
     Pas encore de réponses
   {% endfor %}
 
+  {% if user.profile.is_registered %}
+    <h2>Répondre</h2>
+    <form style="display: flex; justify-content: center;" id="reply-form">
+      {% csrf_token %}
+      <label>
+        <textarea name="content"></textarea>
+      </label>
+      <button><span class="fas fa-reply"></span></button>
+    </form>
+  {% endif %}
+
+  <script>
+    const questionModal = document.querySelector('#questions-modal');
+    const replyForm = document.querySelector('#reply-form');
+    if (questionModal) {
+    {#  addQuestionForm.addEventListener('submit', async event => {#}
+    {#    event.preventDefault();#}
+    {##}
+    {#    const response = await fetch("{% url "add-answer" question.id %}", {#}
+    {#      method: 'POST',#}
+    {#      body: new URLSearchParams(new FormData(addQuestionForm)),#}
+    {#      headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),#}
+    {#    });#}
+    {##}
+    {#    console.log(response)#}
+    {#    if (response.ok) {#}
+    {#      questionModal.querySelector('.modal').innerHTML = await response.text();#}
+    {#    }#}
+    {#  });#}
+    {#  }#}
+      }
+
+  </script>
+
 {% endblock %}
