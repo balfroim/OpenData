@@ -3,7 +3,7 @@ import random
 from django.shortcuts import render
 
 from dataset.models import Theme, ProxyDataset, Question
-from user.models import Profile
+from user.models import User
 from quiz.forms import QuizForm
 from quiz.models import Quiz
 
@@ -23,6 +23,6 @@ def quizzes(request):
 
 
 def scoreboard(request):
-    users = Profile.objects.filter(is_registered=True)
-    users = sorted(users, key=lambda user: user.score, reverse=True)
+    users = User.objects.filter(profile__is_registered=True)
+    users = sorted(users, key=lambda user: user.profile.score, reverse=True)
     return render(request, 'scores.html', {'users': users})
