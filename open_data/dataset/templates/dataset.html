@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <div id="comments-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
+    <div id="questions-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
         <div class="modal">
             {% show_comments dataset user %}
         </div>
@@ -77,9 +77,9 @@
                class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
             <span id="like-number">{{ dataset.liking_users.count }}</span>
         </button>
-        <button class="comments-modal-button">
+        <button class="questions-modal-button">
             <i class="fas fa-question-circle"></i>
-            {{ dataset.comments.count }}
+            {{ dataset.questions.count }}
         </button>
         {% if dataset.quizzes.count %}
             <button class="quiz-modal-button">
@@ -124,20 +124,20 @@
         });
     </script>
     <script>
-        const commentModal = document.querySelector('#comments-modal');
-        const addCommentForm = document.querySelector('#add-comment-form');
-        if (commentModal) {
-            addCommentForm.addEventListener('submit', async event => {
+        const questionModal = document.querySelector('#questions-modal');
+        const addQuestionForm = document.querySelector('#add-question-form');
+        if (questionModal) {
+            addQuestionForm.addEventListener('submit', async event => {
                 event.preventDefault();
 
-                const response = await fetch('add-comment', {
+                const response = await fetch('add-question', {
                     method: 'POST',
-                    body: new URLSearchParams(new FormData(addCommentForm)),
+                    body: new URLSearchParams(new FormData(addQuestionForm)),
                     headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
                 });
 
                 if (response.ok) {
-                    commentModal.querySelector('.modal').innerHTML = await response.text();
+                    questionModal.querySelector('.modal').innerHTML = await response.text();
                 }
             });
         }

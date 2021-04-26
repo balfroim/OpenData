@@ -2,7 +2,7 @@ import itertools
 from collections import Counter
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
@@ -77,6 +77,10 @@ def search_page(request):
     return render(request, 'search.html',
                   context={"datasets_by_keyword_match": datasets_by_keyword_match, "nb_datasets": nb_datasets})
 
+def download_dataset(request, dataset_id):
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
+    BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
+    return redirect(dataset.exports['xls'])
 
 def popularized_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
@@ -114,13 +118,34 @@ def add_question(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     author = request.user.profile
     content = request.POST["content"]
-    question = Question.objects.create(dataset=dataset, author=author, content=content)
-    question.save()
+    Question.objects.create(dataset=dataset, author=author, content=content)
     BadgeCache.instance().possibly_award_badge('on_comment_add', user=request.user)
-    return comments_page(request, dataset_id)
+    return HttpResponse(status=204)
 
 
-def download_dataset(request, dataset_id):
-    dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
-    BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
-    return redirect(dataset.exports['xls'])
+def question_page(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    # TODO
+    return HttpResponse("Question")
+
+
+@require_POST
+def rmv_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    question.delete()
+    return HttpResponse(status=204)
+
+
+# @require_POST
+# def add_answer(request, question_id):
+#     question = get_object_or_404(Question, id=question_id)
+#     # TODO
+#     return HttpResponse()
+
+# @require_POST
+# def rmv_answer(request, answer_id):
+#     answer = get_object_or_404(Answer, id=answer_id)
+
+
+
+

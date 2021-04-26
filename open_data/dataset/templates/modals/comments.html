@@ -4,9 +4,8 @@
     <div class="card">
         <div class="message">
             <div class="message-header">
-                <span>{{ question.posted_at|date:'d F Y H:m'}}</span>
+                <span>{{ question.posted_at|date:'d F Y H:m' }}</span>
                 <span>{{ question.author_or_deleted }}</span>
-{#                <a href="{% url 'dataset' question.dataset.id %}">Voir dans son contexte</a>#}
             </div>
             <div>
                 {{ question.content_or_deleted }}
@@ -14,14 +13,14 @@
         </div>
     </div>
     {% empty %}
-    <p>Sans commentaire...</p>
+    <p>Il n'y a pas de questions pour le moment</p>
 {% endfor %}
 
 {% if is_registered %}
     <form style="display: flex; justify-content: center;" id="add-comment-form">
         {% csrf_token %}
         <label>
-            <input type="text" name="content">
+            <textarea name="content"></textarea>
         </label>
         <button><span class="fas fa-comment-medical"></span></button>
     </form>

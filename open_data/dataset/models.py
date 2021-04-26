@@ -134,11 +134,13 @@ class Question(models.Model):
 
     @property
     def content_or_deleted(self):
-        return self.content if not self.deleted else mark_safe("<i>Cette question a été suprimée</i>")
+        return self.content if not self.deleted else mark_safe("<i>Cette question a été supprimée</i>")
 
     @property
     def author_or_deleted(self):
-        return self.author.name if self.author else mark_safe("<i>Cet utilisateur a été suprimé</i>")
+        if self.author and self.author.user.is_active:
+            return self.author.name
+        return mark_safe("<i>Cet utilisateur a été supprimé</i>")
 
     def __str__(self):
         return f"[{self.posted_at}] {self.author_or_deleted} a dit : {self.content_or_deleted}"
