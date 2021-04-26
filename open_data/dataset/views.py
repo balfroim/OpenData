@@ -93,7 +93,7 @@ def toggle_like(request, dataset_id):
     else:
         request.user.profile.liked_datasets.remove(dataset)
 
-    BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_dataset_like', user=request.user)
 
     return JsonResponse({'liked': liked, 'n_likes': dataset.liking_users.count()})
 
@@ -112,5 +112,5 @@ def add_comment(request, dataset_id):
     content = request.POST["content"]
     comment = Comment.objects.create(dataset=dataset, author=author, content=content)
     comment.save()
-    BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_comment_add', user=request.user)
     return comments_page(request, dataset_id)
