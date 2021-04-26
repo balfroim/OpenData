@@ -47,7 +47,7 @@
   <div class="card" style="display: flex; position: relative">
     {% for badge in last_badges %}
       <div>
-        <img src="{{ badge.image }}" width="64">
+        <img alt="" src="{{ badge.image }}" width="64">
         <span class="tooltip">{{ badge.name }}</span>
       </div>
     {% endfor %}
@@ -64,5 +64,4 @@
     {% endif %}
   {% endfor %}
   <a href="#">Voir plus...</a>
-  </div>
 {% endblock %}
