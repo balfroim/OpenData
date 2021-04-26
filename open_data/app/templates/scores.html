@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
+
 {% block title %}Tableau des scores{% endblock %}
+
 {% block main %}
-<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/scores">Tableau des scores <i class="fas fa-star"></i></a>
+  <div class="breadcrumbs">
+    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'scores' %}">Tableau des scores <i class="fas fa-star"></i></a>
+  </div>
   <h1>Tableau des scores</h1>
+  <ol>
+    {% for user in users %}
+    <li>{{ user.name }} : {{ user.score }} points.</li>
+    {% endfor %}
+  </ol>
 {% endblock %}

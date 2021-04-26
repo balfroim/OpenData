@@ -56,3 +56,9 @@ for (const element of document.querySelectorAll('.popup')) {
     element.classList.remove('active');
   });
 }
+
+// Svg colors
+for (const element of document.querySelectorAll('.svg')) {
+  element.style.setProperty('--svg-src', `url(${element.dataset.src})`)
+  element.style.setProperty('--svg-color', element.dataset.color)
+}

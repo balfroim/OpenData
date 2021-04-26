@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% load static quiz question %}
+{% load static %}
+
 {% block title %}Accueil{% endblock %}
+
 {% block head %}
   <script type="module" src="{% static 'js/quiz.js' %}"></script>
   <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
@@ -8,64 +10,11 @@
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
   <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
 {% endblock %}
+
 {% block main %}
-  <h1>Accueil</h1>
-  <section>
-    <h2>Open data ? Qu'est-ce que c'est ?</h2>
-    <p>
-      La ville de Namur met à disposition de toutes et tous une série
-      d'informations d'intérêt général. Ces informations sont soit des
-      statistiques, consultables en ligne, soit des lots de données qui
-      peuvent être utilisés directement dans la création d'application.
-    </p>
-    <p>
-      Si vous êtes débutants dans l'open data, ce site est fait pour vous ! Il a été conçu pour répondre aux besoins
-      d'utilisateurs non-experts afin de les guider de manière ludique dans l'exploration des jeux de données.
-    </p>
-    <p>
-      Si, au contraire, vous êtes un utilisateur aguerri de l'open data, vous pouvez directement vous rendre sur
-      <a href="https://data.namur.be/pages/accueil/">le site open data de la ville de Namur</a> destiné aux experts.
-    </p>
-    <p>
-      Quel que soit votre secteur d'activité, notre nouveau jeu de données va vous intéresser !
-    </p>
-  </section>
-  <section>
-    <h2>Explorer les données</h2>
-    <div class="pills">
-      {% for theme in themes %}
-      <a href="{% url 'theme' theme_id=theme.id %}">
-        {% if theme.icon %}
-        <span>{{ theme.icon }}</span>
-        {% endif %}
-        <span>{{ theme.name }}</span>
-      </a>
-      {% endfor %}
-    </div>
-  </section>
-  <section>
-    <h2>Données à l'honneur</h2>
-    {# TODO: Peut être faire un tag data_carroussel ?? #}
-    <div class="main-carousel card" data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'>
-      {% for dataset in featured_datasets %}
-      <a class="carousel-cell" href="{% url 'dataset' dataset_id=dataset.id %}">
-        {% if dataset.theme.image %}
-        <span class="carousel-cell-img svg" style="--image-src: url({{ dataset.theme.image.url }}); --image-color: {{ dataset.theme.color }};"></span>
-        {% endif %}
-        <span class="carousel-cell-title">{{ dataset.multiline_title }}</span>
-      </a>
-      {% endfor %}
-    </div>
-  </section>
-  <section>
-    <h2>Quiz du jour</h2>
-    {% show_quiz today_quiz user %}
-  </section>
-  <section>
-    <h2>Dernières questions</h2>
-    {# TODO: Tags ?? #}
-    {% for question in last_questions %}
-      {% question_card question user %}
-    {% endfor %}
-  </section>
+  {% include 'home/about.html' %}
+  {% include 'home/themes.html' with themes=themes %}
+  {% include 'home/datasets.html' with datasets=featured_datasets %}
+  {% include 'home/quiz.html' with quiz=today_quiz %}
+  {% include 'home/questions.html' with questions=last_questions %}
 {% endblock %}
