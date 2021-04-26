@@ -8,6 +8,7 @@ urlpatterns = [
     path('log-in/', LoginView.as_view(template_name='log-in.html', authentication_form=LogInForm), name='log_in'),
     path('log-out/', LogoutView.as_view(), name='log_out'),
     path('sign-in/', views.sign_in, name='sign_in'),
+    path('delete-notifications/', views.delete_notifications, name='delete-notifications'),  # TODO: move this somewhere else
     path('me/', views.my_profile, name='my_profile'),
     path('<str:username>/', views.profile, name='profile'),
 ]

@@ -6,6 +6,6 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('forum/', TemplateView.as_view(template_name='forum.html'), name='forum'),
-    path('scores/', TemplateView.as_view(template_name='scores.html'), name='scores'),
+    path('scoreboard/', views.scoreboard, name='scores'),
     path('data/', TemplateView.as_view(template_name='dataset_theme.html'), name='data'),
 ]

@@ -1,3 +1,7 @@
+import itertools
+from collections import Counter
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -7,6 +11,8 @@ from django.views.decorators.http import require_POST
 from badge.registry import BadgeCache
 from .models import Theme, ProxyDataset, Keyword, Comment
 
+DATASETS_PER_PAGE = 100
+
 
 def theme_page(request, theme_id):
     theme = get_object_or_404(Theme, id=theme_id)
@@ -15,20 +21,57 @@ def theme_page(request, theme_id):
 
 def dataset_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    return render(request, 'dataset.html', {'dataset': dataset})
+    linked_datasets_by_nb_common_keywords = dict()
+    for other_dataset in ProxyDataset.objects.all():
+        if other_dataset == dataset:
+            continue
+        nb_common_keywords = len(dataset.keywords.all().intersection(other_dataset.keywords.all()))
+        if nb_common_keywords == 0:
+            continue
+        try:
+            linked_datasets_by_nb_common_keywords[nb_common_keywords].add(other_dataset)
+        except KeyError:
+            linked_datasets_by_nb_common_keywords[nb_common_keywords] = {other_dataset}
+
+    keys = sorted(linked_datasets_by_nb_common_keywords.keys(), reverse=True)
+    linked_datasets_by_nb_common_keywords = {
+        k: linked_datasets_by_nb_common_keywords[k]
+        for k
+        in keys
+        if k > 5
+    }
+    print(linked_datasets_by_nb_common_keywords)
+    nb_linked_datasets = len(list(itertools.chain(*linked_datasets_by_nb_common_keywords.values())))
+    return render(request,
+                  'dataset.html',
+                  {'dataset': dataset,
+                   'nb_linked_datasets': nb_linked_datasets,
+                   'linked_datasets_by_nb_common_keywords': linked_datasets_by_nb_common_keywords})
 
 
 def search_page(request):
-    search_query = request.GET["q"]
-    keywords = [Keyword.preprocess(token) for token in search_query.split(' ')]
-    datasets = set()
+    query = request.GET["q"]
+    keywords = set()
+    for token in query.split(" "):
+        # TODO: generate synonyms ??
+        keywords.add(token.lower())
+    datasets = list()
     for keyword in keywords:
-        keyword_objets = Keyword.objects.filter(word__contains=keyword).all()
-        for keyword_obj in keyword_objets:
-            keyword_datasets = keyword_obj.datasets.all()
-            datasets.update(keyword_datasets)
-
-    return render(request, 'search.html', context={"datasets": datasets})
+        try:
+            keyword_obj = Keyword.objects.get(word=keyword)
+        except ObjectDoesNotExist:
+            continue
+        datasets.extend(keyword_obj.datasets.all())
+    nb_datasets = len(datasets)
+    # TODO: ordonnée par pertinence des mots clés ?
+    datasets_by_keyword_match = dict()
+    for dataset, count in Counter(datasets).most_common():
+        try:
+            datasets_by_keyword_match[count].add(dataset)
+        except KeyError:
+            datasets_by_keyword_match[count] = {dataset}
+    return render(request, 'search.html',
+                  context={"datasets_by_keyword_match": datasets_by_keyword_match, "nb_datasets": nb_datasets})
 
 
 def popularized_page(request, dataset_id):
@@ -50,13 +93,14 @@ def toggle_like(request, dataset_id):
     else:
         request.user.profile.liked_datasets.remove(dataset)
 
-    BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_dataset_like', user=request.user)
 
     return JsonResponse({'liked': liked, 'n_likes': dataset.liking_users.count()})
 
 
 def comments_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
+    BadgeCache.instance().possibly_award_badge('on_comment_read', user=request.user)
     return render(request, "modals/comments.html",
                   context={"dataset": dataset, "is_registered": request.user.profile.is_registered})
 
@@ -68,4 +112,5 @@ def add_comment(request, dataset_id):
     content = request.POST["content"]
     comment = Comment.objects.create(dataset=dataset, author=author, content=content)
     comment.save()
+    BadgeCache.instance().possibly_award_badge('on_dataset_liked', user=request.user)
     return comments_page(request, dataset_id)
