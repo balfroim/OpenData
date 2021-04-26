@@ -6,15 +6,14 @@ register = template.Library()
 
 @register.inclusion_tag('modals/questions.html')
 def questions_modal(dataset, user):
-    return {"dataset": dataset, "is_registered": user.profile.is_registered}
+    return {"dataset": dataset, "user": user}
 
 
 @register.inclusion_tag('question/question_card.html')
-def question_card(question, show_context_link=False):
-    # context_link = reverse("dataset", kwargs={"dataset_id": question.da})
-    return {"content": question.content}#, "show_context_link": show_context_link}
+def question_card(question, user):
+    return {"question": question, "content": question.content, "user": user}
 
 
 @register.inclusion_tag('question/answer_card.html')
-def answer_card(answer, show_context_link=False):
-    return {"content": answer.content, "show_context_link": show_context_link}
+def answer_card(answer, user):
+    return {"answer": answer, "content": answer.content, "user": user}

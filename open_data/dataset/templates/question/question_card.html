@@ -1,1 +1,7 @@
 {% extends "question/card.html" %}
+
+{% block extension %}
+  {% if user.profile.is_registered %}
+      <a class="button" href="{% url 'question' question.id %}"><span class="fas fa-reply">Répondre</span></a>
+  {% endif %}
+{% endblock %}

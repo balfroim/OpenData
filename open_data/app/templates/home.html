@@ -65,7 +65,7 @@
     <h2>Dernières questions</h2>
     {# TODO: Tags ?? #}
     {% for question in last_questions %}
-      {% question_card question %}
+      {% question_card question user %}
     {% endfor %}
   </section>
 {% endblock %}

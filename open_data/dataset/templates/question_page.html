@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}Recherche{% endblock %}
+{% load question %}
+{% block title %}Question - {{ question.content.text }}{% endblock %}
 {% block main %}
 
+  {% question_card question user %}
+
+  {% for answer in question.answers.all %}
+    {% answer_card answer user %}
+    {% empty %}
+    Pas encore de réponses
+  {% endfor %}
 
 {% endblock %}

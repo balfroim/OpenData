@@ -127,8 +127,7 @@ def add_question(request, dataset_id):
 
 def question_page(request, question_id):
     question = get_object_or_404(Question, id=question_id)
-    # TODO
-    return HttpResponse("Question")
+    return render(request, "question_page.html", context={"question": question})
 
 
 @require_POST
