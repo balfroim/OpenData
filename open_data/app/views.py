@@ -25,4 +25,4 @@ def quizzes(request):
 def scoreboard(request):
     users = Profile.objects.filter(is_registered=True)
     users = sorted(users, key=lambda user: user.score, reverse=True)
-    return render(request, 'scoreboard.html', {'users': users})
+    return render(request, 'scores.html', {'users': users})

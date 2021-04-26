@@ -77,6 +77,14 @@ button:hover, .button:hover {
   font-weight: bold;
 }
 
+.breadcrumbs a {
+  text-decoration: none;
+}
+
+.breadcrumbs > * + *::before {
+  content: ' > ';
+}
+
 /* Navbar */
 nav {
   display: flex;
@@ -214,9 +222,9 @@ button.nostyle {
 /* Svg colors */
 .svg { /* https://stackoverflow.com/a/56669846 */
   display: inline-block;
-  background: var(--image-color);
-  mask-image: var(--image-src);
-  -webkit-mask-image: var(--image-src);
+  background: var(--svg-color);
+  mask-image: var(--svg-src);
+  -webkit-mask-image: var(--svg-src);
   mask-size: cover;
   -webkit-mask-size: cover;
 }
