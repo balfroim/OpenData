@@ -64,7 +64,7 @@
             </button>
         {% endfor %}
         {% if 'xls' in dataset.exports %}
-            <a class="button" href="{{ dataset.exports.xls }}"><i class="fas fa-download"></i></a>
+            <a class="button" href="{% url 'download_dataset' dataset_id=dataset.id %}"><i class="fas fa-download"></i></a>
         {% endif %}
         <div class="separator"></div>
         <button id="like-button">
