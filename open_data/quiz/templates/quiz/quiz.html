@@ -1,14 +1,16 @@
 {% load quiz_tags %}
 <div class="card">
   <div>
-    <p><i>{{ quiz.title }}</i></p>
+    <h1>
+      <i>{{ quiz.title }}</i>
+    </h1>
     <p>
       {% if quiz.perfect_score_rate == 0 %}
       <b>Aucun utilisateur</b> n'a
       {% else %}
       <b>{{ quiz.perfect_score_rate|floatformat:0 }}% des utilisateurs</b> ont
       {% endif %}
-      correctement répondu à ce quiz, mettez vos connaissances à l'épreuve!
+      correctement répondu à ce quiz. Mettez vos connaissances à l'épreuve !
       {% if quiz.dataset.id %}
       Aucune idée ? N'hésitez pas à explorer
       <a href="{% url 'dataset' dataset_id=quiz.dataset.id %}?origin=quiz">
@@ -20,26 +22,30 @@
   <form class="quiz-form" data-quiz-id="{{ quiz.id }}">
     {% csrf_token %}
     {% for field in form %}
-    <div class="fieldWrapper">
-      {{ field.errors }}
-      <h3>{{ field.label }}</h3>
+    <h2>{{ field.label }}</h2>
+    <div class="quiz-choices">
       {% for value, label, checked, state in field.field.choices|to_list|shuffle %}
-      <label class="container">
-        <span class="{{ state }}">{{ label }}</span>
+      <label>
+        {% if submittable %}
         <input
           type="checkbox"
           name="{{ field.auto_id }}"
           value="{{ value }}"
           {% if checked %}checked{% endif %}
-          {% if not submittable %}disabled{% endif %}
         >
-        <span class="checkmark  {{ state }}"></span>
+        {% endif %}
+        <span class="checkable {{ state }} {% if not submittable and checked %}checked{% endif %}">
+          {{ label }}
+        </span>
       </label>
+      {{ field.errors }}
       {% endfor %}
     </div>
     {% endfor %}
     {% if submittable %}
-    <button class="clickable_button" type="submit">Répondre</button>
+    <p>
+      <button type="submit">Répondre</button>
+    </p>
     {% endif %}
   </form>
 </div>

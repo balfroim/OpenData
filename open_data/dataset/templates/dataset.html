@@ -33,7 +33,7 @@
     <div id="quiz-modal" class="modal-mask center">
         <div class="modal">
             {% for quiz in dataset.quizzes.all %}
-                {% show_quiz quiz user %}
+                {% show_quiz quiz %}
             {% empty %}
                 <p>Pas de quiz.</p>
             {% endfor %}

@@ -8,18 +8,27 @@ from quiz.models import QuizSubmission
 register = template.Library()
 
 
-@register.inclusion_tag('quiz/quizzes.html')
-def show_quizzes(quizzes):
-    return {"quizzes": quizzes.all()}
-
-
-@register.inclusion_tag('quiz/quiz.html')
-def show_quiz(quiz, user):
+@register.inclusion_tag('quiz/quiz.html', takes_context=True)
+def show_quiz(context, quiz):
+    user = context['request'].user
     try:
         submission = QuizSubmission.objects.get(quiz=quiz, user=user)
-        return {"quiz": quiz, "form": QuizForm(quiz, submission.choices), "submittable": False}
+        return {
+            'quiz': quiz,
+            'form': QuizForm(quiz, submission.choices),
+            'submittable': False
+        }
     except QuizSubmission.DoesNotExist:
-        return {"quiz": quiz, "form": QuizForm(quiz), "submittable": True}
+        return {
+            'quiz': quiz,
+            'form': QuizForm(quiz),
+            'submittable': True
+        }
+
+
+@register.inclusion_tag('quiz/quizzes.html')
+def show_quizzes(quizzes):
+    return {'quizzes': quizzes.all()}
 
 
 @register.filter
@@ -30,5 +39,5 @@ def to_list(i):
 
 @register.filter
 def shuffle(l: list):
-    """Shuffle randomly a list l"""
+    """Shuffle randomly a list"""
     return random.sample(l, len(l))
