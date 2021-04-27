@@ -5,7 +5,7 @@
 
 
   <a class="button" href="{% url 'dataset' question.dataset.id %}">Retour au dataset</a>
-  
+
   {% question_card question user False %}
 
   <div id="answers" style="padding-left: 10%">
@@ -17,7 +17,7 @@
     <form style="display: flex; justify-content: center;" id="reply-form">
       {% csrf_token %}
       <label>
-        <textarea name="content"></textarea>
+        <textarea name="content" id="answer_content"></textarea>
       </label>
       <button><span class="fas fa-reply"></span></button>
     </form>
@@ -38,6 +38,7 @@
 
       if (response.ok) {
         answersDiv.innerHTML = await response.text();
+        answerForm.querySelector('#answer_content').value = ""
       }
     });
 
