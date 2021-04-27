@@ -3,13 +3,14 @@
 {% block title %}Question - {{ question.content.text }}{% endblock %}
 {% block main %}
 
-  {% question_card question user %}
 
-  {% for answer in question.answers.all %}
-    {% answer_card answer user %}
-    {% empty %}
-    Pas encore de réponses
-  {% endfor %}
+  <a class="button" href="{% url 'dataset' question.dataset.id %}">Retour au dataset</a>
+  
+  {% question_card question user False %}
+
+  <div id="answers" style="padding-left: 10%">
+    {% answers_of question %}
+  </div>
 
   {% if user.profile.is_registered %}
     <h2>Répondre</h2>
@@ -23,25 +24,22 @@
   {% endif %}
 
   <script>
-    const questionModal = document.querySelector('#questions-modal');
-    const replyForm = document.querySelector('#reply-form');
-    if (questionModal) {
-    {#  addQuestionForm.addEventListener('submit', async event => {#}
-    {#    event.preventDefault();#}
-    {##}
-    {#    const response = await fetch("{% url "add-answer" question.id %}", {#}
-    {#      method: 'POST',#}
-    {#      body: new URLSearchParams(new FormData(addQuestionForm)),#}
-    {#      headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),#}
-    {#    });#}
-    {##}
-    {#    console.log(response)#}
-    {#    if (response.ok) {#}
-    {#      questionModal.querySelector('.modal').innerHTML = await response.text();#}
-    {#    }#}
-    {#  });#}
-    {#  }#}
+    const answerForm = document.querySelector('#reply-form');
+    const answersDiv = document.querySelector('#answers');
+
+    answerForm.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      const response = await fetch("{% url "add-answer" question.id %}", {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(answerForm)),
+        headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
+      });
+
+      if (response.ok) {
+        answersDiv.innerHTML = await response.text();
       }
+    });
 
   </script>
 

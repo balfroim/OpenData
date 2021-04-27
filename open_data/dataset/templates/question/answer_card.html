@@ -1,7 +1,7 @@
 {% extends "question/card.html" %}
 {% block context_link %}
   <div>
-    <a href="{% url 'question' content.question.answer.id %}">
+    <a href="{% url 'question' content.answer.question.id %}">
       Voir dans son contexte
     </a>
   </div>
