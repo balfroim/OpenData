@@ -18,9 +18,20 @@ class ThresholdedBadge(Badge, metaclass=ABCMeta):
         pass
 
     def award(self, **state):
-        user = state["user"]
+        user = state['user']
         award = None
         for lvl, badge_detail in enumerate(self.levels):
             if self.thresholded_value(user) >= self.level_thresholds[lvl]:
                 award = BadgeAwarded(level=lvl + 1)
         return award
+
+
+class OnceBadge(Badge, metaclass=ABCMeta):
+    """A badge awarded only once when an event is fired.
+
+    It should have only one value in its `levels` field.
+    """
+    multiple = False
+
+    def award(self, **state):
+        return BadgeAwarded(level=1)
