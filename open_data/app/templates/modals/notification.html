@@ -1,0 +1,32 @@
+<style>
+  #notification-list > * {
+    margin-top: 8px;
+  }
+</style>
+<div id="notification-dropdown" class="modal-mask">
+  <div class="right dropdown">
+    <button id="notification-delete-button">Tout marquer comme lu</button>
+    <div id="notification-list">
+      {% for notification in user.notifications.all %}
+      {% include 'notification.html' with notification=notification %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  const deleteButton = document.querySelector('#notification-delete-button')
+  const list = document.querySelector('#notification-list')
+  const counter = document.querySelector('#notification-count')
+
+  deleteButton.addEventListener('click', async () => {
+    const response = await fetch('/user/delete-notifications/', {
+      method: 'POST',
+      headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
+    })
+
+    if (response.ok) {
+      list.innerHTML = ''
+      counter.textContent = '0'
+    }
+  })
+</script>

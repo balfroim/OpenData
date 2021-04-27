@@ -6,7 +6,7 @@
 {% endblock %}
 {% block modals %}
     {% if form %}
-        <div id="profile-modal" class="modal-mask">
+        <div id="profile-modal" class="modal-mask center">
             <div class="modal">
                 <form action="{% url 'my_profile' %}" method="post">
                     {% csrf_token %}
@@ -32,10 +32,15 @@
         <p class="card bio">
             {{ profile.description }}
         </p>
+
+    </div>
+    <div>
+    {{ profile.rank }} ({{ profile.score }} points)
     </div>
     {% if form %}
         <button class="profile-modal-button">Modifier</button>
     {% endif %}
+
     <h2>Derniers badges</h2>
     <div class="card" style="display: flex; position: relative">
         {% for badge in last_badges %}

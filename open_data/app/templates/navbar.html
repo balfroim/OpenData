@@ -1,4 +1,4 @@
-{% load static notifications_tags %}
+{% load static %}
 <nav class="responsive">
   <a href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
@@ -26,9 +26,9 @@
     <i class="fas fa-star"></i>
     Tableau des scores
   </a>
-  <span class="clickable notifications-dropdown-button">
+  <span class="clickable notification-dropdown-button">
     <i class="fas fa-bell"></i>
-    {% live_notify_badge %}
+    <span id="notification-count">{{ user.notifications.count }}</span>
   </span>
   <button class="profile-dropdown-button">
     <i class="fas fa-lg fa-user"></i>

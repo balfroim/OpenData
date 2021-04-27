@@ -1,25 +1,46 @@
-'use strict';
+const list = document.querySelector('#notification-list')
+const popup = document.querySelector('#notification-popup')
+const counter = document.querySelector('#notification-count')
 
-function fill_notifications_dropdown(data) {
-  const notificationPopup = document.querySelector('#badge-popup');
-  const notificationDropdown = document.querySelector('.live_notify_list');
+const queue = []
 
-  for (const notification of data.unread_list) {
-    const description = document.createElement('span');
-    const image = document.createElement('img');
-    description.textContent = notification.verb;
-    image.src = notification.data.image;
-    image.width = 32;
-    image.style = 'margin-right: 16px;';
+setInterval(pollNotifications, 3000)
+popup.addEventListener('animationend', updatePopup)
 
-    const element = document.createElement('div');
-    element.style = 'display: flex; align-items: center;';
-    element.appendChild(image);
-    element.appendChild(description);
+async function pollNotifications() {
+  const json = await fetch('/inbox/notifications/api/unread_list/?mark_as_read=true')
+  const response = await json.json()
 
-    notificationPopup.innerHTML = element.outerHTML;
-    notificationPopup.classList.add('active');
+  const count = parseInt(counter.textContent)
+  counter.textContent = `${count + response.unread_list.length}`
 
-    notificationDropdown.innerHTML = element.outerHTML;
+  for (const notification of response.unread_list) {
+    const element = document.createElement('div')
+
+    const image = document.createElement('img')
+    image.src = notification.data.image
+    image.width = 64;
+    
+    const description = document.createElement('div')
+    description.textContent = notification.verb
+    
+    element.appendChild(image)
+    element.appendChild(description)
+    
+    queue.push(element)
+    updatePopup()
   }
+}
+
+function updatePopup() {
+  setTimeout(() => {
+    if (!popup.classList.contains('active')) {
+      const element = queue.shift()
+      if (element !== undefined) {
+        popup.innerHTML = ''
+        popup.appendChild(element)
+        popup.classList.add('active')
+      }
+    }
+  }, 200);
 }

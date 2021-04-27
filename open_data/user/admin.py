@@ -8,4 +8,5 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    search_fields = ["author"]
+    readonly_fields = ["score"]
+    search_fields = ["name"]

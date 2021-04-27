@@ -1,5 +1,7 @@
+from django.http import HttpResponse
 from django.contrib.auth import login
 from django.shortcuts import redirect, render, get_object_or_404
+from django.views.decorators.http import require_POST
 
 from .models import User
 from .forms import SignInForm, ProfileForm
@@ -29,6 +31,12 @@ def sign_in(request):
         form = SignInForm()
 
     return render(request, 'sign-in.html', {'form': form})
+
+
+@require_POST
+def delete_notifications(request):
+    request.user.notifications.all().delete()
+    return HttpResponse()
 
 
 def profile(request, username):
