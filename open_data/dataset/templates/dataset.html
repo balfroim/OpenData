@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% load quiz dataset question %}
+{% load static quiz_tags dataset question %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
+  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <style>
         main {
             --page-width: 100%;
@@ -32,7 +33,7 @@
     <div id="quiz-modal" class="modal-mask center">
         <div class="modal">
             {% for quiz in dataset.quizzes.all %}
-                {% show_quiz quiz user %}
+                {% show_quiz quiz %}
             {% empty %}
                 <p>Pas de quiz.</p>
             {% endfor %}
@@ -126,22 +127,19 @@
     <script>
         const questionModal = document.querySelector('#questions-modal');
         const addQuestionForm = document.querySelector('#add-question-form');
-        if (questionModal) {
-            addQuestionForm.addEventListener('submit', async event => {
-                event.preventDefault();
+        addQuestionForm.addEventListener('submit', async event => {
+            event.preventDefault();
 
-                const response = await fetch("{% url "add-question" dataset.id %}", {
-                    method: 'POST',
-                    body: new URLSearchParams(new FormData(addQuestionForm)),
-                    headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
-                });
-
-                console.log(response)
-                if (response.ok) {
-                    questionModal.querySelector('.modal').innerHTML = await response.text();
-                }
+            const response = await fetch("{% url "add-question" dataset.id %}", {
+                method: 'POST',
+                body: new URLSearchParams(new FormData(addQuestionForm)),
+                headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
             });
-        }
+
+            if (response.ok) {
+                questionModal.querySelector('.modal').innerHTML = await response.text();
+            }
+        });
 
     </script>
 {% endblock %}

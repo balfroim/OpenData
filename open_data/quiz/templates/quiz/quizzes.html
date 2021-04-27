@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
-{% load static quiz %}
+{% load static quiz_tags %}
+
 {% block title %}Quiz de la semaine{% endblock %}
+
 {% block head %}
   <script type="module" src="{% static 'js/quiz.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
 {% endblock %}
+
 {% block main %}
-<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/quiz">Quiz de la semaine</a>
+  <div class="breadcrumbs">
+    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'quizzes' %}">Quiz de la semaine</a>
+  </div>
   <h1>Quiz de la semaine</h1>
   <div class="quizzes">
   {% for quiz in quizzes %}
-    {% show_quiz quiz user %}
-    {% empty %}
-    <p>Pas de quizzes.</p>
+  {% show_quiz quiz %}
+  {% empty %}
+  <p>Aucun quiz...</p>
   {% endfor %}
   </div>
 {% endblock %}
