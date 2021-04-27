@@ -1,0 +1,38 @@
+{
+  "quiz-fail:0": {
+    "x": 6,
+    "y": 4
+  },
+  "quiz-fail:1": {
+    "x": 7,
+    "y": 4
+  },
+  "quiz-perfect:0": {
+    "x": 6,
+    "y": 3
+  },
+  "quiz-perfect:1": {
+    "x": 6,
+    "y": 2
+  },
+  "dataset-download:0": {
+    "x": 2,
+    "y": 4
+  },
+  "dataset-first-comment:0": {
+    "x": 4,
+    "y": 5
+  },
+  "dataset-like:0": {
+    "x": 4,
+    "y": 4
+  },
+  "dataset-like:1": {
+    "x": 3,
+    "y": 4
+  },
+  "quiz-dataset-inspection:0": {
+    "x": 4,
+    "y": 3
+  }
+}
