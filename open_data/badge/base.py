@@ -14,11 +14,11 @@ class BadgeAwarded:
 
 
 class BadgeDetail:
-    def __init__(self, name=None, description=None, image='default.png', score: int = None):
+    def __init__(self, name=None, description=None, image='default.png', score: int = 0):
         self.name = name
         self.description = description
         self.image = static(f'images/badges/{image}')
-        self.score = score if score is not None else 0
+        self.score = score
 
 
 class Badge(metaclass=ABCMeta):

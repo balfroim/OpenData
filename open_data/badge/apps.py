@@ -49,9 +49,6 @@ class BadgeConfig(AppConfig):
                     if is_badge(cls) and not is_abstract(cls)
                 ]
                 for cls in classes:
-                    # Retrieve positions from json file
-                    # TODO: move this somewhere else...
-
                     BadgeCache.instance().register(cls)
 
         badge_awarded = getattr(importlib.import_module("badge.signals"), "badge_awarded")

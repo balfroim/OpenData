@@ -5,7 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
-from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from badge.registry import BadgeCache
@@ -114,20 +113,26 @@ def toggle_like(request, dataset_id):
     else:
         request.user.profile.liked_datasets.remove(dataset)
 
-    BadgeCache.instance().possibly_award_badge('on_dataset_like',
-                                               user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_dataset_like', user=request.user)
 
-    return JsonResponse(
-        {'liked': liked, 'n_likes': dataset.liking_users.count()})
+    return JsonResponse({
+        'liked': liked,
+        'n_likes': dataset.liking_users.count()
+    })
 
 
 def questions_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     BadgeCache.instance().possibly_award_badge('on_comment_read',
                                                user=request.user)
-    return render(request, "modals/questions.html",
-                  context={"dataset": dataset,
-                           "is_registered": request.user.profile.is_registered})
+    return render(
+        request,
+        "modals/questions.html",
+        context={
+            "dataset": dataset,
+            "is_registered": request.user.profile.is_registered
+        }
+    )
 
 
 @require_POST
@@ -136,7 +141,8 @@ def add_question(request, dataset_id):
     content = Content.objects.create(author=request.user.profile,
                                      text=request.POST["content"])
     Question.objects.create(dataset=dataset, content=content)
-    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user, dataset=dataset)
+    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user,
+                                               dataset=dataset)
     return redirect('questions', dataset_id=dataset.id)
 
 
