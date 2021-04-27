@@ -6,7 +6,6 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
-from django.urls import reverse
 
 from .models import Theme, ProxyDataset, Keyword, Question, Content, Answer
 from badge.registry import BadgeCache
@@ -121,8 +120,8 @@ def add_question(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     Question.objects.create(dataset=dataset, content=content)
-    BadgeCache.instance().possibly_award_badge('on_comment_add', user=request.user)
-    return redirect(reverse("questions", kwargs={"dataset_id": dataset.id}))
+    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user)
+    return redirect('questions', dataset_id=dataset.id)
 
 
 def question_page(request, question_id):
