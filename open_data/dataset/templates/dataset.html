@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static quiz_tags dataset %}
+{% load static quiz_tags dataset question %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
@@ -10,7 +10,7 @@
 
         iframe {
             width: 100%;
-            height: calc(100vh - 9rem);
+            height: calc(100vh - 12rem);
             border: none;
         }
 
@@ -42,10 +42,9 @@
 
     <div id="comments-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
         <div class="modal">
-            {% show_comments dataset user %}
+            {% questions_modal dataset user %}
         </div>
     </div>
-
 
     <div id="linked-dataset-modal" class="modal-mask center">
         <div class="modal">
@@ -62,7 +61,11 @@
 {% endblock %}
 
 {% block main %}
-<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/data/theme/{{ dataset.theme.id }}">{{ dataset.theme.name }}</a> > <a href="data/dataset/{{dataset.id}}"> {{dataset.title}}</a>
+  <p class="breadcrumbs">
+    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'theme' theme_id=dataset.theme.id %}">{{ dataset.theme.name }}</a>
+    <a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a>
+  </p>
     <div class="button-tabs">
         {% for type, class, _ in dataset.iframes %}
             <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
@@ -80,7 +83,7 @@
         </button>
         <button class="comments-modal-button">
             <i class="fas fa-question-circle"></i>
-            {{ dataset.comments.count }}
+            {{ dataset.questions.count }}
         </button>
         {% if dataset.quizzes.count %}
             <button class="quiz-modal-button">

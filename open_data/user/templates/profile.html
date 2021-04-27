@@ -8,7 +8,7 @@
   {% if form %}
     <div id="profile-modal" class="modal-mask center">
       <div class="modal">
-        <form action="{% url 'my_profile' %}" method="post">
+        <form action="{% url 'profile' username=user.username %}" method="post">
           {% csrf_token %}
           {{ form }}
           <hr>
@@ -24,9 +24,9 @@
   <div class="responsive profile">
     <div>
       <img
-              src="https://picsum.photos/128"
-              alt="Photo de profil"
-              class="rounded avatar"
+        src="https://picsum.photos/128"
+        alt="Photo de profil"
+        class="rounded avatar"
       >
     </div>
     <p class="card bio">
@@ -62,6 +62,9 @@
     {% elif content.answer %}
       {% answer_card content.question user %}
     {% endif %}
+  {% empty %}
+    <p class="card">
+      Cet utilisateur n'a rien posté.
+    </p>
   {% endfor %}
-  <a href="#">Voir plus...</a>
 {% endblock %}
