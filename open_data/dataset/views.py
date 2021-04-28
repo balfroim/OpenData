@@ -59,11 +59,7 @@ def dataset_page(request, dataset_id):
 
 
 def search_page(request):
-    query = request.GET["q"]
-    keywords = set()
-    for token in query.split(" "):
-        # TODO: generate synonyms ??
-        keywords.add(token.lower())
+    keywords = {token.lower() for token in request.GET["q"].split(" ")}
     datasets = list()
     for keyword in keywords:
         try:

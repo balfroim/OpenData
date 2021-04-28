@@ -50,8 +50,7 @@ def profile(request, username):
         form = ProfileForm(instance=user.profile)
 
     last_badges = user.badges_earned.order_by('-awarded_at')[:10]
-    last_contents = Content.objects.filter(author=user.profile).order_by(
-        '-posted_at')[:5]
+    last_contents = Content.objects.filter(author=user.profile).order_by('-posted_at')[:5]
 
     return render(request, 'profile.html', {
         'profile': user.profile,

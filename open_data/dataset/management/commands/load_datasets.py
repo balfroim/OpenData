@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
 from open_data.settings import API_URL, TIME_ZONE
+from collections import Counter
 
 from dataset.models import ProxyDataset, Theme, Keyword
 
@@ -19,8 +20,8 @@ def preprocess(word):
     return word.lower().replace("\"", "")
 
 
-def filter_nouns(text) -> set:
-    nouns = set()
+def filter_nouns(text) -> list:
+    nouns = list()
     for token in NLP(text):
         if (
             len(token) <= 2 or
@@ -28,33 +29,33 @@ def filter_nouns(text) -> set:
         ):
             continue
         if 'covid' in token.lemma_:
-            nouns.add('covid')
+            nouns.append('covid')
             continue
         # Nom commun et nom propre
         if token.pos_ in ("NOUN", "PROPN"):
-            nouns.add(preprocess(token.lemma_))
+            nouns.append(preprocess(token.lemma_))
             continue
     return nouns
 
 
 def generate_keywords(dataset, base_keywords, keywords_datasets):
-    keywords = set()
+    keywords = list()
     # From base keywords
     for base_keyword in (base_keywords or set()):
-        keywords.update(filter_nouns(base_keyword))
+        keywords.extend(filter_nouns(base_keyword))
     # From title
     for subtitle in dataset.title.split(" - "):
-        keywords.update(filter_nouns(subtitle))
+        keywords.extend(filter_nouns(subtitle))
     # From description
-    keywords.update(filter_nouns(strip_tags(dataset.description)))
+    keywords.extend(filter_nouns(strip_tags(dataset.description)))
     # TODO From custom view
     # TODO From popularized view
     # TODO From data
-    for keyword in keywords:
+    for keyword, count in Counter(keywords).most_common():
         try:
-            keywords_datasets[keyword].add(dataset)
+            keywords_datasets[keyword].add((dataset, count))
         except KeyError:
-            keywords_datasets[keyword] = {dataset}
+            keywords_datasets[keyword] = {(dataset, count)}
     return keywords_datasets
 
 
@@ -71,7 +72,7 @@ class Command(BaseCommand):
         total_count = len(datasets)
         created_count = 0
 
-        # datasets = filter(lambda ds: 'covid' in dictor(ds, "dataset.dataset_id"), datasets)
+        datasets = filter(lambda ds: 'covid' in dictor(ds, "dataset.dataset_id"), datasets)
         keywords_datasets = dict()
         for dataset in datasets:
             links = map_links(dataset['links'])
@@ -114,12 +115,13 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
-        for keyword, datasets in keywords_datasets.items():
-            self.stdout.write(f'Add {keyword!r} keyword for {datasets}.')
+        for keyword, datasets_occurence in keywords_datasets.items():
+            self.stdout.write(f'Add {keyword!r} keyword for {datasets_occurence}.')
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
-            for dataset in datasets:
+            for dataset, occurence in datasets_occurence:
                 Keyword.datasets.through.objects.get_or_create(keyword=keyword_obj,
-                                                               proxydataset=dataset)
+                                                               dataset=dataset,
+                                                               occurence=occurence)
 
     def fetch_all_datasets(self):
         datasets = []
