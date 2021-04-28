@@ -12,7 +12,7 @@ DATASETS_PER_PAGE = 100
 
 SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
 
-NLP = spacy.load("fr_core_news_sm")
+NLP = spacy.load("fr_core_news_lg")
 
 
 def preprocess(word):
