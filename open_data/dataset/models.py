@@ -1,3 +1,5 @@
+import math
+
 from colorfield.fields import ColorField
 from django.db import models
 from django.template.loader import TemplateDoesNotExist, get_template
@@ -113,11 +115,40 @@ class ProxyDataset(models.Model):
 
 
 class Keyword(models.Model):
-    datasets = models.ManyToManyField(ProxyDataset, related_name='keywords', blank=True)
+    datasets = models.ManyToManyField(
+        ProxyDataset,
+        related_name='keywords',
+        blank=True,
+        through='KeywordDatasetRelationship'
+    )
     word = models.CharField(max_length=64, primary_key=True)
+
+    @property
+    def inverse_document_frequency(self):
+        # https://en.wikipedia.org/wiki/Tf–idf#Inverse_document_frequency_2
+        total_nb_datasets = ProxyDataset.objects.count()
+        total_keyword_occurence_in_corpus = self.datasets.count()
+        return math.log(total_nb_datasets / total_keyword_occurence_in_corpus)
 
     def __str__(self):
         return self.word
+
+
+class KeywordDatasetRelationship(models.Model):
+    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE)
+    occurence = models.IntegerField(default=0.0)
+
+    @property
+    def term_frequency(self):
+        # Log normalization (https://en.wikipedia.org/wiki/Tf–idf#Term_frequency_2)
+        return math.log(1+self.occurence)
+
+    @property
+    def relevancy(self):
+        """Relevance of this keyword for this dataset (tf-idf)"""
+        # https://en.wikipedia.org/wiki/Tf–idf
+        return self.term_frequency * self.keyword.inverse_document_frequency
 
 
 class Content(models.Model):
