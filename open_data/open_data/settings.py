@@ -155,3 +155,9 @@ IFRAME_URL = 'https://data.namur.be/explore/embed/dataset/'
 DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
 
 BADGES_PATH = BASE_DIR / 'badges.json'
+
+DATASETS_PER_PAGE = 100
+
+SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
+
+NLP = spacy.load("fr_core_news_lg")

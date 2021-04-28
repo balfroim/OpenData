@@ -1,18 +1,13 @@
 import itertools
-from collections import Counter
-from django.db.models import Q
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.query import QuerySet
+
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
 from badge.registry import BadgeCache
-from .models import Theme, ProxyDataset, Keyword, Question, Content, Answer
-
-DATASETS_PER_PAGE = 100
-
+from .models import Theme, ProxyDataset, Question, Content, Answer
+from open_data.settings import DATASETS_PER_PAGE, NLP
 
 def theme_page(request, theme_id):
     theme = get_object_or_404(Theme, id=theme_id)
@@ -60,7 +55,7 @@ def dataset_page(request, dataset_id):
 
 
 def search_page(request):
-    keywords = {token.lower() for token in request.GET["q"].split(" ")}
+    keywords = {NLP(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
     datasets_by_keyword_match = dict()
     all_matches = set()
     for i in range(len(keywords), 0, -1):
@@ -70,13 +65,16 @@ def search_page(request):
                 matches = matches.filter(keywords__word=keyword)
             matches = sorted(
                 matches,
-                key=lambda match: sum(match.datasetships.get(keyword__word=keyword).relevancy for keyword in combination),
+                key=lambda match: sum(
+                    match.datasetships.get(keyword__word=keyword).relevancy for keyword in
+                    combination),
                 reverse=True
             )
             if matches:
                 datasets_by_keyword_match[combination] = matches
                 all_matches.update([match.id for match in matches])
     # TODO: trier par idf du keyword ?
+    # TODO: bouton chercher des synonymes ?
     return render(request, 'search.html',
                   context={
                       "datasets_by_keyword_match": datasets_by_keyword_match,

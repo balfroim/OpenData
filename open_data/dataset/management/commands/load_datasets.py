@@ -1,27 +1,18 @@
 from collections import Counter
+from urllib.request import urlopen
 
+import requests
 import spacy
+from bs4 import BeautifulSoup
 from dictor import dictor
 from django.core.management.base import BaseCommand
 from django.template.loader import TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-from open_data.settings import API_URL, TIME_ZONE
-
-import requests
+from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS, NLP
 
 from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
-
-DATASETS_PER_PAGE = 100
-
-SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
-
-NLP = spacy.load("fr_core_news_lg")
-
-
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
 
 
 def filter_html(url):
@@ -31,7 +22,7 @@ def filter_html(url):
 
     # kill all script and style elements
     for script in soup(["script", "style"]):
-        script.extract()    # rip it out
+        script.extract()  # rip it out
 
     # get text
     text = soup.get_text()
@@ -78,7 +69,8 @@ def generate_keywords(dataset, base_keywords, keywords_datasets):
     # From description
     keywords.extend(filter_nouns(strip_tags(dataset.description)))
     # From custom view
-    print(filter_nouns(filter_html("https://data.namur.be/explore/dataset/covid19be_hosp/custom/?disjunctive.province&disjunctive.region")))
+    print(filter_nouns(filter_html(
+        "https://data.namur.be/explore/dataset/covid19be_hosp/custom/?disjunctive.province&disjunctive.region")))
     # From popularized view
     try:
         rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
