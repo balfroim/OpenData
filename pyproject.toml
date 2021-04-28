@@ -22,6 +22,7 @@ dictor = "^0.1.7"
 Pillow = "^8.2.0"
 spacy = "^3.0.5"
 fr-core-news-lg = {url = "https://github.com/explosion/spacy-models/releases/download/fr_core_news_lg-3.0.0/fr_core_news_lg-3.0.0.tar.gz"}
+beautifulsoup4 = "^4.9.3"
 
 [tool.poetry.dev-dependencies]
 

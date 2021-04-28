@@ -65,10 +65,9 @@ class ProxyDataset(models.Model):
     def has_popularized(self):
         try:
             get_template(f'popularized/{self.id}.html')
+            return True
         except TemplateDoesNotExist:
             return False
-        else:
-            return True
 
     @property
     def iframes(self):
@@ -119,24 +118,25 @@ class Keyword(models.Model):
         ProxyDataset,
         related_name='keywords',
         blank=True,
-        through='KeywordDatasetRelationship'
+        through='Datasetship'
     )
     word = models.CharField(max_length=64, primary_key=True)
 
     @property
     def inverse_document_frequency(self):
         # https://en.wikipedia.org/wiki/Tf–idf#Inverse_document_frequency_2
-        total_nb_datasets = ProxyDataset.objects.count()
-        total_keyword_occurence_in_corpus = self.datasets.count()
-        return math.log(total_nb_datasets / total_keyword_occurence_in_corpus)
+        nb_datasets = ProxyDataset.objects.count()
+        occurence_in_corpus = self.datasets.count()
+        return math.log(nb_datasets / occurence_in_corpus)
 
     def __str__(self):
         return self.word
 
 
-class KeywordDatasetRelationship(models.Model):
-    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
-    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE)
+# The relationship between a keyword and a dataset
+class Datasetship(models.Model):
+    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE, related_name="datasetships")
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="datasetships")
     occurence = models.IntegerField(default=0.0)
 
     @property
@@ -149,6 +149,9 @@ class KeywordDatasetRelationship(models.Model):
         """Relevance of this keyword for this dataset (tf-idf)"""
         # https://en.wikipedia.org/wiki/Tf–idf
         return self.term_frequency * self.keyword.inverse_document_frequency
+
+    def __repr__(self):
+        return f'{self.dataset!r} -(*{self.occurence})- {self.keyword!r}'
 
 
 class Content(models.Model):

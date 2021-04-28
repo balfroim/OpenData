@@ -3,8 +3,8 @@
 {% block main %}
     <h1>Recherche ({{ nb_datasets }} résultat{{ nb_datasets|pluralize }})</h1>
 
-    {% for count, datasets in datasets_by_keyword_match.items %}
-        <h2>{{ count }} mot-clé{{ count|pluralize }} correspondant{{ count|pluralize }}</h2>
+    {% for keywords, datasets in datasets_by_keyword_match.items %}
+        <h2>Jeux de données correspondant aux mots : {{ keywords }}</h2>
         <ul>
             {% for dataset in datasets %}
                 <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>

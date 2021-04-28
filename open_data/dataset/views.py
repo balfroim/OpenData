@@ -1,7 +1,8 @@
 import itertools
 from collections import Counter
-
+from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.query import QuerySet
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
@@ -60,25 +61,26 @@ def dataset_page(request, dataset_id):
 
 def search_page(request):
     keywords = {token.lower() for token in request.GET["q"].split(" ")}
-    datasets = list()
-    for keyword in keywords:
-        try:
-            keyword_obj = Keyword.objects.get(word=keyword)
-        except ObjectDoesNotExist:
-            continue
-        datasets.extend(keyword_obj.datasets.all())
-    nb_datasets = len(datasets)
-    # TODO: ordonnée par pertinence des mots clés ?
     datasets_by_keyword_match = dict()
-    for dataset, count in Counter(datasets).most_common():
-        try:
-            datasets_by_keyword_match[count].add(dataset)
-        except KeyError:
-            datasets_by_keyword_match[count] = {dataset}
+    all_matches = set()
+    for i in range(len(keywords), 0, -1):
+        for combination in itertools.combinations(keywords, i):
+            _keywords = ", ".join(combination)
+            matches = ProxyDataset.objects.exclude(id__in=all_matches)
+            for keyword in combination:
+                matches = matches.filter(keywords__word=keyword)
+            matches = sorted(
+                matches,
+                key=lambda match: sum(match.datasetships.get(keyword__word=keyword).relevancy for keyword in combination),
+                reverse=True
+            )
+            if matches:
+                datasets_by_keyword_match[_keywords] = matches
+                all_matches.update([match.id for match in matches])
     return render(request, 'search.html',
                   context={
                       "datasets_by_keyword_match": datasets_by_keyword_match,
-                      "nb_datasets": nb_datasets})
+                      "nb_datasets": len(all_matches)})
 
 
 def download_dataset(request, dataset_id):

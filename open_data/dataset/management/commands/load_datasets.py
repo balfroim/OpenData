@@ -1,19 +1,48 @@
-import requests
+from collections import Counter
+
 import spacy
 from dictor import dictor
 from django.core.management.base import BaseCommand
+from django.template.loader import TemplateDoesNotExist
+from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
 from open_data.settings import API_URL, TIME_ZONE
-from collections import Counter
 
-from dataset.models import ProxyDataset, Theme, Keyword
+import requests
+
+from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
 
 DATASETS_PER_PAGE = 100
 
 SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
 
 NLP = spacy.load("fr_core_news_lg")
+
+
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+
+
+def filter_html(url):
+    # https://stackoverflow.com/a/24618186
+    html = urlopen(url).read()
+    soup = BeautifulSoup(html, features="html.parser")
+
+    # kill all script and style elements
+    for script in soup(["script", "style"]):
+        script.extract()    # rip it out
+
+    # get text
+    text = soup.get_text()
+
+    # break into lines and remove leading and trailing space on each
+    lines = (line.strip() for line in text.splitlines())
+    # break multi-headlines into a line each
+    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+    # drop blank lines
+    text = '\n'.join(chunk for chunk in chunks if chunk)
+    return text
 
 
 def preprocess(word):
@@ -48,8 +77,14 @@ def generate_keywords(dataset, base_keywords, keywords_datasets):
         keywords.extend(filter_nouns(subtitle))
     # From description
     keywords.extend(filter_nouns(strip_tags(dataset.description)))
-    # TODO From custom view
-    # TODO From popularized view
+    # From custom view
+    print(filter_nouns(filter_html("https://data.namur.be/explore/dataset/covid19be_hosp/custom/?disjunctive.province&disjunctive.region")))
+    # From popularized view
+    try:
+        rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
+        keywords.extend(filter_nouns(strip_tags(rendered)))
+    except TemplateDoesNotExist:
+        pass
     # TODO From data
     for keyword, count in Counter(keywords).most_common():
         try:
@@ -65,7 +100,6 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    # TODO: peut être ajouter un argument no keyword ?
     def handle(self, *args, **options):
         datasets = self.fetch_all_datasets()
 
@@ -119,9 +153,9 @@ class Command(BaseCommand):
             self.stdout.write(f'Add {keyword!r} keyword for {datasets_occurence}.')
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
             for dataset, occurence in datasets_occurence:
-                Keyword.datasets.through.objects.get_or_create(keyword=keyword_obj,
-                                                               dataset=dataset,
-                                                               occurence=occurence)
+                Datasetship.objects.get_or_create(keyword=keyword_obj,
+                                                  dataset=dataset,
+                                                  occurence=occurence)
 
     def fetch_all_datasets(self):
         datasets = []
