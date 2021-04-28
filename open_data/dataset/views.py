@@ -65,7 +65,6 @@ def search_page(request):
     all_matches = set()
     for i in range(len(keywords), 0, -1):
         for combination in itertools.combinations(keywords, i):
-            _keywords = ", ".join(combination)
             matches = ProxyDataset.objects.exclude(id__in=all_matches)
             for keyword in combination:
                 matches = matches.filter(keywords__word=keyword)
@@ -75,8 +74,9 @@ def search_page(request):
                 reverse=True
             )
             if matches:
-                datasets_by_keyword_match[_keywords] = matches
+                datasets_by_keyword_match[combination] = matches
                 all_matches.update([match.id for match in matches])
+    # TODO: trier par idf du keyword ?
     return render(request, 'search.html',
                   context={
                       "datasets_by_keyword_match": datasets_by_keyword_match,
