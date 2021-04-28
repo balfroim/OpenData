@@ -10,32 +10,46 @@ from dataset.models import ProxyDataset, Theme, Keyword
 
 DATASETS_PER_PAGE = 100
 
+SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
+
 NLP = spacy.load("fr_core_news_sm")
+
+
+def preprocess(word):
+    return word.lower().replace("\"", "")
 
 
 def filter_nouns(text) -> set:
     nouns = set()
     for token in NLP(text):
-        if len(token) <= 2 or '.' in token.lemma_:
+        if (
+            len(token) <= 2 or
+            any(char for char in token.lemma_ if char in SPECIAL_CHARS)
+        ):
             continue
         if 'covid' in token.lemma_:
             nouns.add('covid')
             continue
+        # Nom commun et nom propre
         if token.pos_ in ("NOUN", "PROPN"):
-            nouns.add(token.lemma_.lower().replace("\"", "".replace("-", "")))
+            nouns.add(preprocess(token.lemma_))
             continue
     return nouns
 
 
 def generate_keywords(dataset, base_keywords, keywords_datasets):
     keywords = set()
+    # From base keywords
     for base_keyword in (base_keywords or set()):
         keywords.update(filter_nouns(base_keyword))
+    # From title
     for subtitle in dataset.title.split(" - "):
         keywords.update(filter_nouns(subtitle))
+    # From description
     keywords.update(filter_nouns(strip_tags(dataset.description)))
-    # TODO: custom view, popularized view and id
-    # TODO: filtrer les urls, pluriels etc
+    # TODO From custom view
+    # TODO From popularized view
+    # TODO From data
     for keyword in keywords:
         try:
             keywords_datasets[keyword].add(dataset)
@@ -94,15 +108,18 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f'{dataset_id!r} proxy dataset updated.')
 
-            keywords_datasets = generate_keywords(obj, dictor(metas, 'default.keyword'), keywords_datasets)
+            keywords_datasets = generate_keywords(obj, dictor(metas, 'default.keyword'),
+                                                  keywords_datasets)
 
-        self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
+        self.stdout.write(
+            self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
         for keyword, datasets in keywords_datasets.items():
             self.stdout.write(f'Add {keyword!r} keyword for {datasets}.')
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
             for dataset in datasets:
-                Keyword.datasets.through.objects.get_or_create(keyword=keyword_obj, proxydataset=dataset)
+                Keyword.datasets.through.objects.get_or_create(keyword=keyword_obj,
+                                                               proxydataset=dataset)
 
     def fetch_all_datasets(self):
         datasets = []
