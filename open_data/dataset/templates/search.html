@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Recherche{% endblock %}
+{% block head %}
+  <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
 {% block main %}
     <h1>
       {{ nb_datasets }} résultat{{ nb_datasets|pluralize }} pour le{{ keywords|length|pluralize:"s" }} mot{{ keywords|length|pluralize:"s" }} : {{ keywords|join:', ' }}
@@ -13,9 +19,10 @@
           mot{{ keywords|length|pluralize:"s" }} : {{ keywords|join:', ' }}
         </h2>
         <ul>
-            {% for dataset in datasets %}
-                <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>
-            {% endfor %}
+          {% include "dataset_carousel.html" with datasets=datasets%}
+{#            {% for dataset in datasets %}#}
+{#                <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>#}
+{#            {% endfor %}#}
         </ul>
     {% endfor %}
 
