@@ -17,52 +17,37 @@ def theme_page(request, theme_id):
 
 def dataset_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    linked_datasets_by_nb_common_keywords = dict()
-    for other_dataset in ProxyDataset.objects.all():
-        if other_dataset == dataset:
+    most_relevant_keywords = sorted(
+        [(ship.keyword, ship.relevancy) for ship in dataset.datasetships.all()],
+        key=lambda value: value[1],
+        reverse=True
+    )
+    already_matched_ids = {dataset.id}
+    datasets_by_keyword = dict()
+    for keyword, relevancy in most_relevant_keywords:
+        datasets = [d for d in keyword.datasets.all() if d.id not in already_matched_ids]
+        if len(datasets) == 0:
             continue
-        nb_common_keywords = len(
-            dataset.keywords.all().intersection(other_dataset.keywords.all()))
-        if nb_common_keywords == 0:
-            continue
-        try:
-            linked_datasets_by_nb_common_keywords[nb_common_keywords].add(
-                other_dataset)
-        except KeyError:
-            linked_datasets_by_nb_common_keywords[nb_common_keywords] = {
-                other_dataset}
-
-    keys = sorted(linked_datasets_by_nb_common_keywords.keys(), reverse=True)
-    linked_datasets_by_nb_common_keywords = {
-        k: linked_datasets_by_nb_common_keywords[k]
-        for k
-        in keys
-        if k > 5
-    }
-
-    nb_linked_datasets = len(
-        list(itertools.chain(*linked_datasets_by_nb_common_keywords.values())))
-
+        datasets_by_keyword[keyword] = datasets
+        already_matched_ids.update([d.id for d in datasets])
+        if len(datasets_by_keyword) >= 2:
+            break
     if request.GET.get('origin', '') == 'quiz':
-        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect',
-                                                   user=request.user)
-
-    return render(request,
-                  'dataset.html',
-                  {'dataset': dataset,
-                   'nb_linked_datasets': nb_linked_datasets,
-                   'linked_datasets_by_nb_common_keywords': linked_datasets_by_nb_common_keywords})
-
-
-def sort_by_nb_keywords_then_nb_datasets(value: tuple[tuple, list]) -> tuple[int, int]:
-    nb_keywords = len(value[0])
-    nb_datasets = len(value[1])
-    return -nb_keywords, nb_datasets
+        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect', user=request.user)
+    return render(
+        request,
+        'dataset.html',
+        context={
+            'dataset': dataset,
+            'nb_linked_datasets': len(already_matched_ids),
+            'datasets_by_keyword': datasets_by_keyword
+        }
+    )
 
 
 def search_page(request):
     keywords = {NLP(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
-    datasets_by_keyword_match = list()
+    datasets_by_keyword = list()
     already_matched_ids = set()
     for i in range(len(keywords), 0, -1):
         for combination in itertools.combinations(keywords, i):
@@ -77,26 +62,24 @@ def search_page(request):
                 reverse=True
             )
             if matches:
-                datasets_by_keyword_match.append((combination, matches))
+                datasets_by_keyword.append((combination, matches))
                 already_matched_ids.update([match.id for match in matches])
-    datasets_by_keyword_match = sorted(
-        datasets_by_keyword_match,
-        key=sort_by_nb_keywords_then_nb_datasets
+    datasets_by_keyword = sorted(
+        datasets_by_keyword,
+        key=lambda value: (-len(value[0]), len(value[1]))
     )
     return render(
         request, 'search.html',
         context={
             "keywords": keywords,
-            "datasets_by_keyword_match": datasets_by_keyword_match,
+            "datasets_by_keyword": datasets_by_keyword,
             "nb_datasets": len(already_matched_ids)
         })
 
 
 def download_dataset(request, dataset_id):
-    dataset = get_object_or_404(ProxyDataset, id=dataset_id,
-                                exports__has_key='xls')
-    BadgeCache.instance().possibly_award_badge('on_dataset_download',
-                                               user=request.user)
+    dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
+    BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
     return redirect(dataset.exports['xls'])
 
 

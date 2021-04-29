@@ -5,7 +5,7 @@
       {{ nb_datasets }} résultat{{ nb_datasets|pluralize }} pour le{{ keywords|length|pluralize:"s" }} mot{{ keywords|length|pluralize:"s" }} : {{ keywords|join:', ' }}
     </h1>
 
-    {% for keywords, datasets in datasets_by_keyword_match %}
+    {% for keywords, datasets in datasets_by_keyword %}
         <h2>
           {{ datasets|length }} jeu{{ datasets|length|pluralize:"x" }}
           de donnée{{ datasets|length|pluralize:"s" }}
