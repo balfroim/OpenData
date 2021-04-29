@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Recherche{% endblock %}
 {% block main %}
-    <h1>Recherche ({{ nb_datasets }} résultat{{ nb_datasets|pluralize }})</h1>
+    <h1>
+      {{ nb_datasets }} résultat{{ nb_datasets|pluralize }} pour le{{ keywords|length|pluralize:"s" }} mot{{ keywords|length|pluralize:"s" }} : {{ keywords|join:', ' }}
+    </h1>
 
-    {% for keywords, datasets in datasets_by_keyword_match.items %}
+    {% for keywords, datasets in datasets_by_keyword_match %}
         <h2>
           {{ datasets|length }} jeu{{ datasets|length|pluralize:"x" }}
           de donnée{{ datasets|length|pluralize:"s" }}

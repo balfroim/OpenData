@@ -4,10 +4,11 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
+from open_data.settings import NLP
 
 from badge.registry import BadgeCache
 from .models import Theme, ProxyDataset, Question, Content, Answer
-from open_data.settings import DATASETS_PER_PAGE, NLP
+
 
 def theme_page(request, theme_id):
     theme = get_object_or_404(Theme, id=theme_id)
@@ -39,7 +40,6 @@ def dataset_page(request, dataset_id):
         if k > 5
     }
 
-    print(linked_datasets_by_nb_common_keywords)
     nb_linked_datasets = len(
         list(itertools.chain(*linked_datasets_by_nb_common_keywords.values())))
 
@@ -54,31 +54,42 @@ def dataset_page(request, dataset_id):
                    'linked_datasets_by_nb_common_keywords': linked_datasets_by_nb_common_keywords})
 
 
+def sort_by_nb_keywords_then_nb_datasets(value: tuple[tuple, list]) -> tuple[int, int]:
+    nb_keywords = len(value[0])
+    nb_datasets = len(value[1])
+    return -nb_keywords, nb_datasets
+
+
 def search_page(request):
     keywords = {NLP(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
-    datasets_by_keyword_match = dict()
-    all_matches = set()
+    datasets_by_keyword_match = list()
+    already_matched_ids = set()
     for i in range(len(keywords), 0, -1):
         for combination in itertools.combinations(keywords, i):
-            matches = ProxyDataset.objects.exclude(id__in=all_matches)
+            matches = ProxyDataset.objects.exclude(id__in=already_matched_ids)
             for keyword in combination:
                 matches = matches.filter(keywords__word=keyword)
             matches = sorted(
                 matches,
                 key=lambda match: sum(
-                    match.datasetships.get(keyword__word=keyword).relevancy for keyword in
+                    match.datasetships.get(keyword__word=kw).relevancy for kw in
                     combination),
                 reverse=True
             )
             if matches:
-                datasets_by_keyword_match[combination] = matches
-                all_matches.update([match.id for match in matches])
-    # TODO: trier par idf du keyword ?
-    # TODO: bouton chercher des synonymes ?
-    return render(request, 'search.html',
-                  context={
-                      "datasets_by_keyword_match": datasets_by_keyword_match,
-                      "nb_datasets": len(all_matches)})
+                datasets_by_keyword_match.append((combination, matches))
+                already_matched_ids.update([match.id for match in matches])
+    datasets_by_keyword_match = sorted(
+        datasets_by_keyword_match,
+        key=sort_by_nb_keywords_then_nb_datasets
+    )
+    return render(
+        request, 'search.html',
+        context={
+            "keywords": keywords,
+            "datasets_by_keyword_match": datasets_by_keyword_match,
+            "nb_datasets": len(already_matched_ids)
+        })
 
 
 def download_dataset(request, dataset_id):
