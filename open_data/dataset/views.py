@@ -39,7 +39,7 @@ def dataset_page(request, dataset_id):
         'dataset.html',
         context={
             'dataset': dataset,
-            'nb_linked_datasets': len(already_matched_ids),
+            'nb_linked_datasets': len(already_matched_ids)-1,
             'datasets_by_keyword': datasets_by_keyword
         }
     )

@@ -59,9 +59,9 @@ class ProxyDataset(models.Model):
         most_liked = datasets.annotate(nb_likes=Count('liking_users__id')).order_by('-nb_likes')
         more_questions = datasets.annotate(nb_questions=Count('questions__id')).order_by('-nb_questions')
         _featured_datasets = set()
-        _featured_datasets.add((most_popular.first(), f'Jeu de donnée le plus populaire.'))
-        _featured_datasets.add((most_liked.first(), f'Jeu de donnée le plus aimé.'))
-        _featured_datasets.add((more_questions.first(), f'Jeu de donnée avec le plus de questions.'))
+        _featured_datasets.add((most_popular.first(), f'Jeu de données le plus populaire.'))
+        _featured_datasets.add((most_liked.first(), f'Jeu de données le plus aimé.'))
+        _featured_datasets.add((more_questions.first(), f'Jeu de données avec le plus de questions.'))
         return _featured_datasets
 
     def __str__(self):
