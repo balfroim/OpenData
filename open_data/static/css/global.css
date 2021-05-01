@@ -48,6 +48,7 @@ button, .button {
   border-radius: var(--rounded);
   color: white;
   background-color: var(--primary);
+  text-align: center;
   font: inherit;
   font-weight: bold;
 }
