@@ -10,7 +10,7 @@ from quiz.models import Quiz
 def home_page(request):
     return render(request, 'home.html', {
         'themes': Theme.get_displayed(),
-        'featured_datasets': ProxyDataset.objects.order_by('-popularity_score')[:5],
+        'featured_datasets': ProxyDataset.featured_datasets(),
         'last_questions': Question.objects.order_by('-content__posted_at')[:5],
         'today_quiz': random.choice(Quiz.objects.all()),
     })

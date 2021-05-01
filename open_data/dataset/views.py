@@ -1,4 +1,4 @@
-import itertools
+from itertools import chain, combinations
 
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -49,21 +49,28 @@ def search_page(request):
     keywords = {NLP(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
     datasets_by_keyword = list()
     already_matched_ids = set()
-    for i in range(len(keywords), 0, -1):
-        for combination in itertools.combinations(keywords, i):
-            matches = ProxyDataset.objects.exclude(id__in=already_matched_ids)
-            for keyword in combination:
-                matches = matches.filter(keywords__word=keyword)
-            matches = sorted(
-                matches,
-                key=lambda match: sum(
-                    match.datasetships.get(keyword__word=kw).relevancy for kw in
-                    combination),
-                reverse=True
+    keywords_combinations = list(
+        chain.from_iterable(
+            map(
+                lambda k: combinations(keywords, k),
+                range(len(keywords), 0, -1)
             )
-            if matches:
-                datasets_by_keyword.append((combination, matches))
-                already_matched_ids.update([match.id for match in matches])
+        )
+    )
+    for combination in keywords_combinations:
+        matches = ProxyDataset.objects.exclude(id__in=already_matched_ids)
+        for keyword in combination:
+            matches = matches.filter(keywords__word=keyword)
+        matches = sorted(
+            matches,
+            key=lambda match: sum(
+                match.datasetships.get(keyword__word=kw).relevancy for kw in
+                combination),
+            reverse=True
+        )
+        if matches:
+            datasets_by_keyword.append((combination, matches))
+        already_matched_ids.update([match.id for match in matches])
     datasets_by_keyword = sorted(
         datasets_by_keyword,
         key=lambda value: (-len(value[0]), len(value[1]))
