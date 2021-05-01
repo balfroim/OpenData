@@ -18,15 +18,9 @@
     <div
       class="{% if not badge.visible %}locked {% elif not badge.earned %}visible {% endif %}badge badge{{ forloop.counter }}-tab-button"
       style="grid-area: {{ badge.y }} / {{ badge.x }};"
+      data-tooltip="{% if badge.visible %}{{ badge.name }}{% else %}?{% endif %}"
     >
       <img src="{{ badge.image }}" alt="Badge">
-      <span class="tooltip">
-        {% if badge.visible %}
-        {{ badge.name }}
-        {% else %}
-        ?
-        {% endif %}
-      </span>
     </div>
     {% endfor %}
   </div>
@@ -34,8 +28,13 @@
     {% for badge in badges.values %}
     <div id="badge{{ forloop.counter }}-tab" class="card tab">
       {% if badge.earned or badge.visible %}
-      <p><b>{{ badge.name }}</b></p>
-      <p>{{ badge.description }}</p>
+      <p>
+        <b>{{ badge.name }}</b>
+        <span>({{ badge.score }} points)</span>
+      </p>
+      <p>
+        <i>{{ badge.description }}</i>
+      </p>
       {% else %}
       <p><b>?</b></p>
       {% endif %}

@@ -47,16 +47,15 @@
   {% endif %}
 
   <h2>Derniers badges</h2>
-  <div class="card" style="display: flex; position: relative">
+  <div class="card">
     {% for badge in last_badges %}
-      <div>
-        <img src="{{ badge.image }}" alt="Badge" width="64">
-        <span class="tooltip">{{ badge.name }}</span>
-      </div>
+    <span class="badge" data-tooltip="{{ badge.name }}">
+      <img src="{{ badge.image }}" alt="Badge">
+    </span>
     {% endfor %}
   </div>
   {% if form %}
-    <a href="{% url 'pinax_badges:badge_list' %}">Voir plus...</a>
+  <a href="{% url 'pinax_badges:badge_list' %}">Voir plus...</a>
   {% endif %}
 
   <h2>Dernières questions et réponses</h2>
