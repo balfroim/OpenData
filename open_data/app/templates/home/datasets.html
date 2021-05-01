@@ -1,22 +1,22 @@
 <section>
   <h2>Données à l'honneur</h2>
   <div
-          class="main-carousel card"
-          data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'
+    class="main-carousel card"
+    data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'
   >
     {% for dataset, reason in featured_datasets %}
       <a
-              class="nostyle carousel-cell"
-              href="{% url 'dataset' dataset_id=dataset.id %}"
+        class="nostyle carousel-cell"
+        href="{% url 'dataset' dataset_id=dataset.id %}"
       >
         <div class="reason">
           {{ reason }}
         </div>
         {% if dataset.theme.image %}
           <div
-                  class="svg image"
-                  data-src="{{ dataset.theme.image.url }}"
-                  data-color="{{ dataset.theme.color }}"
+            class="svg image"
+            data-src="{{ dataset.theme.image.url }}"
+            data-color="{{ dataset.theme.color }}"
           ></div>
         {% endif %}
         <div class="title">
