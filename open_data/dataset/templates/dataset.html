@@ -2,9 +2,6 @@
 {% load static quiz_tags dataset_tags question %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
-  <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
   <style>
     main {
@@ -51,25 +48,20 @@
 
   <div id="linked-dataset-modal" class="modal-mask center">
     <div class="modal">
+      <p>
+        Voici <b>{{ nb_linked_datasets }}
+        autre{{ nb_linked_datasets|pluralize }}
+        jeu{{ nb_linked_datasets|pluralize:'x' }}
+        de données</b> qui pourrai{{ nb_linked_datasets|pluralize:'t,ent' }}
+        vous intéresser.
+      </p>
       {% for keyword, datasets in datasets_by_keyword.items %}
-        <h2>
-          {{ datasets|length }} jeu{{ datasets|length|pluralize:"x" }}
-          de donnée{{ datasets|length|pluralize:"s" }}
-          correspondant au mot : {{ keyword }}
-        </h2>
-{#          {% for dataset in datasets %}#}
-{#            <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>#}
-{#          {% endfor %}#}
-          {% include "dataset_carousel.html" with datasets=datasets%}
+        <p>
+          Jeu{{ datasets|pluralize:'x' }}
+          de données correspondant au mot : <b>{{ keyword }}</b>.
+        </p>
+        {% show_datasets datasets %}
       {% endfor %}
-      {#            {% for count, datasets in linked_datasets_by_nb_common_keywords.items %}#}
-      {#                <h2>{{ count }} mot-clé{{ count|pluralize }} en commun</h2>#}
-      {#                <ul>#}
-      {#                    {% for dataset in datasets %}#}
-      {#                        <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>#}
-      {#                    {% endfor %}#}
-      {#                </ul>#}
-      {#            {% endfor %}#}
     </div>
   </div>
 {% endblock %}
@@ -110,7 +102,7 @@
       <button class="linked-dataset-modal-button">
         <i class="fas fa-link"></i>
         {{ nb_linked_datasets }}
-        recommendation{{ nb_linked_datasets|pluralize }}
+        recommandation{{ nb_linked_datasets|pluralize }}
       </button>
     {% endif %}
 

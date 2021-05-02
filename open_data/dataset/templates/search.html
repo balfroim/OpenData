@@ -3,31 +3,6 @@
 
 {% block title %}Recherche{% endblock %}
 
-{% block head %}
-  <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
-  <style>
-    .datasets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-    }
-
-    .dataset {
-      display: flex !important;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .dataset > .image {
-      height: 48px;
-      width: 48px;
-    }
-  </style>
-{% endblock %}
-
 {% block main %}
   <p>
     Il y a <b>{{ nb_datasets }} jeu{{ nb_datasets|pluralize:'x' }} de données</b>.
@@ -40,36 +15,6 @@
       mot{{ keywords|pluralize }}
       : <b>{{ keywords|join:', ' }}</b>.
     </p>
-    <div class="tabs">
-      {% for page in datasets|paginate:5 %}
-        <div
-          id="page-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
-          class="datasets {% if forloop.first %}active {% endif %}tab"
-        >
-          {% if not forloop.first %}
-            <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:-1 }}-button">
-              &larr;
-            </button>
-          {% endif %}
-          {% for dataset in page %}
-            <a class="dataset button" href="{% url 'dataset' dataset_id=dataset.id %}">
-              {% if dataset.theme.image %}
-                <div
-                  class="svg image"
-                  data-src="{{ dataset.theme.image.url }}"
-                  data-color="currentColor"
-                ></div>
-              {% endif %}
-              <div>{{ dataset.multiline_title }}</div>
-            </a>
-          {% endfor %}
-          {% if not forloop.last %}
-            <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:1 }}-button">
-              &rarr;
-            </button>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
+    {% show_datasets datasets %}
   {% endfor %}
 {% endblock %}

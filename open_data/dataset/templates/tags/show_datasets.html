@@ -1,0 +1,51 @@
+{% load dataset_tags %}
+<style>
+  .datasets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .dataset {
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dataset > .image {
+    height: 48px;
+    width: 48px;
+  }
+</style>
+<div class="tabs">
+  {% for page in datasets|paginate:5 %}
+    <div
+      id="page-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
+      class="datasets {% if forloop.first %}active {% endif %}tab"
+    >
+      {% if not forloop.first %}
+        <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:-1 }}-button">
+          &larr;
+        </button>
+      {% endif %}
+      {% for dataset in page %}
+        <a class="dataset button" href="{% url 'dataset' dataset_id=dataset.id %}">
+          {% if dataset.theme.image %}
+            <div
+              class="svg image"
+              data-src="{{ dataset.theme.image.url }}"
+              data-color="currentColor"
+            ></div>
+          {% endif %}
+          <div>{{ dataset.multiline_title }}</div>
+        </a>
+      {% endfor %}
+      {% if not forloop.last %}
+        <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:1 }}-button">
+          &rarr;
+        </button>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
