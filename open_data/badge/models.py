@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from django.templatetags.static import static
 
 from user.models import User
 
@@ -45,3 +44,7 @@ class BadgeAward(models.Model):
     @property
     def y(self):
         return self._badge.positions[self.level][1]
+
+    @property
+    def score(self):
+        return self._badge.levels[self.level].score

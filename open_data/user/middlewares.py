@@ -1,6 +1,6 @@
 from django.contrib.auth import login
 
-from .models import User, Profile, generate_name
+from .models import User
 
 
 class AnonymousUserMiddleware:
@@ -9,9 +9,6 @@ class AnonymousUserMiddleware:
 
     def __call__(self, request):
         if not request.user.is_authenticated:
-            name = generate_name()
-            user = User.objects.create_user(username=name)
-            profile = Profile.objects.create(user=user, name=name)
-            profile.save()
+            user = User.objects.create_user()
             login(request, user)
         return self.get_response(request)

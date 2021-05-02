@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="message">
+    <div class="message-header">
+      <span>{{ content.posted_at|date:'d F Y H:m' }}</span>
+      <span>{{ content.display_author }}</span>
+
+    </div>
+    <div>
+      {{ content.display_text }}
+    </div>
+    {% if show_context_link %}
+    {% block context_link %}
+    {% endblock %}
+    {% endif %}
+
+  </div>
+</div>

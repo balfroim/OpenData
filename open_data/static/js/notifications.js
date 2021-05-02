@@ -1,5 +1,6 @@
 const list = document.querySelector('#notification-list')
 const popup = document.querySelector('#notification-popup')
+const counter = document.querySelector('#notification-count')
 
 const queue = []
 
@@ -9,6 +10,9 @@ popup.addEventListener('animationend', updatePopup)
 async function pollNotifications() {
   const json = await fetch('/inbox/notifications/api/unread_list/?mark_as_read=true')
   const response = await json.json()
+
+  const count = parseInt(counter.textContent)
+  counter.textContent = `${count + response.unread_list.length}`
 
   for (const notification of response.unread_list) {
     const element = document.createElement('div')

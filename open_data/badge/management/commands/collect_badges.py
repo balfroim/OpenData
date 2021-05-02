@@ -33,7 +33,7 @@ class Command(BaseCommand):
                         del badges[name_deleted]
                         self.stdout.write(f'{name!r} badge undeleted.')
                     else:
-                        badges[name] = {'x': 0, 'y': 0}
+                        badges[name] = {'x': 1, 'y': 1}
                         self.stdout.write(f'{name!r} badge added.')
 
         # Delete old badges

@@ -1,0 +1,36 @@
+<style>
+  .dropdown > * + * {
+    margin-top: 4px;
+  }
+</style>
+<div id="profile-dropdown" class="modal-mask">
+  <div class="right dropdown">
+    {% if user.profile.is_registered %}
+    <div>
+      <a class="button" href="{% url 'my_profile' %}">
+        <i class="fas fa-user"></i>
+        Mon profil
+      </a>
+    </div>
+    {% endif %}
+    <div>
+      <a class="button" href="{% url 'badges:badge_list' %}">
+        <i class="fas fa-medal"></i>
+        Mes badges
+      </a>
+    </div>
+    <div>
+      {% if user.profile.is_registered %}
+      <a class="button" href="{% url 'log_out' %}?next={{ request.path }}">
+        <i class="fas fa-sign-in-alt"></i>
+        Déconnexion
+      </a>
+      {% else %}
+      <button class="login-modal-button">
+        <i class="fas fa-sign-out-alt"></i>
+        Connexion
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
