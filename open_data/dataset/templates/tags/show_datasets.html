@@ -21,11 +21,11 @@
 <div class="tabs">
   {% for page in datasets|paginate:5 %}
     <div
-      id="page-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
+      id="{{ tab_prefix }}{{ forloop.counter }}"
       class="datasets {% if forloop.first %}active {% endif %}tab"
     >
       {% if not forloop.first %}
-        <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:-1 }}-button">
+        <button class="{{ tab_prefix }}{{ forloop.counter|add:-1 }}-button">
           &larr;
         </button>
       {% endif %}
@@ -42,7 +42,7 @@
         </a>
       {% endfor %}
       {% if not forloop.last %}
-        <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:1 }}-button">
+        <button class="{{ tab_prefix }}{{ forloop.counter|add:1 }}-button">
           &rarr;
         </button>
       {% endif %}

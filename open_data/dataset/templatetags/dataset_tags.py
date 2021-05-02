@@ -11,8 +11,11 @@ def get_themes():
 
 
 @register.inclusion_tag('tags/show_datasets.html')
-def show_datasets(datasets):
-    return {'datasets': datasets}
+def show_datasets(datasets, tab_id):
+    return {
+        'datasets': datasets,
+        'tab_prefix': f'page-{tab_id}-',
+    }
 
 
 @register.filter

@@ -15,6 +15,6 @@
       mot{{ keywords|pluralize }}
       : <b>{{ keywords|join:', ' }}</b>.
     </p>
-    {% show_datasets datasets %}
+    {% show_datasets datasets forloop.counter %}
   {% endfor %}
 {% endblock %}

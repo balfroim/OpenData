@@ -64,7 +64,7 @@
           Jeu{{ datasets|pluralize:'x' }}
           de données correspondant au mot : <b>{{ keyword }}</b>.
         </p>
-        {% show_datasets datasets %}
+        {% show_datasets datasets forloop.counter %}
       {% endfor %}
     </div>
   </div>
