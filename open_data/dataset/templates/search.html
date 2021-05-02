@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static dataset_tags %}
+
 {% block title %}Recherche{% endblock %}
+
 {% block head %}
   <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
   <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
@@ -25,6 +27,7 @@
     }
   </style>
 {% endblock %}
+
 {% block main %}
   <p>
     Il y a <b>{{ nb_datasets }} jeu{{ nb_datasets|pluralize:'x' }} de données</b>.
@@ -37,23 +40,36 @@
       mot{{ keywords|pluralize }}
       : <b>{{ keywords|join:', ' }}</b>.
     </p>
-    <div class="datasets">
-      {% for dataset in datasets %}
-        <a class="dataset button" href="{% url 'dataset' dataset_id=dataset.id %}">
-          {% if dataset.theme.image %}
-            <div
-              class="svg image"
-              data-src="{{ dataset.theme.image.url }}"
-              data-color="currentColor"
-            ></div>
+    <div class="tabs">
+      {% for page in datasets|paginate:5 %}
+        <div
+          id="page-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
+          class="datasets {% if forloop.first %}active {% endif %}tab"
+        >
+          {% if not forloop.first %}
+            <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:-1 }}-button">
+              &larr;
+            </button>
           {% endif %}
-          <div>{{ dataset.multiline_title }}</div>
-        </a>
+          {% for dataset in page %}
+            <a class="dataset button" href="{% url 'dataset' dataset_id=dataset.id %}">
+              {% if dataset.theme.image %}
+                <div
+                  class="svg image"
+                  data-src="{{ dataset.theme.image.url }}"
+                  data-color="currentColor"
+                ></div>
+              {% endif %}
+              <div>{{ dataset.multiline_title }}</div>
+            </a>
+          {% endfor %}
+          {% if not forloop.last %}
+            <button class="page-{{ forloop.parentloop.counter }}-{{ forloop.counter|add:1 }}-button">
+              &rarr;
+            </button>
+          {% endif %}
+        </div>
       {% endfor %}
-      {#% include "dataset_carousel.html" with datasets=datasets %#}
-      {#            {% for dataset in datasets %}#}
-      {#                <li><a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a></li>#}
-      {#            {% endfor %}#}
     </div>
   {% endfor %}
 {% endblock %}
