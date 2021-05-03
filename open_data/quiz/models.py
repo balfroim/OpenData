@@ -92,3 +92,6 @@ class QuizSubmission(models.Model):
         if "correct" not in counter.keys():
             return 0
         return counter["correct"]
+
+    def __str__(self):
+        return f"{self.quiz!r} submitted by {self.user.profile!r}"

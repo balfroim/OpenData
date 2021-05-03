@@ -1,67 +1,70 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static question %}
 {% block title %}Profil{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 {% block modals %}
-    {% if form %}
-        <div id="profile-modal" class="modal-mask">
-            <div class="modal">
-                <form action="{% url 'my_profile' %}" method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <hr>
-                    <button type="submit">Modifier</button>
-                </form>
-            </div>
-        </div>
-    {% endif %}
+  {% if form %}
+    <div id="profile-modal" class="modal-mask center">
+      <div class="modal">
+        <form action="{% url 'profile' username=user.username %}" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <hr>
+          <button type="submit">Modifier</button>
+        </form>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
 {% block main %}
-    <h1>Profil</h1>
-    <h2>{{ profile.name }}</h2>
-    <div class="responsive profile">
-        <div>
-            <img
-                src="https://picsum.photos/128"
-                alt="Photo de profil"
-                class="rounded avatar"
-            >
-        </div>
-        <p class="card bio">
-            {{ profile.description }}
-        </p>
+  <h1>Profil</h1>
+  <h2>{{ profile.name }}</h2>
+  <div class="responsive profile">
+    <div>
+      <img
+        src="https://picsum.photos/128"
+        alt="Photo de profil"
+        class="rounded avatar"
+      >
     </div>
+    <p class="card bio">
+      {{ profile.description }}
+    </p>
+
+  </div>
+  <div>
+    {{ profile.rank }} ({{ profile.score }} points)
+  </div>
+  {% if profile == user.profile %}
     {% if form %}
-        <button class="profile-modal-button">Modifier</button>
+      <button class="profile-modal-button">Modifier</button>
     {% endif %}
-    <h2>Derniers badges</h2>
-    <div class="card" style="display: flex; position: relative">
-        {% for badge in last_badges %}
-            <div>
-                <img src="{{ badge.image }}" width="64">
-                <span class="tooltip">{{ badge.name }}</span>
-            </div>
-        {% endfor %}
-    </div>
-    {% if form %}
-        <a href="{% url 'pinax_badges:badge_list' %}">Voir plus...</a>
-    {% endif %}
-    <h2>Derniers commentaires</h2>
-    {% for comment in last_comments %}
-        <div class="card">
-            <div class="message">
-                <div class="message-header">
-                    <span>{{ comment.posted_at|date:'d F Y H:m'}}</span>
-                    <a href="{% url 'dataset' comment.dataset.id %}">Voir dans son contexte</a>
-                </div>
-                <div>
-                    {{ comment.content }}
-                </div>
-            </div>
-        </div>
+  {% endif %}
+
+  <h2>Derniers badges</h2>
+  <div class="card" style="display: flex; position: relative">
+    {% for badge in last_badges %}
+      <div>
+        <img alt="" src="{{ badge.image }}" width="64">
+        <span class="tooltip">{{ badge.name }}</span>
+      </div>
     {% endfor %}
-    <a href="#">Voir plus...</a>
-    </div>
+  </div>
+  {% if form %}
+    <a href="{% url 'pinax_badges:badge_list' %}">Voir plus...</a>
+  {% endif %}
+  <h2>Dernières questions et réponses</h2>
+  {% for content in last_contents %}
+    {% if content.question %}
+      {% question_card content.question user %}
+    {% elif content.answer %}
+      {% answer_card content.question user %}
+    {% endif %}
+  {% empty %}
+    <p class="card">
+      Cet utilisateur n'a rien posté.
+    </p>
+  {% endfor %}
 {% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load question %}
+{% block title %}Question - {{ question.content.text }}{% endblock %}
+{% block main %}
+
+
+  <a class="button" href="{% url 'dataset' question.dataset.id %}">Retour au dataset</a>
+
+  {% question_card question user False %}
+
+  <div id="answers" style="padding-left: 10%">
+    {% answers_of question %}
+  </div>
+
+  {% if user.profile.is_registered %}
+    <h2>Répondre</h2>
+    <form style="display: flex; justify-content: center;" id="reply-form">
+      {% csrf_token %}
+      <label>
+        <textarea name="content" id="answer_content"></textarea>
+      </label>
+      <button><span class="fas fa-reply"></span></button>
+    </form>
+  {% endif %}
+
+  <script>
+    const answerForm = document.querySelector('#reply-form');
+    const answersDiv = document.querySelector('#answers');
+
+    answerForm.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      const response = await fetch("{% url "add-answer" question.id %}", {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(answerForm)),
+        headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
+      });
+
+      if (response.ok) {
+        answersDiv.innerHTML = await response.text();
+        answerForm.querySelector('#answer_content').value = ""
+      }
+    });
+
+  </script>
+
+{% endblock %}

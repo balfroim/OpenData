@@ -1,15 +1,10 @@
+from abc import ABCMeta, abstractmethod
+from collections.abc import Collection, MutableSequence
+
 from django.templatetags.static import static
 
 from .models import BadgeAward
 from .signals import badge_awarded_signal
-
-
-def abstract_property(name):
-    def attr(*args):
-        msg = "attribute %r must be defined on child class." % name
-        raise NotImplementedError(msg)
-
-    return property(attr, attr)
 
 
 class BadgeAwarded:
@@ -19,19 +14,37 @@ class BadgeAwarded:
 
 
 class BadgeDetail:
-    def __init__(self, name=None, description=None, image='default.png'):
+    def __init__(self, name=None, description=None, image='default.png', score: int = 0):
         self.name = name
         self.description = description
         self.image = static(f'images/badges/{image}')
+        self.score = score
 
 
-class Badge:
+class Badge(metaclass=ABCMeta):
     async_ = False
-    multiple = abstract_property("multiple")
-    levels = abstract_property("levels")
-    slug = abstract_property("slug")
-    events = abstract_property("events")
 
+    @property
+    @abstractmethod
+    def multiple(self) -> bool:
+        pass
+
+    @property
+    @abstractmethod
+    def levels(self) -> MutableSequence[BadgeDetail]:
+        pass
+
+    @property
+    @abstractmethod
+    def slug(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def events(self) -> Collection[str]:
+        pass
+
+    @abstractmethod
     def award(self, **state):
         raise NotImplementedError("must be implemented on base class")
 

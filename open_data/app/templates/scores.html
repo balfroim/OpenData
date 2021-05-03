@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
+
 {% block title %}Tableau des scores{% endblock %}
+
 {% block main %}
+  <div class="breadcrumbs">
+    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'scores' %}">Tableau des scores <i class="fas fa-star"></i></a>
+  </div>
   <h1>Tableau des scores</h1>
+  <ol>
+    {% for user in users %}
+    <li>
+      <a href="{% url 'profile' username=user.username %}">
+        {{ user.profile.name }}
+      </a> : <span>
+        {{ user.profile.score }} points.
+      </span>
+    </li>
+    {% endfor %}
+  </ol>
 {% endblock %}

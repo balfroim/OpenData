@@ -1,41 +1,48 @@
-{% load static notifications_tags %}
-<nav class="responsive">
-  <a href="{% url 'home' %}">
+{% load static %}
+<nav>
+  <a class="nostyle" href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
   </a>
-  <a href="{% url 'home' %}">
-    Accueil
+  <!--a class="nostyle" href="{% url 'home' %}">
     <i class="fas fa-home"></i>
-  </a>
+    Accueil
+  </a-->
+
   <button class="explore-dropdown-button">
+    <i class="fas fa-lg fa-compass"></i>
     Explorer
-    <i class="fas fa-arrow-down"></i>
   </button>
+
   <div class="separator"></div>
+
   {% if user.is_staff %}
-    <a href="{% url 'admin:index' %}">
-      <i class="fas fa-unlock-alt"></i>
-      Admin
-    </a>
+  <a class="nostyle" href="{% url 'admin:index' %}">
+    <i class="fas fa-unlock-alt"></i>
+    Administration
+  </a>
   {% endif %}
-  <a href="{% url 'quizzes' %}">
+
+  <a class="nostyle" href="{% url 'quizzes' %}">
     <i class="fas fa-question"></i>
     Quiz de la semaine
   </a>
-  <a href="{% url 'scores' %}">
+
+  <a class="nostyle" href="{% url 'scores' %}">
     <i class="fas fa-star"></i>
     Tableau des scores
   </a>
-  <span class="clickable notification-dropdown-button">
+
+  <button class="nostyle notification-dropdown-button">
     <i class="fas fa-bell"></i>
-    {% live_notify_badge %}
-  </span>
+    <span id="notification-count">{{ user.notifications.count }}</span>
+  </button>
+
   <button class="profile-dropdown-button">
-    <i class="fas fa-lg fa-user"></i>
+    <i class="fas fa-lg fa-user-circle"></i>
     {% if user.profile.is_registered %}
     {{ user.profile.name }}
     {% else %}
-    Profile
+    Profil
     {% endif %}
   </button>
 </nav>

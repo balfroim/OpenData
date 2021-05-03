@@ -3,6 +3,12 @@ from abc import ABCMeta
 from badge.base import Badge, BadgeDetail, BadgeAwarded
 from badge.stereotypes import ThresholdedBadge, OnceBadge
 
+def check_threshold(levels, thresholds, observed_value):
+    award = None
+    for lvl in range(len(levels)):
+        if observed_value >= thresholds[lvl]:
+            award = BadgeAwarded(level=lvl+1)
+    return award
 
 class LikeDatasetBadge(ThresholdedBadge):
     slug = 'dataset-like'

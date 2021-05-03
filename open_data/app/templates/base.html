@@ -1,30 +1,44 @@
-{% load static notifications_tags %}
+{% load static %}
 <!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>OpenData | {% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>OpenData | {% block title %}{% endblock %}</title>
+
+    {# CSS #}
     <link rel="icon" href="{% static 'images/icon.png' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="stylesheet" href="{% static 'fa-5.15.3/css/all.min.css' %}">
+
+    {# JavaScript #}
     <script type="module" src="{% static 'js/base.js' %}"></script>
     <script type="module" src="{% static 'js/notifications.js' %}"></script>
+
     {% block head %}{% endblock %}
   </head>
   <body>
     {# Popups #}
-    <div id="notification-popup" class="popup"></div>
+    {% include 'popups/notifications.html' %}
+    {% block popups %}{% endblock %}
+
     {# Modals #}
     {% include 'modals/login.html' %}
     {% block modals %}{% endblock %}
+
+    {# Navbar #}
     <header>
       {% include 'navbar.html' %}
     </header>
+
     {# Dropdowns #}
-    {% include 'modals/explore.html' %}
-    {% include 'modals/notification.html' %}
-    {% include 'modals/profile.html' %}
+    {% include 'dropdowns/explore.html' %}
+    {% include 'dropdowns/notifications.html' %}
+    {% include 'dropdowns/profile.html' %}
+    {% block dropdowns %}{% endblock %}
+
+    {# Main content #}
     <main>
       {% block main %}{% endblock %}
     </main>

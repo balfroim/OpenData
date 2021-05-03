@@ -1,0 +1,373 @@
+/*
+
+All grid code is placed in a 'supports' rule (feature query) at the bottom of the CSS (Line 310).
+
+The 'supports' rule will only run if your browser supports CSS grid.
+
+Flexbox and floats are used as a fallback so that browsers which don't support grid will still recieve a similar layout.
+
+*/
+
+/* Base Styles */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img {
+    display: block;
+}
+
+.container {
+    max-width: 93.5rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.btn {
+    display: inline-block;
+    font: inherit;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+}
+
+.btn:focus {
+    outline: 0.5rem auto #4d90fe;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+/* Profile Section */
+
+.theme {
+    padding: 5rem 0;
+}
+
+.theme::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.theme-image {
+    float: left;
+    width: calc(33.333% - 1rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.theme-image img {
+    width: 160px;
+    border-radius: 50%;
+    border: 1px solid;
+    --image-color: {{ theme.color }}
+}
+
+.theme-presentation,
+.theme-stats,
+.theme-description {
+    float: left;
+    width: calc(66.666% - 2rem);
+}
+
+.theme-presentation {
+    margin-top: 1.1rem;
+}
+
+.theme-name {
+    display: inline-block;
+    font-size: 3.2rem;
+    font-weight: 300;
+}
+
+.theme-subscribe-btn {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    border: 0.1rem solid black;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 0.3rem;
+    padding: 0 2.4rem;
+    margin-left: 2rem;
+}
+
+
+
+.theme-stats {
+    margin-top: 2.3rem;
+}
+
+.theme-stats li {
+    display: inline-block;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-right: 4rem;
+    cursor: pointer;
+}
+
+.theme-stats li:last-of-type {
+    margin-right: 0;
+}
+
+.theme-description {
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 2.3rem;
+}
+
+.theme-real-name,
+.theme-stat-count,
+.theme-subscribe-btn {
+    font-weight: 600;
+}
+
+/* Gallery Section */
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1rem -1rem;
+    padding-bottom: 3rem;
+}
+
+.gallery .gallery-item {
+    position: relative;
+    max-width: 300px;
+    height: 280px;
+    background-color: var(--primary);
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.2s ease-in-out;
+    border-radius: var(--rounded);
+}
+
+.gallery .gallery-item:hover {
+    height: 550px;
+}
+
+.gallery .gallery-item .imgBx1{
+    position: relative;
+    width: 160px;
+    height: 200px;
+    top: -10px;
+    left: 58px;
+}
+
+.gallery .gallery-item .imgBx1 img{
+    width: 140px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid grey;
+
+}
+
+.gallery .gallery-item .dataset-title{
+    position: relative;
+    margin-top: -20px;
+    padding: 10px 15px;
+    text-align: center;
+    color: white;
+    opacity: 1;
+}
+
+.gallery .gallery-item .data-stats li {
+    display: inline-block;
+    font-size: 1.5rem;
+    padding: 3px;
+    margin-left: 10px;
+    color: white;
+    margin-top: -70px;
+}
+
+.gallery .gallery-item .content1{
+    position: relative;
+    margin-top: -20px;
+    padding: 10px 15px;
+    text-align: left;
+    color: white;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.gallery .gallery-item .content1 .sub-information{
+    text-align: left;
+}
+
+.gallery .gallery-item:hover .content1{
+    visibility: visible;
+    opacity: 1;
+}
+
+
+
+
+
+/* Media Query */
+
+@media screen and (max-width: 40rem) {
+    .theme {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 4rem 0;
+    }
+
+    .theme::after {
+        display: none;
+    }
+
+    .theme-image,
+    .theme-presentation,
+    .theme-description,
+    .theme-stats {
+        float: none;
+        width: auto;
+    }
+
+    .theme-image img {
+        width: 7.7rem;
+    }
+
+    .theme-presentation {
+        flex-basis: calc(100% - 10.7rem);
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .theme-name {
+        font-size: 2.2rem;
+    }
+
+    .theme-edit-btn {
+        order: 1;
+        padding: 0;
+        text-align: center;
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+
+    .theme-description {
+        font-size: 1.4rem;
+        margin-top: 1.5rem;
+    }
+
+    .theme-subscribe-btn,
+    .theme-description,
+    .theme-stats {
+        flex-basis: 100%;
+    }
+
+    .theme-stats {
+        order: 1;
+        margin-top: 1.5rem;
+    }
+
+    .theme-stats ul {
+        display: flex;
+        text-align: center;
+        padding: 1.2rem 0;
+        border-top: 0.1rem solid #dadada;
+        border-bottom: 0.1rem solid #dadada;
+    }
+
+    .theme-stats li {
+        font-size: 1.4rem;
+        flex: 1;
+        margin: 0;
+    }
+
+    .theme-stat-count {
+        display: block;
+    }
+}
+
+/* Spinner Animation */
+
+@keyframes loader {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*
+
+The following code will only run if your browser supports CSS grid.
+
+Remove or comment-out the code block below to see how the browser will fall-back to flexbox & floated styling.
+
+*/
+
+@supports (display: grid) {
+    .theme {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: repeat(3, auto);
+        grid-column-gap: 3rem;
+        align-items: center;
+    }
+
+    .theme-image {
+        grid-row: 1 / -1;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        grid-gap: 2rem;
+    }
+
+    .theme-image,
+    .theme-presentation,
+    .theme-stats,
+    .theme-bio,
+    .gallery-item,
+    .gallery {
+        width: auto;
+        margin: 0;
+    }
+
+    @media (max-width: 40rem) {
+        .theme {
+            grid-template-columns: auto 1fr;
+            grid-row-gap: 1.5rem;
+        }
+
+        .theme-image {
+            grid-row: 1 / 2;
+        }
+
+        .theme-presentation {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-gap: 1rem;
+        }
+
+        .theme-subscribe-btn,
+        .theme-stats,
+        .theme-bio {
+            grid-column: 1 / -1;
+        }
+
+        .theme-presentation,
+        .theme-subscribe-btn,
+        .theme-description,
+        .theme-stats {
+            margin: 0;
+        }
+    }
+}
