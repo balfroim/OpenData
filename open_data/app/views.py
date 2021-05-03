@@ -13,32 +13,40 @@ def home_page(request):
         nb_likes=Count('liking_users__id'),
         nb_questions=Count('questions__id')
     )
-    already_matched_ids = set()
-    featured_datasets = set()
-    for i, dataset in enumerate(all_datasets.order_by('-popularity_score')):
-        if dataset.id not in already_matched_ids:
-            featured_datasets.add((dataset, i+1, "jeu de données le populaire."))
-            already_matched_ids.add(dataset.id)
-            if len(already_matched_ids) >= 3:
-                break
-    for i, dataset in enumerate(all_datasets.order_by('-nb_likes')):
-        if dataset.id not in already_matched_ids:
-            featured_datasets.add((dataset, i+1, "jeu de données le plus aimé."))
-            already_matched_ids.add(dataset.id)
-            if len(already_matched_ids) >= 4:
-                break
-    for i, dataset in enumerate(all_datasets.order_by('-nb_questions')):
-        if dataset.id not in already_matched_ids:
-            featured_datasets.add((dataset, i+1, "jeu de données avec le plus de questions."))
-            already_matched_ids.add(dataset.id)
-            if len(already_matched_ids) >= 5:
-                break
+    featured_datasets = extract_featured_datasets(
+        "jeu de données le populaire.",
+        3,
+        all_datasets.order_by('-popularity_score'),
+        list()
+    )
+    featured_datasets = extract_featured_datasets(
+        "jeu de données le plus aimé.",
+        1,
+        all_datasets.order_by('-nb_likes'),
+        featured_datasets
+    )
+    featured_datasets = extract_featured_datasets(
+        "jeu de données avec le plus de questions.",
+        1,
+        all_datasets.order_by('-nb_questions'),
+        featured_datasets
+    )
     return render(request, 'home.html', {
         'themes': Theme.get_displayed(),
         'featured_datasets': featured_datasets,
         'last_questions': Question.objects.order_by('-content__posted_at')[:5],
         'today_quiz': random.choice(Quiz.objects.all()),
     })
+
+
+def extract_featured_datasets(reason, nb_to_take, datasets, featured_datasets):
+    max_len = len(featured_datasets) + nb_to_take
+    for i, dataset in enumerate(datasets):
+        if dataset not in [d[0] for d in featured_datasets]:
+            featured_datasets.append((dataset, i + 1, reason))
+            if len(featured_datasets) >= max_len:
+                break
+    return featured_datasets
 
 
 def scores_page(request):
