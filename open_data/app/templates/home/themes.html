@@ -1,13 +1,49 @@
-<section>
+<section id="theme-section">
   <h2>Explorer les données</h2>
-  <div class="pills">
-    {% for theme in themes %}
-      <a href="{% url 'theme' theme_id=theme.id %}">
-        {% if theme.icon %}
-          <span>{{ theme.icon }}</span>
-        {% endif %}
-        <span>{{ theme.name }}</span>
-      </a>
-    {% endfor %}
-  </div>
+  <figure class="highcharts-figure">
+    <div id="bubbles"></div>
+  </figure>
 </section>
+<script>
+  Highcharts.chart('bubbles', {
+    chart: {
+      type: 'packedbubble',
+      height: '400px',
+    },
+    title: {
+      text: '',
+      margin: 0,
+    },
+    legend: {
+      enabled: false,
+    },
+    tooltip: {
+      pointFormat: '{point.value} jeux de données',
+    },
+    plotOptions: {
+      series: {
+        cursor: 'pointer',
+        draggable: false,
+      },
+      packedbubble: {
+        minSize: '30%',
+        maxSize: '120%',
+      },
+    },
+    series: [
+      {% for theme in themes %}
+        {
+          name: '{{ theme.name }}',
+          color: '{{ theme.color }}',
+          data: [{ value: {{ theme.datasets.count }} }],
+          events: { click: () => location.href = '{% url 'theme' theme_id=theme.id %}' },
+          dataLabels: {
+            enabled: true,
+            useHTML: true,
+            formatter: () => '<span class="bubble-icon">{{ theme.icon }}</span>',
+          },
+        },
+      {% endfor %}
+    ],
+  })
+</script>
