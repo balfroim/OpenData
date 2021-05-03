@@ -2,7 +2,6 @@ import math
 
 from colorfield.fields import ColorField
 from django.db import models
-from django.db.models import Count
 from django.template.loader import TemplateDoesNotExist, get_template
 from django.urls import reverse
 from django.utils import timezone
@@ -51,18 +50,6 @@ class ProxyDataset(models.Model):
 
     liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
     popularity_score = models.IntegerField(default=0, editable=False)
-
-    @classmethod
-    def featured_datasets(cls):
-        datasets = cls.objects
-        most_popular = datasets.order_by('-popularity_score')
-        most_liked = datasets.annotate(nb_likes=Count('liking_users__id')).order_by('-nb_likes')
-        more_questions = datasets.annotate(nb_questions=Count('questions__id')).order_by('-nb_questions')
-        _featured_datasets = set()
-        _featured_datasets.add((most_popular.first(), f'Jeu de données le plus populaire.'))
-        _featured_datasets.add((most_liked.first(), f'Jeu de données le plus aimé.'))
-        _featured_datasets.add((more_questions.first(), f'Jeu de données avec le plus de questions.'))
-        return _featured_datasets
 
     def __str__(self):
         return self.title if self.title else self.id
