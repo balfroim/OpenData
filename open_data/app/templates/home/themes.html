@@ -33,7 +33,7 @@
     series: [
       {% for theme in themes %}
         {
-          name: '{{ theme.name }} {{ theme.icon }}',
+          name: '{{ theme.name }}',
           color: '{{ theme.color }}',
           data: [{ value: {{ theme.datasets.count }} }],
           events: { click: () => location.href = '{% url 'theme' theme_id=theme.id %}' },
