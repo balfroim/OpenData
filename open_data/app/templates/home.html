@@ -53,16 +53,22 @@
     .highcharts-data-table tr:hover {
       background: #f1f7ff;
     }
+
+    #theme-section {
+      grid-row-end: span 2;
+    }
   </style>
 {% endblock %}
 
 {% block main %}
   {% include 'home/about.html' %}
-  {% include 'home/themes.html' with themes=themes %}
-  <h2>Explorer</h2>
-  <figure class="highcharts-figure">
-    <div id="container"></div>
-  </figure>
+  {#% include 'home/themes.html' with themes=themes %#}
+  <section id="theme-section">
+    <h2>Explorer</h2>
+    <figure class="highcharts-figure">
+      <div id="container"></div>
+    </figure>
+  </section>
   {% include 'home/datasets.html' with datasets=featured_datasets %}
   {% include 'home/quiz.html' with quiz=today_quiz %}
   {% include 'home/questions.html' with questions=last_questions %}
@@ -70,14 +76,14 @@
     Highcharts.chart('container', {
       chart: {
         type: 'packedbubble',
-        height: '100%'
+        height: '100%',
       },
       title: {
-        text: 'Jeux de données les plus appréciés'
+        text: 'Jeux de données les plus appréciés',
       },
       tooltip: {
         useHTML: true,
-        pointFormat: '<b>{point.name}:</b> {point.value} J\'aime'
+        pointFormat: "<b>{point.name}:</b> {point.value} j'aime",
       },
       plotOptions: {
         packedbubble: {
@@ -87,7 +93,7 @@
           zMax: 1000,
           layoutAlgorithm: {
             splitSeries: true,
-            gravitationalConstant: 0.02
+            gravitationalConstant: 0.02,
           },
           dataLabels: {
             enabled: true,
@@ -95,15 +101,15 @@
             filter: {
               property: 'y',
               operator: '>',
-              value: 250
+              value: 250,
             },
             style: {
               color: 'black',
               textOutline: 'none',
-              fontWeight: 'normal'
-            }
-          }
-        }
+              fontWeight: 'normal',
+            },
+          },
+        },
       },
       series: [
         {% for theme in themes %}
@@ -113,8 +119,8 @@
             data: [
               {% for dataset in theme.datasets.all %}
                 {
-                  name: '{{ dataset.id }}',
-                  value: {{dataset.popularity_score}}
+                  name: '{{ dataset.title }}',
+                  value: {{dataset.popularity_score}},
                 },
               {% endfor %}
             ]
