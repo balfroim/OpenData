@@ -1,11 +1,14 @@
+import math
+
 from colorfield.fields import ColorField
 from django.db import models
+from django.db.models import Count
 from django.template.loader import TemplateDoesNotExist, get_template
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
-
 from open_data.settings import IFRAME_URL
+
 from user.models import Profile
 from .svg import validate_svg
 
@@ -18,7 +21,8 @@ class Theme(models.Model):
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
     color = ColorField(default='#ff0000')
 
-    subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions', blank=True)
+    subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions',
+                                              blank=True)
 
     @classmethod
     def get_displayed(cls):
@@ -48,6 +52,18 @@ class ProxyDataset(models.Model):
     liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
     popularity_score = models.IntegerField(default=0, editable=False)
 
+    @classmethod
+    def featured_datasets(cls):
+        datasets = cls.objects
+        most_popular = datasets.order_by('-popularity_score')
+        most_liked = datasets.annotate(nb_likes=Count('liking_users__id')).order_by('-nb_likes')
+        more_questions = datasets.annotate(nb_questions=Count('questions__id')).order_by('-nb_questions')
+        _featured_datasets = set()
+        _featured_datasets.add((most_popular.first(), f'Jeu de données le plus populaire.'))
+        _featured_datasets.add((most_liked.first(), f'Jeu de données le plus aimé.'))
+        _featured_datasets.add((more_questions.first(), f'Jeu de données avec le plus de questions.'))
+        return _featured_datasets
+
     def __str__(self):
         return self.title if self.title else self.id
 
@@ -63,10 +79,9 @@ class ProxyDataset(models.Model):
     def has_popularized(self):
         try:
             get_template(f'popularized/{self.id}.html')
+            return True
         except TemplateDoesNotExist:
             return False
-        else:
-            return True
 
     @property
     def iframes(self):
@@ -113,15 +128,49 @@ class ProxyDataset(models.Model):
 
 
 class Keyword(models.Model):
-    datasets = models.ManyToManyField(ProxyDataset, related_name='keywords', blank=True)
+    datasets = models.ManyToManyField(
+        ProxyDataset,
+        related_name='keywords',
+        blank=True,
+        through='Datasetship'
+    )
     word = models.CharField(max_length=64, primary_key=True)
+
+    @property
+    def inverse_document_frequency(self):
+        # https://en.wikipedia.org/wiki/Tf–idf#Inverse_document_frequency_2
+        nb_datasets = ProxyDataset.objects.count()
+        occurence_in_corpus = self.datasets.count()
+        return math.log(nb_datasets / occurence_in_corpus)
 
     def __str__(self):
         return self.word
 
 
+# The relationship between a keyword and a dataset
+class Datasetship(models.Model):
+    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE, related_name="datasetships")
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="datasetships")
+    occurence = models.IntegerField(default=0.0)
+
+    @property
+    def term_frequency(self):
+        # Log normalization (https://en.wikipedia.org/wiki/Tf–idf#Term_frequency_2)
+        return math.log(1 + self.occurence)
+
+    @property
+    def relevancy(self):
+        """Relevance of this keyword for this dataset (tf-idf)"""
+        # https://en.wikipedia.org/wiki/Tf–idf
+        return self.term_frequency * self.keyword.inverse_document_frequency
+
+    def __repr__(self):
+        return f'{self.dataset!r} -(*{self.occurence})- {self.keyword!r}'
+
+
 class Content(models.Model):
-    author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL,
+                               null=True, blank=True)
     deleted = models.BooleanField(default=False)
     text = models.TextField(max_length=512)
     posted_at = models.DateTimeField()

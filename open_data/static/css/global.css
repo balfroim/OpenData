@@ -7,6 +7,7 @@
   --error: #e02b13;
   --rounded: 6px;
   --intro-duration: 0.3s;
+  --intro-delay: 0.1s;
 }
 
 /* Remove unwanted margin,
@@ -47,6 +48,7 @@ button, .button {
   border-radius: var(--rounded);
   color: white;
   background-color: var(--primary);
+  text-align: center;
   font: inherit;
   font-weight: bold;
 }
@@ -140,21 +142,35 @@ button.nostyle {
 }
 
 /* Tooltips */
-.tooltip {
-  visibility: hidden;
-  position: absolute;
-  top: 110%;
-  z-index: 1;
-  width: 128px;
-  padding: 4px 8px;
-  border-radius: var(--rounded);
-  background-color: white;
-  box-shadow: 0 0 4px black;
-  text-align: center;
+[data-tooltip] {
+  position: relative;
 }
 
-*:hover > .tooltip {
+[data-tooltip]::after {
+  visibility: hidden;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: calc(50% - 80px);
+  z-index: 1;
+  width: 160px;
+  padding: 8px;
+  border-radius: var(--rounded);
+  color: black;
+  background-color: white;
+  box-shadow: 0 0 8px black;
+  text-align: center;
+  font-size: 12pt;
+  font-weight: normal;
+  content: attr(data-tooltip);
+  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+[data-tooltip]:hover::after {
   visibility: visible;
+  opacity: 1;
+  transform: initial;
 }
 
 /* Modals, drop-downs, pop-ups, and tabs */
@@ -231,16 +247,12 @@ button.nostyle {
 
 /* Fade-in animation */
 main > * {
-  opacity: 0;
-}
-
-.fading {
   animation-name: intro;
   animation-duration: var(--intro-duration);
-  animation-fill-mode: forwards;
+  animation-delay: calc(var(--intro-order) * var(--intro-delay));
+  animation-fill-mode: backwards;
 }
 
 @keyframes intro {
-  from { opacity: 0; transform: translateX(32px); }
-  to { opacity: 1; }
+  from { opacity: 0; transform: scale(0.9); }
 }

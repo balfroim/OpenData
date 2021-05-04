@@ -10,11 +10,13 @@ class LikeDatasetBadge(ThresholdedBadge):
         BadgeDetail(
             name="J'aime donc je suis",
             description='Liker un jeu de données.',
+            image='dataset-like-silver.png',
             score=10
         ),
         BadgeDetail(
             name='Open relationship',
             description='Liker cinq jeux de données.',
+            image='dataset-like-gold.png',
             score=50
         ),
     ]

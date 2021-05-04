@@ -4,22 +4,25 @@
     class="main-carousel card"
     data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'
   >
-    {% for dataset in featured_datasets %}
-    <a
-      class="nostyle carousel-cell"
-      href="{% url 'dataset' dataset_id=dataset.id %}"
-    >
-      {% if dataset.theme.image %}
-      <div
-        class="svg image"
-        data-src="{{ dataset.theme.image.url }}"
-        data-color="{{ dataset.theme.color }}"
-      ></div>
-      {% endif %}
-      <div class="title">
-        {{ dataset.multiline_title }}
-      </div>
-    </a>
+    {% for dataset, reason in featured_datasets %}
+      <a
+        class="nostyle carousel-cell"
+        href="{% url 'dataset' dataset_id=dataset.id %}"
+      >
+        <div class="reason">
+          {{ reason }}
+        </div>
+        {% if dataset.theme.image %}
+          <div
+            class="svg image"
+            data-src="{{ dataset.theme.image.url }}"
+            data-color="{{ dataset.theme.color }}"
+          ></div>
+        {% endif %}
+        <div class="title">
+          {{ dataset.multiline_title }}
+        </div>
+      </a>
     {% endfor %}
   </div>
 </section>

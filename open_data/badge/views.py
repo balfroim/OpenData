@@ -19,6 +19,7 @@ def badge_list(request):
                 'name': badge.levels[level].name,
                 'description': badge.levels[level].description,
                 'image': badge.levels[level].image,
+                'score': badge.levels[level].score,
                 'x': badge.positions[level][0],
                 'y': badge.positions[level][1],
                 'visible': False,
