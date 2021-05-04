@@ -47,4 +47,4 @@ class NewsArticleAdmin(admin.ModelAdmin):
 
 @admin.register(models.DatasetLink)
 class DatasetLinkAdmin(admin.ModelAdmin):
-    search_fields = ["from_dataset", "from_dataset"]
+    autocomplete_fields = ["from_dataset", "to_dataset"]

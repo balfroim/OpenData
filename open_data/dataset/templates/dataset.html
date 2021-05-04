@@ -52,8 +52,12 @@
 
   <div id="linked-dataset-modal" class="modal-mask center">
     <div class="modal">
+      {% for dataset_link in dataset.to_links.all %}
+        <p>{{ dataset_link.text }}</p>
+        {% show_datasets dataset_link.to_dataset.all forloop.counter %}
+      {% endfor %}
       <p>
-        Voici <b>{{ nb_linked_datasets }}
+        Voici <b>{{ nb_other_linked_datasets }}
         autre{{ nb_linked_datasets|pluralize }}
         jeu{{ nb_linked_datasets|pluralize:'x' }}
         de données</b> qui pourrai{{ nb_linked_datasets|pluralize:'t,ent' }}

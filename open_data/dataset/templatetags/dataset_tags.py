@@ -1,6 +1,6 @@
 from django import template
 
-from dataset.models import Theme
+from dataset.models import Theme, ProxyDataset
 
 register = template.Library()
 

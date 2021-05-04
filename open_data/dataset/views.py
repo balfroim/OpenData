@@ -23,6 +23,8 @@ def dataset_page(request, dataset_id):
         reverse=True
     )
     already_matched_ids = {dataset.id}
+    already_matched_ids.update((link.to_dataset.all() for link in dataset.to_links.all()))
+    init_nb_linked_datasets = len(already_matched_ids)
     datasets_by_keyword = dict()
     for keyword, relevancy in most_relevant_keywords:
         datasets = [d for d in keyword.datasets.all() if d.id not in already_matched_ids]
@@ -39,6 +41,7 @@ def dataset_page(request, dataset_id):
         'dataset.html',
         context={
             'dataset': dataset,
+            'nb_other_linked_datasets': len(already_matched_ids)-init_nb_linked_datasets,
             'nb_linked_datasets': len(already_matched_ids)-1,
             'datasets_by_keyword': datasets_by_keyword
         }
