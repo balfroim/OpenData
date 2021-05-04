@@ -163,7 +163,6 @@ class VisitedAllThemeDatasetBadge(Badge, metaclass=ABCMeta):
         'on_dataset_explore',
     ]
 
-
 class AskQuestionBadge(ThresholdedBadge):
     slug = 'question-ask'
     levels = [
@@ -182,18 +181,15 @@ class AskQuestionBadge(ThresholdedBadge):
             description='Poser 50 questions.',
             score=200
         ),
-
+    ]
     level_thresholds = [
             1,
             20,
             50,
-        ]
     ]
     events = [
         'on_question_ask',
     ]
-
-
     def thresholded_value(self, user):
             #TODO
             return 0
@@ -217,12 +213,11 @@ class AnswerQuestionBadge(ThresholdedBadge):
             description='Répondre à 50 questions.',
             score=200
         ),
-
+    ]
     level_thresholds = [
             1,
             20,
             50,
-        ]
     ]
     events = [
         'on_question_answer',

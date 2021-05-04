@@ -34,5 +34,101 @@
   "quiz-dataset-inspection:0": {
     "x": 4,
     "y": 3
+  },
+  "add-biograpy:0": {
+    "x": 1,
+    "y": 1
+  },
+  "best-winner:0": {
+    "x": 1,
+    "y": 1
+  },
+  "modify-profil-name:0": {
+    "x": 1,
+    "y": 1
+  },
+  "pantheon:0": {
+    "x": 1,
+    "y": 1
+  },
+  "pokebadge:0": {
+    "x": 1,
+    "y": 1
+  },
+  "pokebadge:1": {
+    "x": 1,
+    "y": 1
+  },
+  "upload-profile-picture:0": {
+    "x": 1,
+    "y": 1
+  },
+  "user-connection:0": {
+    "x": 1,
+    "y": 1
+  },
+  "user-connection:1": {
+    "x": 1,
+    "y": 1
+  },
+  "user-day-connection:0": {
+    "x": 1,
+    "y": 1
+  },
+  "user-time-connection:0": {
+    "x": 1,
+    "y": 1
+  },
+  "be-the-best:0": {
+    "x": 1,
+    "y": 1
+  },
+  "question-answer:0": {
+    "x": 1,
+    "y": 1
+  },
+  "question-answer:1": {
+    "x": 1,
+    "y": 1
+  },
+  "question-answer:2": {
+    "x": 1,
+    "y": 1
+  },
+  "question-ask:0": {
+    "x": 1,
+    "y": 1
+  },
+  "question-ask:1": {
+    "x": 1,
+    "y": 1
+  },
+  "question-ask:2": {
+    "x": 1,
+    "y": 1
+  },
+  "dataset-explore:0": {
+    "x": 1,
+    "y": 1
+  },
+  "dataset-explore:1": {
+    "x": 1,
+    "y": 1
+  },
+  "dataset-explore:2": {
+    "x": 1,
+    "y": 1
+  },
+  "theme-subscribe:0": {
+    "x": 1,
+    "y": 1
+  },
+  "theme-subscribe:1": {
+    "x": 1,
+    "y": 1
+  },
+  "theme-subscribe:2": {
+    "x": 1,
+    "y": 1
   }
 }
