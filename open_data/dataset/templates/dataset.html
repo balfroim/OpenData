@@ -68,6 +68,23 @@
       {% endfor %}
     </div>
   </div>
+
+  <div id="news-modal" class="modal-mask center">
+    <div class="modal">
+      <p>
+        Voici des actualités liées à ce jeu de données :
+      </p>
+      <ul>
+        {% for article in dataset.articles.all %}
+          <li>
+            <a href="{{ article.link }}" target="_blank">
+              {{ article.date|date:'d F Y H:m' }}: {{ article.titre }}</a>
+          </li>
+        {% endfor %}
+
+      </ul>
+    </div>
+  </div>
 {% endblock %}
 
 {% block main %}
@@ -106,7 +123,14 @@
       <button class="linked-dataset-modal-button">
         <i class="fas fa-link"></i>
         {{ nb_linked_datasets }}
-        recommandation{{ nb_linked_datasets|pluralize }}
+        jeu{{ nb_linked_datasets|pluralize:'x' }} de données lié{{ nb_linked_datasets|pluralize }}
+      </button>
+    {% endif %}
+    {% if dataset.articles %}
+      <button class="news-modal-button">
+        <i class="fas fa-newspaper"></i>
+        {{ dataset.articles.count }}
+        actualité{{ dataset.articles.count|pluralize }} liée{{ dataset.articles.count|pluralize }}
       </button>
     {% endif %}
 
