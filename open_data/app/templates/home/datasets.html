@@ -5,23 +5,23 @@
     class="main-carousel card"
     data-flickity='{ "lazyLoad": 1, "autoPlay": 5000, "wrapAround": true }'
   >
-    {% for dataset, index, reason in featured_datasets %}
+    {% for dataset_infos in featured_datasets %}
       <a
         class="nostyle carousel-cell"
-        href="{% url 'dataset' dataset_id=dataset.id %}"
+        href="{% url 'dataset' dataset_id=dataset_infos.dataset.id %}"
       >
         <div class="reason">
-          {{ index|ordinal }} {{ reason }}
+          {% if dataset_infos.index %}{{ dataset_infos.index|ordinal }} {% endif %}{{ dataset_infos.reason }}
         </div>
-        {% if dataset.theme.image %}
+        {% if dataset_infos.dataset.theme.image %}
           <div
             class="svg image"
-            data-src="{{ dataset.theme.image.url }}"
-            data-color="{{ dataset.theme.color }}"
+            data-src="{{ dataset_infos.dataset.theme.image.url }}"
+            data-color="{{ dataset_infos.dataset.theme.color }}"
           ></div>
         {% endif %}
         <div class="title">
-          {{ dataset.multiline_title }}
+          {{ dataset_infos.dataset.multiline_title }}
         </div>
       </a>
     {% endfor %}

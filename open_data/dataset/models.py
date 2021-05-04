@@ -193,3 +193,21 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"[{self.content.posted_at}] {self.content.display_author()} : {self.content.display_text()}"
+
+
+class NewsArticle(models.Model):
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="articles")
+    titre = models.TextField(max_length=512)
+    link = models.URLField()
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return f'[{self.date}] {self.titre}'
+
+
+class DatasetLink(models.Model):
+    from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE,
+                                     related_name="to_links")
+    to_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE,
+                                   related_name="from_links")
+    text = models.CharField(max_length=512, default="")
