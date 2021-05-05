@@ -51,5 +51,9 @@ class BadgeCache:
     def get_badge(self, slug):
         return self._registry[slug]
 
+    @property
+    def badges(self):
+        return self._registry.values()
+
     def all(self):
         return tuple(self._registry)

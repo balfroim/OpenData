@@ -130,7 +130,7 @@
         jeu{{ nb_linked_datasets|pluralize:'x' }} de données lié{{ nb_linked_datasets|pluralize }}
       </button>
     {% endif %}
-    {% if dataset.articles %}
+    {% if dataset.articles.count %}
       <button class="news-modal-button">
         <i class="fas fa-newspaper"></i>
         {{ dataset.articles.count }}

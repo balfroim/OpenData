@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import badge_list
 
 app_name = "pinax_badges"
 
 urlpatterns = [
-    url(r"^$", badge_list, name="badge_list"),
+    path("<str:username>/", badge_list, name="badge_list"),
 ]
