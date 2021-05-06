@@ -47,6 +47,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=24, default=generate_name)
     description = models.TextField(max_length=200, default='', blank=True)
     is_registered = models.BooleanField(default=False)
+    photo = models.ImageField(upload_to='profile', default='https://picsum.photos/128', blank=True)
 
     def __str__(self):
         return self.name

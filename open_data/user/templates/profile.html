@@ -23,11 +23,7 @@
   <h2>{{ profile.name }}</h2>
   <div class="responsive profile">
     <div>
-      <img
-        src="https://picsum.photos/128"
-        alt="Photo de profil"
-        class="rounded avatar"
-      >
+      {{ profile.photo }}
     </div>
     <p class="card bio">
       {{ profile.description }}
