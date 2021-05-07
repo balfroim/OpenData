@@ -14,7 +14,7 @@
     </div>
     {% endif %}
     <div>
-      <a class="button" href="{% url 'badges:badge_list' %}">
+      <a class="button" href="{% url 'pinax_badges:badge_list' user.username %}">
         <i class="fas fa-medal"></i>
         Mes badges
       </a>

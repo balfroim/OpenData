@@ -1,11 +1,13 @@
+import math
+
 from colorfield.fields import ColorField
 from django.db import models
 from django.template.loader import TemplateDoesNotExist, get_template
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
-
 from open_data.settings import IFRAME_URL
+
 from user.models import Profile
 from .svg import validate_svg
 
@@ -18,7 +20,8 @@ class Theme(models.Model):
     image = models.FileField(upload_to='themes/', validators=[validate_svg], null=True, blank=True)
     color = ColorField(default='#ff0000')
 
-    subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions', blank=True)
+    subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions',
+                                              blank=True)
 
     @classmethod
     def get_displayed(cls):
@@ -63,10 +66,9 @@ class ProxyDataset(models.Model):
     def has_popularized(self):
         try:
             get_template(f'popularized/{self.id}.html')
+            return True
         except TemplateDoesNotExist:
             return False
-        else:
-            return True
 
     @property
     def iframes(self):
@@ -113,15 +115,49 @@ class ProxyDataset(models.Model):
 
 
 class Keyword(models.Model):
-    datasets = models.ManyToManyField(ProxyDataset, related_name='keywords', blank=True)
+    datasets = models.ManyToManyField(
+        ProxyDataset,
+        related_name='keywords',
+        blank=True,
+        through='Datasetship'
+    )
     word = models.CharField(max_length=64, primary_key=True)
+
+    @property
+    def inverse_document_frequency(self):
+        # https://en.wikipedia.org/wiki/Tf–idf#Inverse_document_frequency_2
+        nb_datasets = ProxyDataset.objects.count()
+        occurence_in_corpus = self.datasets.count()
+        return math.log(nb_datasets / occurence_in_corpus)
 
     def __str__(self):
         return self.word
 
 
+# The relationship between a keyword and a dataset
+class Datasetship(models.Model):
+    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE, related_name="datasetships")
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="datasetships")
+    occurence = models.IntegerField(default=0.0)
+
+    @property
+    def term_frequency(self):
+        # Log normalization (https://en.wikipedia.org/wiki/Tf–idf#Term_frequency_2)
+        return math.log(1 + self.occurence)
+
+    @property
+    def relevancy(self):
+        """Relevance of this keyword for this dataset (tf-idf)"""
+        # https://en.wikipedia.org/wiki/Tf–idf
+        return self.term_frequency * self.keyword.inverse_document_frequency
+
+    def __repr__(self):
+        return f'{self.dataset!r} -(*{self.occurence})- {self.keyword!r}'
+
+
 class Content(models.Model):
-    author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL,
+                               null=True, blank=True)
     deleted = models.BooleanField(default=False)
     text = models.TextField(max_length=512)
     posted_at = models.DateTimeField()
@@ -157,3 +193,21 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"[{self.content.posted_at}] {self.content.display_author()} : {self.content.display_text()}"
+
+
+class NewsArticle(models.Model):
+    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="articles")
+    titre = models.TextField(max_length=512)
+    link = models.URLField()
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return f'[{self.date}] {self.titre}'
+
+
+class DatasetLink(models.Model):
+    from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE,
+                                     related_name="to_links")
+    to_dataset = models.ManyToManyField(ProxyDataset,
+                                        related_name="from_links", blank=True)
+    text = models.CharField(max_length=512, default="")

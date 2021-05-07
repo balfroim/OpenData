@@ -54,6 +54,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize'
 ]
 
 INSTALLED_APPS = CUSTOM_APPS + DJANGO_APPS + IMPORTED_APPS
@@ -155,3 +156,9 @@ IFRAME_URL = 'https://data.namur.be/explore/embed/dataset/'
 DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
 
 BADGES_PATH = BASE_DIR / 'badges.json'
+
+DATASETS_PER_PAGE = 100
+
+SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
+
+NLP = spacy.load("fr_core_news_lg")

@@ -11,6 +11,11 @@
   width: 100%;
 }
 
+.badge > img {
+  width: 64px;
+  height: 64px;
+}
+
 .message {
   margin-bottom: 24px;
 }

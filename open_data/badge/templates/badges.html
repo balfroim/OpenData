@@ -1,38 +1,54 @@
 {% extends 'base.html' %}
 {% load static pinax_badges_tags %}
+
 {% block title %}Mes badges{% endblock %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/badges.css' %}">
+  <link rel="stylesheet" href="{% static 'css/badges.css' %}">
 {% endblock %}
+
 {% block main %}
-<h1>Mes badges</h1>
-<div class="badges">
-  {% for badge in badges.values %}
-  <div
-    class="{% if not badge.visible %}locked {% elif not badge.earned %}visible {% endif %}badge badge{{ forloop.counter }}-tab-button"
-    style="grid-area: {{ badge.y }} / {{ badge.x }};"
-  >
-    <img src="{{ badge.image }}">
-    <span class="tooltip">
-      {% if badge.visible %}
-      {{ badge.name }}
-      {% else %}
-      ?
-      {% endif %}
-    </span>
+  <div class="breadcrumbs">
+    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'pinax_badges:badge_list' profile.user.username %}">
+      {% if profile == user.profile %}Mes badges{% else %}Les badges de
+        {{ profile.name }}{% endif %}
+      <i class="fas fa-medal"></i>
+    </a>
   </div>
-  {% endfor %}
-</div>
-<div class="tabs">
-  {% for badge in badges.values %}
-  <div id="badge{{ forloop.counter }}-tab" class="card tab">
-    {% if badge.earned or badge.visible %}
-    <p><b>{{ badge.name }}</b></p>
-    <p>{{ badge.description }}</p>
+  <h1>
+    {% if profile == user.profile %}
+      Mes badges
     {% else %}
-    <p><b>?</b></p>
+      Les badges de <a href="{% url "profile" username=profile.user.username %}">{{ profile.name }}</a>
     {% endif %}
+  </h1>
+  <div class="badges">
+    {% for badge in badges.values %}
+      <div
+              class="{% if not badge.visible %}locked {% elif not badge.earned %}visible {% endif %}badge badge{{ forloop.counter }}-tab-button"
+              style="grid-area: {{ badge.y }} / {{ badge.x }};"
+              data-tooltip="{% if badge.visible %}{{ badge.name }}{% else %}?{% endif %}"
+      >
+        <img src="{{ badge.image }}" alt="Badge">
+      </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
+  <div class="tabs">
+    {% for badge in badges.values %}
+      <div id="badge{{ forloop.counter }}-tab" class="card tab">
+        {% if badge.earned or badge.visible %}
+          <p>
+            <b>{{ badge.name }}</b>
+            <span>({{ badge.score }} points)</span>
+          </p>
+          <p>
+            <i>{{ badge.description }}</i>
+          </p>
+        {% else %}
+          <p><b>?</b></p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

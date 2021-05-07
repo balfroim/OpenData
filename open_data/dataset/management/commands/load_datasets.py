@@ -1,46 +1,88 @@
+from collections import Counter
+from urllib.request import urlopen
+
 import requests
 import spacy
+from bs4 import BeautifulSoup
 from dictor import dictor
 from django.core.management.base import BaseCommand
+from django.template.loader import TemplateDoesNotExist
+from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-from open_data.settings import API_URL, TIME_ZONE
+from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS, NLP
 
-from dataset.models import ProxyDataset, Theme, Keyword
-
-DATASETS_PER_PAGE = 100
-
-NLP = spacy.load("fr_core_news_sm")
+from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
 
 
-def filter_nouns(text) -> set:
-    nouns = set()
+def filter_html(url):
+    # https://stackoverflow.com/a/24618186
+    html = urlopen(url).read()
+    soup = BeautifulSoup(html, features="html.parser")
+
+    # kill all script and style elements
+    for script in soup(["script", "style"]):
+        script.extract()  # rip it out
+
+    # get text
+    text = soup.get_text()
+
+    # break into lines and remove leading and trailing space on each
+    lines = (line.strip() for line in text.splitlines())
+    # break multi-headlines into a line each
+    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+    # drop blank lines
+    text = '\n'.join(chunk for chunk in chunks if chunk)
+    return text
+
+
+def preprocess(word):
+    return word.lower().replace("\"", "")
+
+
+def filter_nouns(text) -> list:
+    nouns = list()
     for token in NLP(text):
-        if len(token) <= 2 or '.' in token.lemma_:
+        if (
+            len(token) <= 2 or
+            any(char for char in token.lemma_ if char in SPECIAL_CHARS)
+        ):
             continue
         if 'covid' in token.lemma_:
-            nouns.add('covid')
+            nouns.append('covid')
             continue
+        # Nom commun et nom propre
         if token.pos_ in ("NOUN", "PROPN"):
-            nouns.add(token.lemma_.lower().replace("\"", "".replace("-", "")))
+            nouns.append(preprocess(token.lemma_))
             continue
     return nouns
 
 
 def generate_keywords(dataset, base_keywords, keywords_datasets):
-    keywords = set()
+    keywords = list()
+    # From base keywords
     for base_keyword in (base_keywords or set()):
-        keywords.update(filter_nouns(base_keyword))
+        keywords.extend(filter_nouns(base_keyword))
+    # From title
     for subtitle in dataset.title.split(" - "):
-        keywords.update(filter_nouns(subtitle))
-    keywords.update(filter_nouns(strip_tags(dataset.description)))
-    # TODO: custom view, popularized view and id
-    # TODO: filtrer les urls, pluriels etc
-    for keyword in keywords:
+        keywords.extend(filter_nouns(subtitle))
+    # From description
+    keywords.extend(filter_nouns(strip_tags(dataset.description)))
+    # From custom view
+    print(filter_nouns(filter_html(
+        "https://data.namur.be/explore/dataset/covid19be_hosp/custom/?disjunctive.province&disjunctive.region")))
+    # From popularized view
+    try:
+        rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
+        keywords.extend(filter_nouns(strip_tags(rendered)))
+    except TemplateDoesNotExist:
+        pass
+    # TODO From data
+    for keyword, count in Counter(keywords).most_common():
         try:
-            keywords_datasets[keyword].add(dataset)
+            keywords_datasets[keyword].add((dataset, count))
         except KeyError:
-            keywords_datasets[keyword] = {dataset}
+            keywords_datasets[keyword] = {(dataset, count)}
     return keywords_datasets
 
 
@@ -50,7 +92,6 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    # TODO: peut être ajouter un argument no keyword ?
     def handle(self, *args, **options):
         datasets = self.fetch_all_datasets()
 
@@ -94,15 +135,19 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f'{dataset_id!r} proxy dataset updated.')
 
-            keywords_datasets = generate_keywords(obj, dictor(metas, 'default.keyword'), keywords_datasets)
+            keywords_datasets = generate_keywords(obj, dictor(metas, 'default.keyword'),
+                                                  keywords_datasets)
 
-        self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
+        self.stdout.write(
+            self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
-        for keyword, datasets in keywords_datasets.items():
-            self.stdout.write(f'Add {keyword!r} keyword for {datasets}.')
+        for keyword, datasets_occurence in keywords_datasets.items():
+            self.stdout.write(f'Add {keyword!r} keyword for {datasets_occurence}.')
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
-            for dataset in datasets:
-                Keyword.datasets.through.objects.get_or_create(keyword=keyword_obj, proxydataset=dataset)
+            for dataset, occurence in datasets_occurence:
+                Datasetship.objects.get_or_create(keyword=keyword_obj,
+                                                  dataset=dataset,
+                                                  occurence=occurence)
 
     def fetch_all_datasets(self):
         datasets = []
