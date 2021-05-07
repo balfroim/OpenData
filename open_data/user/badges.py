@@ -8,6 +8,11 @@ class UserConnection(OnceBadge):
     slug = 'user-connection'
     levels = [
         BadgeDetail(
+            name='Bienvenue',
+            description='Se conecter 1 jour',
+            score=20
+        ),
+        BadgeDetail(
             name='Vous, ici?',
             description='Se conecter 10 jours d\'affilé',
             score=20
@@ -19,6 +24,7 @@ class UserConnection(OnceBadge):
         ),
     ]
     level_thresholds = [
+            1,
             10,
             50,
     ]
