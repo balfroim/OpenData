@@ -27,7 +27,7 @@
   <h2>{{ profile.name }}</h2>
   <div class="responsive profile">
     <div>
-      {{ profile.photo }}
+      <img src="https://picsum.photos/{{ profile.id }}"  alt="Photo de profil" class="rounded avatar">
     </div>
     <p class="card bio">
       {{ profile.description|default:"Cet utilisateur n'a pas encore de description." }}
@@ -45,13 +45,13 @@
   <h2>Derniers badges</h2>
   <div class="card">
     {% for badge in last_badges %}
-    <span class="badge" data-tooltip="{{ badge.name }}">
+      <span class="badge" data-tooltip="{{ badge.name }}">
       <img src="{{ badge.image }}" alt="Badge">
     </span>
     {% endfor %}
   </div>
   {% if form %}
-  <a href="{% url 'pinax_badges:badge_list' profile.user.username %}">Voir plus...</a>
+    <a href="{% url 'pinax_badges:badge_list' profile.user.username %}">Voir plus...</a>
   {% endif %}
 
   <h2>Dernières questions et réponses</h2>
@@ -61,7 +61,7 @@
     {% elif content.answer %}
       {% answer_card content.question user %}
     {% endif %}
-  {% empty %}
+    {% empty %}
     <p class="card">
       Cet utilisateur n'a rien posté.
     </p>
