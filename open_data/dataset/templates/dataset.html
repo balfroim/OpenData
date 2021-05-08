@@ -78,22 +78,23 @@
     </div>
   </div>
 
-  <div id="news-modal" class="modal-mask center">
-    <div class="modal">
-      <p>
-        Voici des actualités liées à ce jeu de données :
-      </p>
-      <ul>
-        {% for article in dataset.articles.all %}
-          <li>
-            <a href="{{ article.link }}" target="_blank">
-              {{ article.date|date:'d F Y H:m' }}: {{ article.titre }}</a>
-          </li>
-        {% endfor %}
-
-      </ul>
+  {% if dataset.articles.count %}
+    <div id="news-modal" class="modal-mask center">
+      <div class="modal">
+        <p>
+          Voici des actualités liées à ce jeu de données :
+        </p>
+        <ul>
+          {% for article in dataset.articles.all %}
+            <li>
+              <a href="{{ article.link }}" target="_blank">
+                {{ article.date|date:'d F Y H:m' }}: {{ article.titre }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-  </div>
+  {% endif %}
 {% endblock %}
 
 {% block main %}
@@ -109,8 +110,11 @@
       </button>
     {% endfor %}
     {% if 'xls' in dataset.exports %}
-      <a class="button" href="{% url 'download_dataset' dataset_id=dataset.id %}"><i
-              class="fas fa-download"></i></a>
+      <a class="button" href="{% url 'download_dataset' dataset_id=dataset.id %}">
+        <i class="fas fa-download"></i>
+        {# TODO: update dynamiquement #}
+        <span id="download-number">{{ dataset.nb_downloads_total }}</span>
+      </a>
     {% endif %}
     <div class="separator"></div>
     <button id="like-button">
