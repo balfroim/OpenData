@@ -12,7 +12,6 @@
     <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
     <a href="{% url 'theme' theme_id=theme.id %}">{{ theme.name }}</a>
   </div>
-  <h1>{{ theme.name }}</h1>
   <div class="theme-header">
     {% if theme.image %}
       <div
@@ -34,6 +33,12 @@
     <div class="control">
       <button>S'abonner</button>
     </div>
+  </div>
+  <div class="theme-description">
+    <p>
+      Voici les jeux de données lié à : <b>{{ theme.name|lower }}</b>. Sentez vous libre de les
+      explorer, les consulter, les télécharger. Bref, <b>faites comme chez vous !</b>
+    </p>
   </div>
   <div class="theme-datasets">
     {% for dataset in theme.datasets.all %}
