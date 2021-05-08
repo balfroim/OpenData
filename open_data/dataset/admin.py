@@ -22,7 +22,7 @@ class ProxyDatasetAdmin(admin.ModelAdmin):
 
 @admin.register(models.Keyword)
 class KeywordAdmin(admin.ModelAdmin):
-    search_fields = ["dataset"]
+    search_fields = ['word']
 
 
 @admin.register(models.Content)
