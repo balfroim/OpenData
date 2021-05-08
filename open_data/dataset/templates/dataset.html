@@ -2,7 +2,10 @@
 {% load static quiz_tags dataset_tags question %}
 {% block title %}{{ dataset.title }}{% endblock %}
 {% block head %}
-  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+  {% if dataset.quizzes.count %}
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+    <script type="module" src="{% static 'js/quiz.js' %}"></script>
+  {% endif %}
   <style>
     main {
       --page-width: 100%;
@@ -34,15 +37,17 @@
 {% endblock %}
 
 {% block modals %}
-  <div id="quiz-modal" class="modal-mask center">
-    <div class="modal">
-      {% for quiz in dataset.quizzes.all %}
-        {% show_quiz quiz %}
-        {% empty %}
-        <p>Pas de quiz.</p>
-      {% endfor %}
+  {% if dataset.quizzes.count %}
+    <div id="quiz-modal" class="modal-mask center">
+      <div class="modal">
+        {% for quiz in dataset.quizzes.all %}
+          {% show_quiz quiz %}
+          {% empty %}
+          <p>Pas de quiz.</p>
+        {% endfor %}
+      </div>
     </div>
-  </div>
+  {% endif %}
 
   <div id="questions-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
     <div class="modal">
