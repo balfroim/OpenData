@@ -1,12 +1,12 @@
 from itertools import chain, combinations
 
-import spacy
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
 
 from badge.registry import BadgeCache
+from dataset.nlp import NLP
 from .models import Theme, ProxyDataset, Question, Content, Answer
 
 
@@ -49,7 +49,7 @@ def dataset_page(request, dataset_id):
 
 
 def search_page(request):
-    nlp = spacy.load("fr_core_news_sm")
+    nlp = NLP.instance().nlp
     keywords = {nlp(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
     datasets_by_keyword = list()
     already_matched_ids = set()

@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
 from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS
+from dataset.nlp import NLP
 
 from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
 
@@ -40,7 +41,8 @@ def preprocess(word):
     return word.lower().replace("\"", "")
 
 
-def filter_nouns(text, nlp) -> list:
+def filter_nouns(text) -> list:
+    nlp = NLP.instance().nlp
     nouns = list()
     for token in nlp(text):
         if (
@@ -59,25 +61,24 @@ def filter_nouns(text, nlp) -> list:
 
 
 def generate_keywords(dataset, base_keywords, keywords_datasets):
-    nlp = spacy.load("fr_core_news_sm")
     keywords = list()
     # From base keywords
     for base_keyword in (base_keywords or set()):
-        keywords.extend(filter_nouns(base_keyword, nlp))
+        keywords.extend(filter_nouns(base_keyword))
     # From title
     for subtitle in dataset.title.split(" - "):
-        keywords.extend(filter_nouns(subtitle, nlp))
+        keywords.extend(filter_nouns(subtitle))
     # From description
     keywords.extend(filter_nouns(strip_tags(dataset.description)))
     # From custom view
     custom_url = "https://data.namur.be/explore/dataset/covid19be_hosp/custom/" \
                  "?disjunctive.province&disjunctive.region"
-    keywords.extend(filter_nouns(filter_html(custom_url), nlp))
+    keywords.extend(filter_nouns(filter_html(custom_url)))
     # From popularized view
     try:
         rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
 
-        keywords.extend(filter_nouns(strip_tags(rendered), nlp))
+        keywords.extend(filter_nouns(strip_tags(rendered)))
     except TemplateDoesNotExist:
         pass
     for keyword, count in Counter(keywords).most_common():
