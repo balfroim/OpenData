@@ -4,7 +4,7 @@
 {% block main %}
 
 
-  <a class="button" href="{% url 'dataset' question.dataset.id %}">Retour au dataset</a>
+  <a class="button" href="{% url 'dataset' dataset_id=question.dataset.id %}">Retour au dataset</a>
 
   {% question_card question user False %}
 
