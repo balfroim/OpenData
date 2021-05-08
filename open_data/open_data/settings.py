@@ -161,4 +161,6 @@ DATASETS_PER_PAGE = 100
 
 SPECIAL_CHARS = "!@#$%^&*().+?_=,<>/"
 
-NLP = spacy.load("fr_core_news_lg")
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js", True)

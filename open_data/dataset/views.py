@@ -4,9 +4,9 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import TemplateDoesNotExist
 from django.views.decorators.http import require_POST
-from open_data.settings import NLP
 
 from badge.registry import BadgeCache
+from dataset.nlp import NLP
 from .models import Theme, ProxyDataset, Question, Content, Answer
 
 
@@ -41,15 +41,16 @@ def dataset_page(request, dataset_id):
         'dataset.html',
         context={
             'dataset': dataset,
-            'nb_other_linked_datasets': len(already_matched_ids)-init_nb_linked_datasets,
-            'nb_linked_datasets': len(already_matched_ids)-1,
+            'nb_other_linked_datasets': len(already_matched_ids) - init_nb_linked_datasets,
+            'nb_linked_datasets': len(already_matched_ids) - 1,
             'datasets_by_keyword': datasets_by_keyword
         }
     )
 
 
 def search_page(request):
-    keywords = {NLP(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
+    nlp = NLP.instance().nlp
+    keywords = {nlp(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
     datasets_by_keyword = list()
     already_matched_ids = set()
     keywords_combinations = list(
@@ -89,6 +90,8 @@ def search_page(request):
 
 def download_dataset(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
+    dataset.nb_downloads_local += 1
+    dataset.save()
     BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
     return redirect(dataset.exports['xls'])
 
@@ -96,8 +99,7 @@ def download_dataset(request, dataset_id):
 def popularized_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     try:
-        response = render(request, f'popularized/{dataset_id}.html',
-                          {'dataset': dataset})
+        response = render(request, f'popularized/{dataset_id}.html', {'dataset': dataset})
         response.headers['X-Frame-Options'] = 'sameorigin'
         return response
     except TemplateDoesNotExist:

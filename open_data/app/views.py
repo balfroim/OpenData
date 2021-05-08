@@ -21,8 +21,14 @@ def home_page(request):
     ]
     featured_datasets = extract_featured_datasets(
         "jeu de données le populaire.",
-        3,
+        2,
         all_datasets.order_by('-popularity_score'),
+        featured_datasets
+    )
+    featured_datasets = extract_featured_datasets(
+        "jeu de données le plus téléchargé.",
+        1,
+        sorted(all_datasets, key=lambda dataset: dataset.nb_downloads_total, reverse=True),
         featured_datasets
     )
     featured_datasets = extract_featured_datasets(

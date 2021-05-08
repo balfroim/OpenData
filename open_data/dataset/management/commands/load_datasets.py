@@ -10,7 +10,8 @@ from django.template.loader import TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS, NLP
+from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS
+from dataset.nlp import NLP
 
 from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
 
@@ -41,8 +42,9 @@ def preprocess(word):
 
 
 def filter_nouns(text) -> list:
+    nlp = NLP.instance().nlp
     nouns = list()
-    for token in NLP(text):
+    for token in nlp(text):
         if (
             len(token) <= 2 or
             any(char for char in token.lemma_ if char in SPECIAL_CHARS)
@@ -69,15 +71,16 @@ def generate_keywords(dataset, base_keywords, keywords_datasets):
     # From description
     keywords.extend(filter_nouns(strip_tags(dataset.description)))
     # From custom view
-    print(filter_nouns(filter_html(
-        "https://data.namur.be/explore/dataset/covid19be_hosp/custom/?disjunctive.province&disjunctive.region")))
+    custom_url = "https://data.namur.be/explore/dataset/covid19be_hosp/custom/" \
+                 "?disjunctive.province&disjunctive.region"
+    keywords.extend(filter_nouns(filter_html(custom_url)))
     # From popularized view
     try:
         rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
+
         keywords.extend(filter_nouns(strip_tags(rendered)))
     except TemplateDoesNotExist:
         pass
-    # TODO From data
     for keyword, count in Counter(keywords).most_common():
         try:
             keywords_datasets[keyword].add((dataset, count))
@@ -112,6 +115,7 @@ class Command(BaseCommand):
             features = dictor(dataset, 'dataset.features')
             exports = fetch_exports(links['exports'])
             popularity_score = dictor(metas, 'explore.popularity_score')
+            nb_downloads = dictor(metas, 'explore.download_count')
 
             obj, created = ProxyDataset.objects.update_or_create(
                 id=dataset_id,
@@ -126,6 +130,7 @@ class Command(BaseCommand):
                     'has_custom': 'custom_view' in features,
                     'exports': exports,
                     'popularity_score': popularity_score,
+                    'nb_downloads_api': nb_downloads,
                 }
             )
 

@@ -1,16 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from badge.models import BadgeAward
 from badge.registry import BadgeCache
+from .models import User
 
 
-def badge_list(request):
-    user = request.user
+def badge_list(request, username):
+    user = get_object_or_404(User, username=username)
     cache = BadgeCache.instance()
 
     # Make a list of every available badge
     badges = {}
-    for badge in cache._registry.values():  # TODO: make this a public field (or available at least)
+    for badge in cache.badges:
         for level in range(len(badge.levels)):
             name = f'{badge.slug}:{level}'
             badges[name] = {
@@ -47,7 +48,7 @@ def badge_list(request):
         if (badge['x'], badge['y']) in visible_positions:
             badge['visible'] = True
 
-    return render(request, 'badges.html', {'badges': badges})
+    return render(request, 'badges.html', {'badges': badges, "profile": user.profile})
 
 
 def badge_detail(request, slug, level):

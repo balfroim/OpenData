@@ -1,65 +1,70 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}{{ theme.name }}{% endblock %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 {% endblock %}
+
 {% block main %}
-<a href="/">Accueil <i class="fas fa-home"></i></a> > <a href="/data/theme/{{ theme.id }}">{{ theme.name }}</a>
-<h1>{{ theme.name }}</h1>
-<div class="container">
-      <div class="theme">
-          {% if theme.image %}
-          <div class="theme-image">
-            <!--Faut peut-être refactor le style avec le fichier css-->
-            <img class="svg theme-image" src="url({{ theme.image.url }})" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}">
-          </div>
-          {% endif %}
-          <div class="theme-presentation">
-            <button class="btn theme-subscribe-btn">S'abonner</button>
-          </div>
-          <div class="theme-stats">
-              <ul>
-                  <li><span class="theme-stat-count">{{ theme.datasets.count }}</span> datasets</li>
-                  <li><span class="theme-stat-count">{{ theme.subscribed_users.count }}</span> abonnés</li>
-                  <!--<li><span class="theme-stat-count">206</span> j'aime</li>-->
-                  <li><span class="theme-stat-count">20</span> téléchargements</li>
-              </ul>
-          </div>
-          <div class="theme-description">
-              <p>Cette catégorie reprend tous les datasets du thème {{theme.name}}</p>
-          </div>
+  <div class="breadcrumbs">
+    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'theme' theme_id=theme.id %}">{{ theme.name }}</a>
+  </div>
+  <div class="theme-header">
+    {% if theme.image %}
+      <div
+        class="svg image"
+        data-src="{{ theme.image.url }}"
+        data-color="{{ theme.color }}"
+      ></div>
+    {% endif %}
+    <div class="stats">
+      <div>
+        <b>{{ theme.datasets.count }}</b>
+        jeux de données
       </div>
-</div>
-<div class="container">
-        <div class="gallery">
-          {% for dataset in theme.datasets.all %}
-          <div class="gallery-item" tabindex="{{ forloop.counter }}" onclick="location.href='{% url 'dataset' dataset_id=dataset.id %}';">
-            {% if theme.image %}
-            <div class="imgBx1">
-              <!--Faut peut-être refactor le style avec le fichier css-->
-              <img class="svg theme-image" src="url({{ theme.image.url }})" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}">
-            </div>
-            {% endif %}
-            <div class="dataset-title">
-              <h2>{{ dataset.title }}</h2>
-            </div>
-            <div class="data-stats">
-              <ul>
-                <li> <span class="fa fa-heart"></span> <span class="data-stat-count">{{ dataset.liking_users.count }}</span></li>
-                <li> <span class="fa fa-comment"></span> <span class="data-stat-count">{{ dataset.comments.count }}</span></li>
-                <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
-              </ul>
-            </div><br>
-            <div class="content1">
-              <p> Cliquez sur la vignette pour avoir plus d'informations </p>
-              <div class="sub-information">
-                <h3>Date de dernière modification : </h3>
-                <span>{{ dataset.modified }}</span>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
+      <div>
+        <b>{{ theme.subscribed_users.count }}</b>
+        abonnés
+      </div>
+    </div>
+    <div class="control">
+      <button>S'abonner</button>
+    </div>
+  </div>
+  <div class="theme-description">
+    <p>
+      Voici les jeux de données lié à : <b>{{ theme.name|lower }}</b>. Sentez vous libre de les
+      explorer, les consulter, les télécharger. Bref, <b>faites comme chez vous !</b>
+    </p>
+  </div>
+  <div class="theme-datasets">
+    {% for dataset in theme.datasets.all %}
+      <a class="button theme-dataset" href="{% url 'dataset' dataset_id=dataset.id %}">
+        <div class="title">
+          {{ dataset.title }}
         </div>
-</div>
+        <div class="stats">
+          <div>
+            <i class="fas fa-heart"></i>
+            <span>{{ dataset.liking_users.count }}</span>
+          </div>
+          <div>
+            <i class="fas fa-question-circle"></i>
+            <span>{{ dataset.questions.count }}</span>
+          </div>
+          <div>
+            <i class="fas fa-download"></i>
+            <span>{{ dataset.nb_downloads_total }}</span>
+          </div>
+        </div>
+        <div class="info">
+          <div>Dernière modification :</div>
+          <span>{{ dataset.modified }}</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
 {% endblock %}
