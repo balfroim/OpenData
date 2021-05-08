@@ -8,9 +8,10 @@ import dataset.models as models
 class ThemeAdmin(admin.ModelAdmin):
     readonly_fields = ['name', 'preview_image']
 
-    def preview_image(self, obj):
-        return mark_safe(
-            f'<img src="{obj.image.url}" alt="Preview image" width="128" height="128">')
+    @staticmethod
+    def preview_image(obj):
+        html = f'<img src="{obj.image.url}" alt="Preview image" width="128" height="128">'
+        return mark_safe(html)
 
 
 @admin.register(models.ProxyDataset)
