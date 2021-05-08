@@ -93,27 +93,27 @@ class ProxyDataset(models.Model):
 
     @property
     def table_url(self):
-        return f'{self.iframe_url}table/?datasetcard=true'
+        return f'{self.iframe_url}table'
 
     @property
     def map_url(self):
-        return f'{self.iframe_url}map/?datasetcard=true&location=12,50.45495,4.88194'
+        return f'{self.iframe_url}map/?location=12,50.45495,4.88194'
 
     @property
     def analysis_url(self):
-        return f'{self.iframe_url}analyze/?datasetcard=true'
+        return f'{self.iframe_url}analyze/?'
 
     @property
     def calendar_url(self):
-        return f'{self.iframe_url}calendar/?datasetcard=true&calendarview=month&static=false'
+        return f'{self.iframe_url}calendar/?calendarview=month&static=false'
 
     @property
     def custom_url(self):
-        return f'{self.iframe_url}custom/?datasetcard=true'
+        return f'{self.iframe_url}custom/'
 
     @property
     def popularized_url(self):
-        return reverse('popularized', kwargs={"dataset_id": self.id})
+        return reverse('popularized', dataset_id=self.id)
 
     @property
     def iframe_url(self):
