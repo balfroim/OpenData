@@ -68,7 +68,8 @@ def search_page(request):
         matches = sorted(
             matches,
             key=lambda match: sum(
-                match.datasetships.get(keyword__word=kw).relevancy for kw in
+                # TODO: EVITER PLUTÔT D'AVOIR DES DOUBLONS
+                match.datasetships.filter(keyword__word=kw).first().relevancy for kw in
                 combination),
             reverse=True
         )
