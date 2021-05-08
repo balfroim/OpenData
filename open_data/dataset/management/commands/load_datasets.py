@@ -10,7 +10,7 @@ from django.template.loader import TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS, NLP
+from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS
 
 from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
 
@@ -40,9 +40,9 @@ def preprocess(word):
     return word.lower().replace("\"", "")
 
 
-def filter_nouns(text) -> list:
+def filter_nouns(text, nlp) -> list:
     nouns = list()
-    for token in NLP(text):
+    for token in nlp(text):
         if (
             len(token) <= 2 or
             any(char for char in token.lemma_ if char in SPECIAL_CHARS)
@@ -59,22 +59,25 @@ def filter_nouns(text) -> list:
 
 
 def generate_keywords(dataset, base_keywords, keywords_datasets):
+    nlp = spacy.load("fr_core_news_sm")
     keywords = list()
     # From base keywords
     for base_keyword in (base_keywords or set()):
-        keywords.extend(filter_nouns(base_keyword))
+        keywords.extend(filter_nouns(base_keyword, nlp))
     # From title
     for subtitle in dataset.title.split(" - "):
-        keywords.extend(filter_nouns(subtitle))
+        keywords.extend(filter_nouns(subtitle, nlp))
     # From description
     keywords.extend(filter_nouns(strip_tags(dataset.description)))
     # From custom view
-    print(filter_nouns(filter_html(
-        "https://data.namur.be/explore/dataset/covid19be_hosp/custom/?disjunctive.province&disjunctive.region")))
+    custom_url = "https://data.namur.be/explore/dataset/covid19be_hosp/custom/" \
+                 "?disjunctive.province&disjunctive.region"
+    keywords.extend(filter_nouns(filter_html(custom_url), nlp))
     # From popularized view
     try:
         rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
-        keywords.extend(filter_nouns(strip_tags(rendered)))
+
+        keywords.extend(filter_nouns(strip_tags(rendered), nlp))
     except TemplateDoesNotExist:
         pass
     # TODO From data
