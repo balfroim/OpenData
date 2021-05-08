@@ -3,12 +3,14 @@ from abc import ABCMeta
 from badge.base import Badge, BadgeDetail, BadgeAwarded
 from badge.stereotypes import ThresholdedBadge, OnceBadge
 
+
 def check_threshold(levels, thresholds, observed_value):
     award = None
     for lvl in range(len(levels)):
         if observed_value >= thresholds[lvl]:
-            award = BadgeAwarded(level=lvl+1)
+            award = BadgeAwarded(level=lvl + 1)
     return award
+
 
 class LikeDatasetBadge(ThresholdedBadge):
     slug = 'dataset-like'
@@ -116,7 +118,7 @@ class SubscribeThemeBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-            return user.profile.theme_subscriptions.count()
+        return user.profile.theme_subscriptions.count()
 
 
 class ExploreDatasetBadge(ThresholdedBadge):
@@ -133,9 +135,9 @@ class ExploreDatasetBadge(ThresholdedBadge):
             score=40
         ),
         BadgeDetail(
-             name='Globetrotter',
-             description='Explorer 10 datasets.',
-             score=50
+            name='Globetrotter',
+            description='Explorer 10 datasets.',
+            score=50
         ),
     ]
     level_thresholds = [
@@ -148,7 +150,7 @@ class ExploreDatasetBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        #TODO
+        # TODO
         return 0
 
 
@@ -164,6 +166,7 @@ class VisitedAllThemeDatasetBadge(Badge, metaclass=ABCMeta):
     events = [
         'on_dataset_explore',
     ]
+
 
 class AskQuestionBadge(ThresholdedBadge):
     slug = 'question-ask'
@@ -185,16 +188,17 @@ class AskQuestionBadge(ThresholdedBadge):
         ),
     ]
     level_thresholds = [
-            1,
-            20,
-            50,
+        1,
+        20,
+        50,
     ]
     events = [
         'on_question_ask',
     ]
+
     def thresholded_value(self, user):
-            #TODO
-            return 0
+        # TODO
+        return 0
 
 
 class AnswerQuestionBadge(ThresholdedBadge):
@@ -217,14 +221,14 @@ class AnswerQuestionBadge(ThresholdedBadge):
         ),
     ]
     level_thresholds = [
-            1,
-            20,
-            50,
+        1,
+        20,
+        50,
     ]
     events = [
         'on_question_answer',
     ]
 
     def thresholded_value(self, user):
-            #TODO
-            return 0
+        # TODO
+        return 0

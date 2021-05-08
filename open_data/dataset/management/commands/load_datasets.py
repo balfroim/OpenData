@@ -80,7 +80,6 @@ def generate_keywords(dataset, base_keywords, keywords_datasets):
         keywords.extend(filter_nouns(strip_tags(rendered), nlp))
     except TemplateDoesNotExist:
         pass
-    # TODO From data
     for keyword, count in Counter(keywords).most_common():
         try:
             keywords_datasets[keyword].add((dataset, count))
