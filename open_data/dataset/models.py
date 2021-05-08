@@ -50,6 +50,12 @@ class ProxyDataset(models.Model):
 
     liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
     popularity_score = models.IntegerField(default=0, editable=False)
+    nb_downloads_api = models.IntegerField(default=0, editable=False)
+    nb_downloads_local = models.IntegerField(default=0, editable=False)
+
+    @property
+    def nb_downloads_total(self):
+        return self.nb_downloads_local + self.nb_downloads_api
 
     def __str__(self):
         return self.title if self.title else self.id
@@ -87,27 +93,27 @@ class ProxyDataset(models.Model):
 
     @property
     def table_url(self):
-        return f'{self.iframe_url}table/?datasetcard=true'
+        return f'{self.iframe_url}table'
 
     @property
     def map_url(self):
-        return f'{self.iframe_url}map/?datasetcard=true&location=12,50.45495,4.88194'
+        return f'{self.iframe_url}map/?location=12,50.45495,4.88194'
 
     @property
     def analysis_url(self):
-        return f'{self.iframe_url}analyze/?datasetcard=true'
+        return f'{self.iframe_url}analyze/?'
 
     @property
     def calendar_url(self):
-        return f'{self.iframe_url}calendar/?datasetcard=true&calendarview=month&static=false'
+        return f'{self.iframe_url}calendar/?calendarview=month&static=false'
 
     @property
     def custom_url(self):
-        return f'{self.iframe_url}custom/?datasetcard=true'
+        return f'{self.iframe_url}custom/'
 
     @property
     def popularized_url(self):
-        return reverse('popularized', kwargs={"dataset_id": self.id})
+        return reverse('popularized', dataset_id=self.id)
 
     @property
     def iframe_url(self):
