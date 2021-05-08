@@ -4,7 +4,7 @@ from django.db import connection
 from django.test import TestCase
 
 from badge.base import Badge, BadgeAwarded
-from badge.registry import badges
+from badge.registry import BadgeCache
 from badge.templatetags import pinax_badges_tags
 
 from .models import PlayerStat
@@ -33,7 +33,7 @@ class PointsBadge(Badge):
             return BadgeAwarded(1)
 
 
-badges.register(PointsBadge)
+BadgeCache.instance().register(PointsBadge)
 
 
 class BaseTestCase(TestCase):
@@ -50,26 +50,26 @@ class BadgesTests(BaseTestCase):
     def test_award(self):
         u = User.objects.create_user("Lars Bak", "lars@hotspot.com", "x864lyfe")
         PlayerStat.objects.create(user=u)
-        badges.possibly_award_badge("points_awarded", user=u)
+        BadgeCache.instance().possibly_award_badge("points_awarded", user=u)
         self.assertEqual(u.badges_earned.count(), 0)
 
         u.stats.points += 5001
         u.stats.save()
-        badges.possibly_award_badge("points_awarded", user=u)
+        BadgeCache.instance().possibly_award_badge("points_awarded", user=u)
         self.assertEqual(u.badges_earned.count(), 1)
         self.assertEqual(u.badges_earned.all()[0].badge.name, "Bronze")
 
-        badges.possibly_award_badge("points_awarded", user=u)
+        BadgeCache.instance().possibly_award_badge("points_awarded", user=u)
         self.assertEqual(u.badges_earned.count(), 1)
 
         u.stats.points += 2500
-        badges.possibly_award_badge("points_awarded", user=u)
+        BadgeCache.instance().possibly_award_badge("points_awarded", user=u)
         self.assertEqual(u.badges_earned.count(), 2)
 
     def test_lazy_user(self):
         u = User.objects.create_user("Lars Bak", "lars@hotspot.com", "x864lyfe")
         PlayerStat.objects.create(user=u, points=5001)
-        badges.possibly_award_badge("points_awarded", user=u)
+        BadgeCache.instance().possibly_award_badge("points_awarded", user=u)
         self.assertEqual(u.badges_earned.count(), 1)
 
         self.assert_num_queries(1, lambda: u.badges_earned.get().badge)
@@ -95,7 +95,7 @@ class TemplateTagsTests(TestCase):
         PlayerStat.objects.create(user=self.user)
         self.user.stats.points += 5001
         self.user.stats.save()
-        badges.possibly_award_badge("points_awarded", user=self.user)
+        BadgeCache.instance().possibly_award_badge("points_awarded", user=self.user)
 
     def test_badge_count(self):
         self.assertEqual(pinax_badges_tags.badge_count(self.user), 1)
