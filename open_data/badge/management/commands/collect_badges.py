@@ -11,7 +11,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Fetch actual data
-        badge_cache = BadgeCache.instance()._registry  # TODO: this is a hack, fix it (later)
         try:
             with open(BADGES_PATH, 'r') as file:
                 badges = json.load(file)
@@ -21,7 +20,7 @@ class Command(BaseCommand):
         # Add new badges
         current_badges = set()
         added_badges = set()
-        for badge in badge_cache.values():
+        for badge in BadgeCache.instance().badges:
             for level in range(len(badge.levels)):
                 name = f'{badge.slug}:{level}'
                 name_deleted = f'deleted:{name}'
