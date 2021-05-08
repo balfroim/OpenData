@@ -115,6 +115,7 @@ class Command(BaseCommand):
             features = dictor(dataset, 'dataset.features')
             exports = fetch_exports(links['exports'])
             popularity_score = dictor(metas, 'explore.popularity_score')
+            nb_downloads = dictor(metas, 'explore.download_count')
 
             obj, created = ProxyDataset.objects.update_or_create(
                 id=dataset_id,
@@ -129,6 +130,7 @@ class Command(BaseCommand):
                     'has_custom': 'custom_view' in features,
                     'exports': exports,
                     'popularity_score': popularity_score,
+                    'nb_downloads_api': nb_downloads,
                 }
             )
 

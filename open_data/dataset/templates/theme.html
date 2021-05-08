@@ -11,7 +11,7 @@
       <div class="theme">
           {% if theme.image %}
           <div class="theme-image">
-            <!--Faut peut-être refactor le style avec le fichier css-->
+            <!-- TODO: Faut peut-être refactor le style avec le fichier css-->
             <img class="svg theme-image" src="url({{ theme.image.url }})" style="--image-src: url({{ theme.image.url }}); --image-color: {{ theme.color }}">
           </div>
           {% endif %}
@@ -22,8 +22,6 @@
               <ul>
                   <li><span class="theme-stat-count">{{ theme.datasets.count }}</span> datasets</li>
                   <li><span class="theme-stat-count">{{ theme.subscribed_users.count }}</span> abonnés</li>
-                  <!--<li><span class="theme-stat-count">206</span> j'aime</li>-->
-                  <li><span class="theme-stat-count">20</span> téléchargements</li>
               </ul>
           </div>
           <div class="theme-description">
@@ -48,7 +46,7 @@
               <ul>
                 <li> <span class="fa fa-heart"></span> <span class="data-stat-count">{{ dataset.liking_users.count }}</span></li>
                 <li> <span class="fa fa-comment"></span> <span class="data-stat-count">{{ dataset.comments.count }}</span></li>
-                <li> <span class="fa fa-download"></span> <span class="data-stat-count">60</span></li>
+                <li> <span class="fa fa-download"></span> <span class="data-stat-count">{{ dataset.nb_downloads_total }}</span></li>
               </ul>
             </div><br>
             <div class="content1">

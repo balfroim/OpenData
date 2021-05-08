@@ -90,6 +90,8 @@ def search_page(request):
 
 def download_dataset(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id, exports__has_key='xls')
+    dataset.nb_downloads_local += 1
+    dataset.save()
     BadgeCache.instance().possibly_award_badge('on_dataset_download', user=request.user)
     return redirect(dataset.exports['xls'])
 

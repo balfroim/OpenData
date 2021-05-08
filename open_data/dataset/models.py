@@ -50,6 +50,12 @@ class ProxyDataset(models.Model):
 
     liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
     popularity_score = models.IntegerField(default=0, editable=False)
+    nb_downloads_api = models.IntegerField(default=0, editable=False)
+    nb_downloads_local = models.IntegerField(default=0, editable=False)
+
+    @property
+    def nb_downloads_total(self):
+        return self.nb_downloads_local + self.nb_downloads_api
 
     def __str__(self):
         return self.title if self.title else self.id

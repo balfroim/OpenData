@@ -16,7 +16,7 @@ class ThemeAdmin(admin.ModelAdmin):
 
 @admin.register(models.ProxyDataset)
 class ProxyDatasetAdmin(admin.ModelAdmin):
-    readonly_fields = ['modified']
+    readonly_fields = ['modified', 'nb_downloads_total']
     search_fields = ['title']
 
 
