@@ -80,7 +80,6 @@
     const subscribeButton = document.querySelector('#subscribe-button')
     const subscribeNumber = document.querySelector('#subscribe-number')
     const subscribeWord = document.querySelector('#subscribe-word')
-    //const likeIcon = document.querySelector('#like-icon')
 
     subscribeButton.addEventListener('click', async () => {
       const json = await fetch('{% url 'toggle_subscription' theme_id=theme.id %}', {
