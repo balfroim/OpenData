@@ -149,8 +149,9 @@ class Command(BaseCommand):
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
             for dataset, occurence in datasets_occurence:
                 dsship, created = Datasetship.objects.get_or_create(keyword=keyword_obj, dataset=dataset)
-                dsship.occurence = occurence
-                dsship.save()
+                if created or dsship.occurence != occurence:
+                    dsship.occurence = occurence
+                    dsship.save()
                 verb = "Add" if created else "Update"
                 self.stdout.write(f'{verb} keyword {keyword!r} for {dataset!r}.')
 
