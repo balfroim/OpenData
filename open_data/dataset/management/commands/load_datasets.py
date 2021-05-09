@@ -130,6 +130,7 @@ class Command(BaseCommand):
                     'exports': exports,
                     'popularity_score': popularity_score,
                     'nb_downloads_api': nb_downloads,
+                    'nb_downloads_local': 0,
                 }
             )
 
