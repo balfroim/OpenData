@@ -1,7 +1,7 @@
 <style>
     .row {
         content: "";
-        display: table;
+        display: block;
         clear: both;
     }
 
@@ -9,13 +9,91 @@
         float: left;
         width: 50%;
     }
+
+    .colLargeText {
+        float: left;
+        width: 50%;
+        font-size: 20px;
+    }
+
+    table,
+    td {
+        border: 1px solid #333;
+        padding: 10px;
+    }
+
+    thead,
+    tfoot {
+        background-color: #0e2240;
+        color: #fff;
+    }
 </style>
 
 <h1>Budget ordinaire par fonction</h1>
 <small></small>
 <div class="row">
-    <div class="col">
-        <h2></h2>
+    <div class="colLargeText">
+        <h2>2019</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="3">Recettes/Dépenses par fonction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>Recette totale</td>
+                    <td>Dépenses totales</td>
+                </tr>
+                <tr>
+                    <td>Bibliothèques publiques</td>
+                    <td>912 687,11€</td>
+                    <td>1 730 154,19€</td>
+                </tr>
+                <tr>
+                    <td>Cimetières - Protection environnement</td>
+                    <td>582 598,93€</td>
+                    <td>1 340 644,41€</td>
+                </tr>
+                <tr>
+                    <td>Pompiers</td>
+                    <td>Recette totale</td>
+                    <td>Dépenses totales</td>
+                </tr>
+                <tr>
+                    <td>Sécurité et assistance sociale</td>
+                    <td>Recette totale</td>
+                    <td>Dépenses totales</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>2018</h2>
+        <ul>
+          <li>Bibliothèques publiques</li>
+          <ul>
+            <li>Recettes totales : 788 715,91€</li>
+            <li>Dépenses totales : 1 643 175,73€</li>
+          </ul>
+          <li>Cimetières - Protection environnement</li>
+          <ul>
+            <li>Recettes totales : 573 371,47€</li>
+            <li>Dépenses totales : 1 196 690,23€</li>
+          </ul>
+        </ul>
+        <h2>2017</h2>
+        <ul>
+          <li>Bibliothèques publiques</li>
+          <ul>
+            <li>Recettes totales : 785 182,83€</li>
+            <li>Dépenses totales : 1 593 861,96€</li>
+          </ul>
+          <li>Cimetières - Protection environnement</li>
+          <ul>
+            <li>Recettes totales : 523 622,11€</li>
+            <li>Dépenses totales : 1 232 991,66€</li>
+          </ul>
+        </ul>
     </div>
 
     <div class="col">
