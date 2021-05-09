@@ -216,9 +216,7 @@ class NewsArticle(models.Model):
 
 
 class DatasetLink(models.Model):
-    from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="to_links")
+    from_dataset = models.OneToOneField(ProxyDataset, on_delete=models.CASCADE, related_name="to_links",
+                                        primary_key=True)
     to_dataset = models.ManyToManyField(ProxyDataset, related_name="from_links", blank=True)
     text = models.CharField(max_length=512, default="")
-
-    class Meta:
-        unique_together = (('from_dataset', 'to_dataset'),)

@@ -145,13 +145,14 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
-        for i, (keyword, datasets_occurence) in enumerate(keywords_datasets.items()):
-            self.stdout.write(f'Add keywords for {datasets_occurence}. [{i}/{total_count}]')
+        for keyword, datasets_occurence in keywords_datasets.items():
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
             for dataset, occurence in datasets_occurence:
-                dsship = Datasetship.objects.get_or_create(keyword=keyword_obj, dataset=dataset)
+                dsship, created = Datasetship.objects.get_or_create(keyword=keyword_obj, dataset=dataset)
                 dsship.occurence = occurence
                 dsship.save()
+                verb = "Add" if created else "Update"
+                self.stdout.write(f'{verb} keyword {keyword!r} for {dataset!r}.')
 
     def fetch_all_datasets(self):
         datasets = []
