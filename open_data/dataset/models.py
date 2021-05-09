@@ -190,7 +190,7 @@ class Question(models.Model):
     content = models.OneToOneField(Content, related_name="question", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"[{self.content.posted_at}] {self.content.display_author()} : {self.content.display_text()}"
+        return str(self.content)
 
 
 class Answer(models.Model):
@@ -198,7 +198,7 @@ class Answer(models.Model):
     content = models.OneToOneField(Content, related_name="answer", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"[{self.content.posted_at}] {self.content.display_author()} : {self.content.display_text()}"
+        return str(self.content)
 
 
 class NewsArticle(models.Model):
@@ -212,8 +212,6 @@ class NewsArticle(models.Model):
 
 
 class DatasetLink(models.Model):
-    from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE,
-                                     related_name="to_links")
-    to_dataset = models.ManyToManyField(ProxyDataset,
-                                        related_name="from_links", blank=True)
+    from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="to_links")
+    to_dataset = models.ManyToManyField(ProxyDataset, related_name="from_links", blank=True)
     text = models.CharField(max_length=512, default="")
