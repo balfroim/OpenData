@@ -67,10 +67,7 @@ def search_page(request):
             matches = matches.filter(keywords__word=keyword)
         matches = sorted(
             matches,
-            key=lambda match: sum(
-                # TODO: EVITER PLUTÔT D'AVOIR DES DOUBLONS
-                match.datasetships.filter(keyword__word=kw).first().relevancy for kw in
-                combination),
+            key=lambda ds: sum(ds.datasetships.get(keyword__word=kw).relevancy for kw in combination),
             reverse=True
         )
         if matches:
@@ -182,8 +179,7 @@ def rmv_question(request, question_id):
 @require_POST
 def add_answer(request, question_id):
     question = get_object_or_404(Question, id=question_id)
-    content = Content.objects.create(author=request.user.profile,
-                                     text=request.POST["content"])
+    content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     Answer.objects.create(question=question, content=content)
     return render(request, "question/answers.html", context={"question": question})
 

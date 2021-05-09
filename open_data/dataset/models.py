@@ -160,6 +160,9 @@ class Datasetship(models.Model):
     def __repr__(self):
         return f'{self.dataset!r} -(*{self.occurence})- {self.keyword!r}'
 
+    class Meta:
+        unique_together = (('keyword', 'dataset'),)
+
 
 class Content(models.Model):
     author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL,
@@ -216,3 +219,6 @@ class DatasetLink(models.Model):
     from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="to_links")
     to_dataset = models.ManyToManyField(ProxyDataset, related_name="from_links", blank=True)
     text = models.CharField(max_length=512, default="")
+
+    class Meta:
+        unique_together = (('from_dataset', 'to_dataset'),)
