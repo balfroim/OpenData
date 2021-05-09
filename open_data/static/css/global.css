@@ -81,10 +81,20 @@ button:hover, .button:hover {
 
 .breadcrumbs a {
   text-decoration: none;
+  background: white;
+  color: black;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+.breadcrumbs a:hover {
+  color: white;
+  background: var(--primary);
 }
 
 .breadcrumbs > * + *::before {
   content: ' > ';
+  background: white;
+  color: black;
 }
 
 /* Navbar */

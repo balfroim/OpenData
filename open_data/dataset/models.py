@@ -186,7 +186,8 @@ class Content(models.Model):
 
 
 class Question(models.Model):
-    dataset = models.ForeignKey(ProxyDataset, related_name="questions", on_delete=models.CASCADE)
+    dataset = models.ForeignKey(ProxyDataset, related_name="questions", on_delete=models.CASCADE,
+                                null=True, blank=True)
     content = models.OneToOneField(Content, related_name="question", on_delete=models.CASCADE)
 
     def __str__(self):
