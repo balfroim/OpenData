@@ -181,7 +181,7 @@
     addQuestionForm.addEventListener('submit', async event => {
       event.preventDefault();
 
-      const response = await fetch("{% url "add-question" dataset.id %}", {
+      const response = await fetch("{% url "add-question" %}?dataset_id={{ dataset.id }}", {
         method: 'POST',
         body: new URLSearchParams(new FormData(addQuestionForm)),
         headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),

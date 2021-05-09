@@ -84,7 +84,7 @@ class FirstCommentDatasetBadge(Badge, metaclass=ABCMeta):
 
     def award(self, **states):
         dataset = states['dataset']
-        if dataset.questions.count() == 1:
+        if dataset and dataset.questions.count() == 1:
             return BadgeAwarded(level=1)
         return None
 

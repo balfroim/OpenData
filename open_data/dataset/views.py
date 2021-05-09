@@ -139,13 +139,13 @@ def questions_page(request, dataset_id):
 
 
 @require_POST
-def add_question(request, dataset_id):
-    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    content = Content.objects.create(author=request.user.profile,
-                                     text=request.POST["content"])
+def add_question(request):
+    dataset = None
+    if "dataset_id" in request.GET:
+        dataset = get_object_or_404(ProxyDataset, id=request.GET["dataset_id"])
+    content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     Question.objects.create(dataset=dataset, content=content)
-    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user,
-                                               dataset=dataset)
+    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user, dataset=dataset)
     return redirect('questions', dataset_id=dataset.id)
 
 
