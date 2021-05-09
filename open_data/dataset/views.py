@@ -108,6 +108,23 @@ def popularized_page(request, dataset_id):
 
 
 @require_POST
+def toggle_subscription(request, theme_id):
+    theme = get_object_or_404(Theme, id=theme_id)
+    subscribed = theme not in request.user.profile.theme_subscriptions.all()
+    if subscribed:
+        request.user.profile.theme_subscriptions.add(theme)
+    else:
+        request.user.profile.theme_subscriptions.remove(theme)
+
+    BadgeCache.instance().possibly_award_badge('on_theme_subscription', user=request.user)
+
+    return JsonResponse({
+        'subscribed': subscribed,
+        'n_subscriptions': theme.subscribed_users.count(),
+    })
+
+
+@require_POST
 def toggle_like(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     liked = dataset not in request.user.profile.liked_datasets.all()
@@ -120,7 +137,7 @@ def toggle_like(request, dataset_id):
 
     return JsonResponse({
         'liked': liked,
-        'n_likes': dataset.liking_users.count()
+        'n_likes': dataset.liking_users.count(),
     })
 
 

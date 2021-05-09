@@ -16,19 +16,23 @@ async function pollNotifications() {
 
   for (const notification of response.unread_list) {
     const element = document.createElement('div')
+    element.className = 'notification'
 
     const image = document.createElement('img')
     image.src = notification.data.image
-    image.width = 64;
-    
+
     const description = document.createElement('div')
     description.textContent = notification.verb
-    
-    element.appendChild(image)
-    element.appendChild(description)
-    
-    queue.push(element)
+
+    // Popup
+    element.append(image)
+    element.append(description)
+    queue.push(element.cloneNode(true))
     updatePopup()
+
+    // List
+    element.classList.add('card')
+    list.prepend(element)
   }
 }
 
@@ -38,9 +42,9 @@ function updatePopup() {
       const element = queue.shift()
       if (element !== undefined) {
         popup.innerHTML = ''
-        popup.appendChild(element)
+        popup.append(element)
         popup.classList.add('active')
       }
     }
-  }, 200);
+  }, 200)
 }

@@ -143,7 +143,7 @@
       <button class="news-modal-button">
         <i class="fas fa-newspaper"></i>
         {{ dataset.articles.count }}
-        actualité{{ dataset.articles.count|pluralize }} liée{{ dataset.articles.count|pluralize }}
+        actualité{{ dataset.articles|pluralize }} liée{{ dataset.articles|pluralize }}
       </button>
     {% endif %}
 

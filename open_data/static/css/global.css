@@ -245,6 +245,22 @@ button.nostyle {
   100% { }
 }
 
+/* Notifications */
+.notification, .popup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification {
+  margin-top: 8px;
+}
+
+.notification > img {
+  width: 48px;
+  height: 48px;
+}
+
 /* Svg colors */
 .svg { /* https://stackoverflow.com/a/56669846 */
   display: inline-block;

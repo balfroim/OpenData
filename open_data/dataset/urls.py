@@ -3,7 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('theme/<str:theme_id>/', views.theme_page, name='theme'),
+    path('theme/<int:theme_id>/', views.theme_page, name='theme'),
+    path('theme/<int:theme_id>/subscribe', views.toggle_subscription, name='toggle_subscription'),
     path('dataset/<str:dataset_id>/', views.dataset_page, name='dataset'),
     path('dataset/<str:dataset_id>/like', views.toggle_like, name='toggle_like'),
     path('dataset/<str:dataset_id>/download', views.download_dataset, name='download_dataset'),
