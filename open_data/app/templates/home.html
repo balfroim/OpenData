@@ -21,4 +21,12 @@
   {% include 'home/datasets.html' with datasets=featured_datasets %}
   {% include 'home/quiz.html' with quiz=today_quiz %}
   {% include 'home/questions.html' with questions=last_questions %}
+
+  <script defer>
+    fetch("{% url 'search' %}", {
+      method: 'GET'
+    });
+  </script>
 {% endblock %}
+
+

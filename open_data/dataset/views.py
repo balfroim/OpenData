@@ -50,6 +50,9 @@ def dataset_page(request, dataset_id):
 
 def search_page(request):
     nlp = NLP.instance().nlp
+    print("nlp loaded")
+    if "q" not in request.GET:
+        return HttpResponse()
     keywords = {nlp(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
     datasets_by_keyword = list()
     already_matched_ids = set()
