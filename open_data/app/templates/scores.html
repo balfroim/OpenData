@@ -42,9 +42,7 @@
         border: 5px solid #CD7F32;
         border-radius: 50%;
     }
-    a{
-        text-decoration: none;
-    }
+
     table {
         position: absolute;
         border-collapse: collapse;
@@ -58,9 +56,13 @@
         cursor: pointer;
     }
 
+    tr:nth-child(odd){
+        background-color: lightsteelblue;
+    }
+
     th,
     td {
-        padding: 12px;
+        padding: 10px;
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
@@ -78,6 +80,7 @@
         box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
     }
   </style>
+
 
   <div class="breadcrumbs">
     <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
