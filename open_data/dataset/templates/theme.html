@@ -34,7 +34,13 @@
       </div>
     </div>
     <div class="control">
-      <button id="subscribe-button">
+      <button
+        id="subscribe-button"
+        {% if not user.profile.is_registered %}
+        disabled
+        data-tooltip="Inscrivez-vous pour pouvoir vous abonner"
+        {% endif %}
+      >
         {% if theme in user.profile.theme_subscriptions.all %}
           Se désabonner
         {% else %}
