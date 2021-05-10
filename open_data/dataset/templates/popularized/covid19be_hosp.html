@@ -1,189 +1,195 @@
-<style>
+{% extends 'base-popularized.html' %}
+
+{% block head %}
+  <style>
     .row {
-        content: "";
-        display: table;
-        clear: both;
+      content: "";
+      display: table;
+      clear: both;
     }
 
     .col {
-        float: left;
-        width: 50%;
+      float: left;
+      width: 50%;
     }
 
-    table,
-    td {
-        border: 1px solid #333;
-        padding: 10px;
+    table, td {
+      border: 1px solid #333;
+      padding: 10px;
     }
 
-    thead,
-    tfoot {
-        background-color: #0e2240;
-        color: #fff;
+    thead, tfoot {
+      background-color: #0e2240;
+      color: #fff;
     }
 
     .red {
-        background-color:red;
+      background-color: red;
     }
 
     .green {
-        background-color:green;
+      background-color: green;
     }
-</style>
+  </style>
+{% endblock %}
 
-<h1>COVID-19 Pandémie - Belgique - Hospitalisations par date et Province</h1>
-<small>Durant la crise sanitaire liée à l'épidémie du COVID-19, Sciensano et le service fédéral belge de la Santé publique
-    publient des rapports sur l'évolution de la situation en Belgique. Ces données ont été recueillies sur epistat.wiv-isp.be
+{% block body %}
+  <h1>COVID-19 Pandémie - Belgique - Hospitalisations par date et Province</h1>
+  <small>Durant la crise sanitaire liée à l'épidémie du COVID-19, Sciensano et le service fédéral belge
+    de la Santé publique
+    publient des rapports sur l'évolution de la situation en Belgique. Ces données ont été recueillies
+    sur epistat.wiv-isp.be
     à partir des rapports officiels quotidiens.</small>
-<div class="row">
+  <div class="row">
     <div class="col">
-        <h2>Hospitalisations en Belgique : Situation au 08 mai 2021</h2>
-        <p>Actuellement, 2307 personnes sont hospitalisées dont 727 en soins intensifs, 449 sous assistance respiratoire,
-            61 sous ECMO (Oxygénation par membrane extracorporelle)</p>
-        <p>Durant les 24 dernières heures, il y a eu:</p>
-        <ul>
-            <li>163 hospitalisations</li>
-            <li>217 sorties</li>
-        </ul>
-        <p>Le nombre de personnes hospitalisées a donc diminué de 54 ces dernières 24 heures.</p>
-        <p>Nombre de lits disponibles en soins intensifs pour des patients Covid: 211</p>
-        <br>
-        <h3>Fédération Wallonie-Bruxelles</h3>
-        <p>Le Hainaut et Bruxelles sont les deux provinces les plus touchées au regard des hospitalisations.</p>
-        <br>
-        <h3>Région flamande</h3>
-        <p>La province d'Anvers est la plus touchée au regard des hospitalisations.</p>
-
-
+      <h2>Hospitalisations en Belgique : Situation au 08 mai 2021</h2>
+      <p>Actuellement, 2307 personnes sont hospitalisées dont 727 en soins intensifs, 449 sous assistance
+        respiratoire,
+        61 sous ECMO (Oxygénation par membrane extracorporelle)</p>
+      <p>Durant les 24 dernières heures, il y a eu:</p>
+      <ul>
+        <li>163 hospitalisations</li>
+        <li>217 sorties</li>
+      </ul>
+      <p>Le nombre de personnes hospitalisées a donc diminué de 54 ces dernières 24 heures.</p>
+      <p>Nombre de lits disponibles en soins intensifs pour des patients Covid: 211</p>
+      <br>
+      <h3>Fédération Wallonie-Bruxelles</h3>
+      <p>Le Hainaut et Bruxelles sont les deux provinces les plus touchées au regard des
+        hospitalisations.</p>
+      <br>
+      <h3>Région flamande</h3>
+      <p>La province d'Anvers est la plus touchée au regard des hospitalisations.</p>
     </div>
 
     <div class="col">
-        <h2>Actualités liées à ce jeu de données</h2>
-        <ul>
-            <li>
-                <a href="https://www.sudinfo.be/id389427/article/2021-04-24/un-peu-de-repit-dans-nos-hopitaux-ou-le-nombre-de-lits-disponibles-aux-soins">
-                    24 avril 2021: Le nombre de lits disponibles en soins intensifs remonte
-                </a>
-            </li>
-            <li>
-                <a href="https://www.lavenir.net/cnt/dmf20210423_01574575/coronavirus-les-hospitalisations-sous-la-barre-des-3-000">
-                    23 avril 2021: Hospitalisations sous la barre des 3000
-                </a>
-            </li>
-            <li>
-                <a href="https://www.rtbf.be/info/belgique/detail_96-des-lits-de-soins-intensifs-sont-actuellement-occupes-voici-les-provinces-ou-la-situation-est-la-plus-critique?id=10737429">
-                    9 avril 2021: voici les provinces où la situation est la plus critique
-                </a>
-            </li>
-            <li>
-                <a href="https://www.lecho.be/economie-politique/belgique/bruxelles/bruxelles-a-t-elle-laisse-l-epidemie-de-covid-19-deraper/10257146.html">
-                    10 octobre 2020: Bruxelles a-t-elle laissé l'épidémie de Covid-19 déraper ?
-                </a>
-            </li>
-        </ul>
-        <h2>Tableaux récapitulatifs par province</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="12">Fédération Wallonie-Bruxelles</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td>Bruxelles</td>
-                    <td>Namur</td>
-                    <td>Brabant Wallon</td>
-                    <td>Hainaut</td>
-                    <td>Liège</td>
-                    <td>Luxembourg</td>
-                </tr>
-                <tr>
-                    <td>Hospitalisations</td>
-                    <td>374</td>
-                    <td>98</td>
-                    <td class="green">29</td>
-                    <td class="red">468</td>
-                    <td>259</td>
-                    <td>44</td>
-                </tr>
-                <tr>
-                    <td>Soins intensifs</td>
-                    <td class="red">118</td>
-                    <td>40</td>
-                    <td class="green">9</td>
-                    <td class="red">118</td>
-                    <td>79</td>
-                    <td>17</td>
-                </tr>
-                <tr>
-                    <td>Assistance respiratoire</td>
-                    <td>71</td>
-                    <td>29</td>
-                    <td class="green">6</td>
-                    <td class="red">79</td>
-                    <td>53</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>sous ECMO</td>
-                    <td class="red">21</td>
-                    <td>4</td>
-                    <td class="green">0</td>
-                    <td>14</td>
-                    <td>2</td>
-                    <td class="green">0</td>
-                </tr>
-            </tbody>
-        </table>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="6">Région flamande</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td>Anvers</td>
-                    <td>Flandre Orientale</td>
-                    <td>Flandre Occidentale</td>
-                    <td>Brabant Flamand</td>
-                    <td>Limbourg</td>
-                </tr>
-                <tr>
-                    <td>Hospitalisations</td>
-                    <td class="red">322</td>
-                    <td>237</td>
-                    <td>203</td>
-                    <td class="green">118</td>
-                    <td>155</td>
-                </tr>
-                <tr>
-                    <td>Soins intensifs</td>
-                    <td class="red">103</td>
-                    <td>93</td>
-                    <td>63</td>
-                    <td class="green">43</td>
-                    <td>44</td>
-                </tr>
-                <tr>
-                    <td>Assistance respiratoire</td>
-                    <td class="red">62</td>
-                    <td>49</td>
-                    <td>41</td>
-                    <td>25</td>
-                    <td class="green">21</td>
-                </tr>
-                <tr>
-                    <td>sous ECMO</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td class="red">7</td>
-                    <td class="green">1</td>
-                    <td>3</td>
-                </tr>
-            </tbody>
-        </table>
+      <h2>Actualités liées à ce jeu de données</h2>
+      <ul>
+        <li>
+          <a href="https://www.sudinfo.be/id389427/article/2021-04-24/un-peu-de-repit-dans-nos-hopitaux-ou-le-nombre-de-lits-disponibles-aux-soins">
+            24 avril 2021: Le nombre de lits disponibles en soins intensifs remonte
+          </a>
+        </li>
+        <li>
+          <a href="https://www.lavenir.net/cnt/dmf20210423_01574575/coronavirus-les-hospitalisations-sous-la-barre-des-3-000">
+            23 avril 2021: Hospitalisations sous la barre des 3000
+          </a>
+        </li>
+        <li>
+          <a href="https://www.rtbf.be/info/belgique/detail_96-des-lits-de-soins-intensifs-sont-actuellement-occupes-voici-les-provinces-ou-la-situation-est-la-plus-critique?id=10737429">
+            9 avril 2021: voici les provinces où la situation est la plus critique
+          </a>
+        </li>
+        <li>
+          <a href="https://www.lecho.be/economie-politique/belgique/bruxelles/bruxelles-a-t-elle-laisse-l-epidemie-de-covid-19-deraper/10257146.html">
+            10 octobre 2020: Bruxelles a-t-elle laissé l'épidémie de Covid-19 déraper ?
+          </a>
+        </li>
+      </ul>
+      <h2>Tableaux récapitulatifs par province</h2>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="12">Fédération Wallonie-Bruxelles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td>Bruxelles</td>
+          <td>Namur</td>
+          <td>Brabant Wallon</td>
+          <td>Hainaut</td>
+          <td>Liège</td>
+          <td>Luxembourg</td>
+        </tr>
+        <tr>
+          <td>Hospitalisations</td>
+          <td>374</td>
+          <td>98</td>
+          <td class="green">29</td>
+          <td class="red">468</td>
+          <td>259</td>
+          <td>44</td>
+        </tr>
+        <tr>
+          <td>Soins intensifs</td>
+          <td class="red">118</td>
+          <td>40</td>
+          <td class="green">9</td>
+          <td class="red">118</td>
+          <td>79</td>
+          <td>17</td>
+        </tr>
+        <tr>
+          <td>Assistance respiratoire</td>
+          <td>71</td>
+          <td>29</td>
+          <td class="green">6</td>
+          <td class="red">79</td>
+          <td>53</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>sous ECMO</td>
+          <td class="red">21</td>
+          <td>4</td>
+          <td class="green">0</td>
+          <td>14</td>
+          <td>2</td>
+          <td class="green">0</td>
+        </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="6">Région flamande</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td>Anvers</td>
+          <td>Flandre Orientale</td>
+          <td>Flandre Occidentale</td>
+          <td>Brabant Flamand</td>
+          <td>Limbourg</td>
+        </tr>
+        <tr>
+          <td>Hospitalisations</td>
+          <td class="red">322</td>
+          <td>237</td>
+          <td>203</td>
+          <td class="green">118</td>
+          <td>155</td>
+        </tr>
+        <tr>
+          <td>Soins intensifs</td>
+          <td class="red">103</td>
+          <td>93</td>
+          <td>63</td>
+          <td class="green">43</td>
+          <td>44</td>
+        </tr>
+        <tr>
+          <td>Assistance respiratoire</td>
+          <td class="red">62</td>
+          <td>49</td>
+          <td>41</td>
+          <td>25</td>
+          <td class="green">21</td>
+        </tr>
+        <tr>
+          <td>sous ECMO</td>
+          <td>4</td>
+          <td>5</td>
+          <td class="red">7</td>
+          <td class="green">1</td>
+          <td>3</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
-</div>
+  </div>
+{% endblock %}
