@@ -48,7 +48,7 @@ def home_page(request):
         'themes': Theme.get_displayed(),
         'featured_datasets': featured_datasets,
         'last_questions': Question.objects.order_by('-content__posted_at')[:5],
-        'today_quiz': random.choice(Quiz.objects.all()),
+        'today_quiz': Quiz.objects.last(),
     })
 
 
