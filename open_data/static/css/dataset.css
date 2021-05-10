@@ -1,0 +1,26 @@
+main {
+  --page-width: 100%;
+}
+
+iframe {
+  width: 100%;
+  height: calc(100vh - 12rem);
+  border: none;
+}
+
+.button-tabs {
+  display: flex;
+  align-items: center;
+}
+
+.button-tabs > * + * {
+  margin-left: 4px;
+}
+
+.separator {
+  flex: 1;
+}
+
+#linked-dataset-modal {
+  --modal-width: 900px;
+}

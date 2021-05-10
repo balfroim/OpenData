@@ -5,6 +5,7 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/questions.css' %}">
 {% endblock %}
 
 {% block modals %}
@@ -25,7 +26,7 @@
 {% block main %}
   <h1>Profil</h1>
   <h2>{{ profile.name }}</h2>
-  <div class="responsive profile">
+  <div class="profile">
     <div>
       <img src="https://picsum.photos/128" alt="Photo de profil" class="rounded avatar">
     </div>
@@ -59,7 +60,8 @@
   {% with count=profile.theme_subscriptions.count %}
     <h2>{{ count }} abonnement{{ count|pluralize }}</h2>
   {% endwith %}
-  <div class="datasets card">{# TODO: refactor 'datasets' and 'dataset' classes #}
+  <div class="datasets card">
+    {# TODO: refactor 'datasets' and 'dataset' classes #}
     {% for theme in profile.theme_subscriptions.all %}
       <a
         class="dataset button"
@@ -79,17 +81,14 @@
 
   {% with count=profile.liked_datasets.count %}
     <h2>{{ count }} jeu{{ count|pluralize:'x' }} de données aimé{{ count|pluralize }}</h2>
-  <div class="card">
-    {% if count > 0 %}
-      {% show_datasets profile.liked_datasets.all %}
-    {% else %}
-      <i>Cet utilisateur n'a pas encore aimé de jeux de données.</i>
-    {% endif %}
-  </div>
+    <div class="card">
+      {% if count > 0 %}
+        {% show_datasets profile.liked_datasets.all %}
+      {% else %}
+        <i>Cet utilisateur n'a pas encore aimé de jeux de données.</i>
+      {% endif %}
+    </div>
   {% endwith %}
-  {% if form %}
-    <br>
-  {% endif %}
 
   <h2>Dernières questions et réponses</h2>
   {% for content in last_contents %}
@@ -98,9 +97,9 @@
     {% elif content.answer %}
       {% answer_card content.answer user %}
     {% endif %}
-    {% empty %}
+  {% empty %}
     <p class="card">
-      Cet utilisateur n'a rien posté.
+      <i>Cet utilisateur n'a rien posté.</i>
     </p>
   {% endfor %}
 {% endblock %}

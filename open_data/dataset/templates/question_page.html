@@ -1,57 +1,67 @@
 {% extends 'base.html' %}
-{% load question %}
-{% block title %}Question - {{ question.content.text }}{% endblock %}
-{% block main %}
 
+{% load static question %}
+
+{% block title %}Question - {{ question.content.text }}{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/questions.css' %}">
+{% endblock %}
+
+{% block main %}
   <p class="breadcrumbs">
-    <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
+    <a href="{% url 'home' %}">
+      Accueil
+      <i class="fas fa-home"></i>
+    </a>
     {% if question.dataset %}
       {% with dataset=question.dataset %}
-        <a href="{% url 'theme' theme_id=dataset.theme.id %}">{{ dataset.theme.name }}</a>
-        <a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a>
+        <a href="{% url 'theme' theme_id=dataset.theme.id %}">
+          {{ dataset.theme.name }}
+        </a>
+        <a href="{% url 'dataset' dataset_id=dataset.id %}">
+          {{ dataset.title }}
+        </a>
       {% endwith %}
     {% endif %}
-    <a href="{% url 'question' question_id=question.id %}">"{{ question.content.text }}"</a>
+    <a href="{% url 'question' question_id=question.id %}">
+      "{{ question.content.text }}"
+    </a>
   </p>
 
-  {% question_card question user False %}
+  {% question_card question user false %}
 
-  <div id="answers" style="padding-left: 10%">
+  <div id="answers">
     {% answers_of question %}
   </div>
 
   {% if user.profile.is_registered %}
     <h2>Répondre</h2>
-    <form style="display: flex; justify-content: center;" id="reply-form">
+    <form id="reply-form">
       {% csrf_token %}
-      <label>
-        <textarea name="content" id="answer_content"></textarea>
-      </label>
+      <textarea name="content" id="answer_content"></textarea>
       <input type="url" name="source" id="answer_source"  placeholder="Ajoutez une source">
-      <button><span class="fas fa-reply"> Répondre</span></button>
-
+      <button><i class="fas fa-reply"></i></button>
     </form>
   {% endif %}
 
   <script>
-    const answerForm = document.querySelector('#reply-form');
-    const answersDiv = document.querySelector('#answers');
+    const answerForm = document.querySelector('#reply-form')
+    const answersDiv = document.querySelector('#answers')
 
     answerForm.addEventListener('submit', async event => {
-      event.preventDefault();
+      event.preventDefault()
 
       const response = await fetch("{% url "add-answer" question.id %}", {
         method: 'POST',
         body: new URLSearchParams(new FormData(answerForm)),
         headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
-      });
+      })
 
       if (response.ok) {
         answersDiv.innerHTML = await response.text();
-        answerForm.querySelector('#answer_content').value = ""
+        answerForm.querySelector('#answer_content').value = ''
       }
-    });
-
+    })
   </script>
-
 {% endblock %}
