@@ -113,7 +113,7 @@ class ProxyDataset(models.Model):
 
     @property
     def popularized_url(self):
-        return reverse('popularized', dataset_id=self.id)
+        return reverse('popularized', args=[self.id]) #, dataset_id=self.id)
 
     @property
     def iframe_url(self):
