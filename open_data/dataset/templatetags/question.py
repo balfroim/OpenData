@@ -3,9 +3,9 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('modals/questions.html')
-def questions_modal(dataset, user):
-    return {"dataset": dataset, "user": user}
+@register.inclusion_tag('tags/questions_list.html', takes_context=True)
+def questions_list(context, questions):
+    return {"questions": questions, "user": context["user"]}
 
 
 @register.inclusion_tag('question/question_card.html')

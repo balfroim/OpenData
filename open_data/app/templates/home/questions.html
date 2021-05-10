@@ -1,14 +1,14 @@
 {% load question %}
+
 <section>
   <h2>Questions des citoyens</h2>
-  {% for question in questions %}
-    {% question_card question user %}
-    {% empty %}
-    Aucune question...
-  {% endfor %}
+  <div id="questions-list">
+    {% questions_list questions %}
+  </div>
+
   {% if user.profile.is_registered %}
     <h3>Posez votre question</h3>
-    <form style="display: flex; justify-content: center;" id="add-question-form">
+    <form style="display: flex; justify-content: center;" id="add-question-form" data-url="{% url 'add-question' %}">
       {% csrf_token %}
       <label>
         <textarea name="content"></textarea>
@@ -16,25 +16,5 @@
       <button><span class="fas fa-comment-medical"></span></button>
     </form>
   {% endif %}
+
 </section>
-
-{# TODO: peut être faire un script ? #}
-<script>
-
-  const addQuestionForm = document.querySelector('#add-question-form');
-  addQuestionForm.addEventListener('submit', async event => {
-    event.preventDefault();
-
-    const response = await fetch("{% url "add-question" %}", {
-      method: 'POST',
-      body: new URLSearchParams(new FormData(addQuestionForm)),
-      headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
-    });
-
-    const questionSection = document.querySelector('#questions-modal');
-    if (response.ok) {
-      questionModal.querySelector('.modal').innerHTML = await response.text();
-    }
-  });
-
-</script>

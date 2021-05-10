@@ -5,12 +5,14 @@
 
 {% block head %}
   <script type="module" src="{% static 'js/quiz.js' %}"></script>
+  <script type="module" src="{% static 'js/questions.js' %}"></script>
   <script defer src="{% static 'flickity-2.2.2/flickity.pkgd.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
-  <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
   <script src="{% static 'highcharts-9.0.1/highcharts.js' %}"></script>
   <script src="{% static 'highcharts-9.0.1/highcharts-more.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+  <link rel="stylesheet" href="{% static 'css/questions.css' %}">
+  <link rel="stylesheet" href="{% static 'flickity-2.2.2/flickity.min.css' %}">
 {% endblock %}
 
 {% block main %}

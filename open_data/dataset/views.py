@@ -140,13 +140,12 @@ def toggle_like(request, dataset_id):
 
 def questions_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    BadgeCache.instance().possibly_award_badge('on_comment_read',
-                                               user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_comment_read', user=request.user)
     return render(
         request,
-        "modals/questions.html",
+        "tags/questions_list.html",
         context={
-            "dataset": dataset,
+            "questions": dataset.questions,
             "is_registered": request.user.profile.is_registered
         }
     )
@@ -160,7 +159,17 @@ def add_question(request):
     content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     Question.objects.create(dataset=dataset, content=content)
     BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user, dataset=dataset)
-    return redirect('questions', dataset_id=dataset.id)
+    if "dataset_id" in request.GET:
+        return redirect('questions', dataset_id=dataset.id)
+    else:
+        return render(
+            request,
+            "tags/questions_list.html",
+            context={
+                "questions": Question.objects.order_by('-content__posted_at')[:5],
+                "is_registered": request.user.profile.is_registered
+            }
+        )
 
 
 def question_page(request, question_id):
