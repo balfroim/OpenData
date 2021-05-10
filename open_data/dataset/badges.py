@@ -37,6 +37,7 @@ class QuizDatasetInspection(OnceBadge):
         BadgeDetail(
             name='La curiosité est un bon défaut',
             description='Inspecter le jeu de données lié à un quiz.',
+            image='quiz-dataset-inspection.png',
             score=20
         ),
     ]
@@ -51,6 +52,7 @@ class DownloadDatasetBadge(OnceBadge):
         BadgeDetail(
             name='Données ouvertes',
             description='Télécharger un jeu de données.',
+            image='dataset-download.png',
             score=80
         ),
     ]
@@ -65,6 +67,7 @@ class FirstCommentDatasetBadge(Badge):
         BadgeDetail(
             name='First !',
             description='Être le premier à commenter un jeu de données.',
+            image='dataset-first-comment.png',
             score=200
         ),
     ]
@@ -86,16 +89,19 @@ class SubscribeThemeBadge(ThresholdedBadge):
         BadgeDetail(
             name="Intéressant ?",
             description='S\'abonner à un thème.',
+            image='theme-subscribe-bronze.png',
             score=10
         ),
         BadgeDetail(
             name='Stay tuned',
             description='S\'abonner à cinq thèmes.',
+            image='theme-subscribe-silver.png',
             score=50
         ),
         BadgeDetail(
             name='Rule them all',
             description='S\'abonner à dix thèmes.',
+            image='theme-subscribe-gold.png',
             score=50
         ),
     ]
@@ -118,16 +124,19 @@ class ExploreDatasetBadge(ThresholdedBadge):
         BadgeDetail(
             name="Touriste",
             description='Explorer 1 datasets.',
+            image='dataset-explore-bronze.png',
             score=10
         ),
         BadgeDetail(
             name='Explorateur',
             description='Explorer 5 datasets.',
+            image='dataset-explore-silver.png',
             score=40
         ),
         BadgeDetail(
             name='Globetrotter',
             description='Explorer 10 datasets.',
+            image='dataset-explore-gold.png',
             score=50
         ),
     ]
