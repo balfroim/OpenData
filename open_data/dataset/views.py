@@ -34,8 +34,11 @@ def dataset_page(request, dataset_id):
         already_matched_ids.update([d.id for d in datasets])
         if len(datasets_by_keyword) >= 2:
             break
+    user = request.user
+    user.profile.visited_datasets.add(dataset)
     if request.GET.get('origin', '') == 'quiz':
-        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect', user=request.user)
+        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect', user=user)
+    BadgeCache.instance().possibly_award_badge('on_dataset_explore', user=user)
     return render(
         request,
         'dataset.html',
