@@ -1,9 +1,9 @@
 {% load quiz_tags %}
 <div class="card">
   <div>
-    <h1>
+    <h3>
       <i>{{ quiz.title }}</i>
-    </h1>
+    </h3>
     <p>
       {% if quiz.perfect_score_rate == 0 %}
       <b>Aucun utilisateur</b> n'a
@@ -26,7 +26,7 @@
     data-flickity='{ "draggable": false, "autoPlay": false, "wrapAround": false }'>
     {% endif %}
       {% for field in form %}
-      <div class="caroucel-cell carousel-quiz-cell">
+      <div class="caroucel-cell">
         <h2 class="title">{{ field.label }}</h2>
         <div class="quiz-choices" data-number="{{ forloop.counter0 }}">
           {% for value, label, checked, state in field.field.choices|to_list|shuffle %}
