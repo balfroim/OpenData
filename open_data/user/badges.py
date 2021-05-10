@@ -110,63 +110,63 @@ class WinnerBadge(OnceBadge):
         BadgeDetail(
             name='Veni vidi vici',
             description='Être le premier du tableau des scores',
-            score=200
+            score=0
         ),
     ]
 
     events = [
-        'be_the_best',
+        'top_1',
     ]
 
 
-class PantheonBadge(OnceBadge):
-    slug = 'pantheon'
-    levels = [
-        BadgeDetail(
-            name='Bienvenue, au pantheon des héros',
-            description='Être dans les 20 premiers du tableau des scores et y rester 5 jours',
-            score=200
-        ),
-    ]
-
-    events = [
-        'stay_in_the_light',
-    ]
-
-
-class BestWinnerBadge(OnceBadge):
-    slug = 'best-winner'
-    levels = [
-        BadgeDetail(
-            name='Tout le monde veut prendre sa place',
-            description='Être  premier du tableau des scores et y rester 24 heures',
-            score=200
-        ),
-    ]
-
-    events = [
-        'stay_in_the_light',
-    ]
+# class PantheonBadge(OnceBadge):
+#     slug = 'pantheon'
+#     levels = [
+#         BadgeDetail(
+#             name='Bienvenue, au pantheon des héros',
+#             description='Être dans les 20 premiers du tableau des scores et y rester 5 jours',
+#             score=200
+#         ),
+#     ]
+#
+#     events = [
+#         'stay_in_the_light',
+#     ]
 
 
-class PokeBadge(OnceBadge):
-    slug = 'pokebadge'
-    levels = [
-        BadgeDetail(
-            name='Collectionneur',
-            description='Gagner 5 badges',
-            score=200
-        ),
-        BadgeDetail(
-            name='Attraper les tous',
-            description='Gagner tous les badges',
-            score=200
-        ),
-    ]
-    level_thresholds = [
-        5,
-        20,
-    ]
-    events = [
-        'catch_them_all',
-    ]
+# class BestWinnerBadge(OnceBadge):
+#     slug = 'best-winner'
+#     levels = [
+#         BadgeDetail(
+#             name='Tout le monde veut prendre sa place',
+#             description='Être  premier du tableau des scores et y rester 24 heures',
+#             score=200
+#         ),
+#     ]
+#
+#     events = [
+#         'stay_in_the_light',
+#     ]
+
+
+# class PokeBadge(OnceBadge):
+#     slug = 'pokebadge'
+#     levels = [
+#         BadgeDetail(
+#             name='Collectionneur',
+#             description='Gagner 5 badges',
+#             score=200
+#         ),
+#         BadgeDetail(
+#             name='Attraper les tous',
+#             description='Gagner tous les badges',
+#             score=200
+#         ),
+#     ]
+#     level_thresholds = [
+#         5,
+#         20,
+#     ]
+#     events = [
+#         'catch_them_all',
+#     ]
