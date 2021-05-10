@@ -42,22 +42,51 @@
     {% endif %}
   {% endif %}
 
-  <h2>Badges obtenus (Total : {{ profile.user.badges_earned.count }})</h2>
+  {% with count=profile.user.badges_earned.count %}
+    <h2>{{ count }} badge{{ count|pluralize }} obtenu{{ count|pluralize }}</h2>
+  {% endwith %}
   <div class="card">
     {% for badge in last_badges %}
       <span class="badge" data-tooltip="{{ badge.name }}">
         <img src="{{ badge.image }}" alt="Badge">
       </span>
+    {% empty %}
+      <i>Cet utilisateur n'a pas encore de badges.</i>
     {% endfor %}
   </div>
-  {% if form %}
-    <a href="{% url 'pinax_badges:badge_list' profile.user.username %}">Voir plus...</a>
-  {% endif %}
+  <a href="{% url 'pinax_badges:badge_list' profile.user.username %}">Voir plus...</a>
 
-  <h2>Jeu de données aimées (Total : {{ profile.liked_datasets.count }})</h2>
-  <div class="card">
-    {% show_datasets profile.liked_datasets.all forloop.counter %}
+  {% with count=profile.theme_subscriptions.count %}
+    <h2>{{ count }} abonnement{{ count|pluralize }}</h2>
+  {% endwith %}
+  <div class="datasets card">{# TODO: refactor 'datasets' and 'dataset' classes #}
+    {% for theme in profile.theme_subscriptions.all %}
+      <a
+        class="dataset button"
+        href="{% url 'theme' theme_id=theme.id %}"
+      >
+        <span
+          class="svg image"
+          data-src="{{ theme.image.url }}"
+          data-color="currentColor"
+        ></span>
+        {{ theme.name }}
+      </a>
+    {% empty %}
+      <i>Cet utilisateur ne s'est pas encore abonné.</i>
+    {% endfor %}
   </div>
+
+  {% with count=profile.liked_datasets.count %}
+    <h2>{{ count }} jeu{{ count|pluralize:'x' }} de données aimé{{ count|pluralize }}</h2>
+  <div class="card">
+    {% if count > 0 %}
+      {% show_datasets profile.liked_datasets.all %}
+    {% else %}
+      <i>Cet utilisateur n'a pas encore aimé de jeux de données.</i>
+    {% endif %}
+  </div>
+  {% endwith %}
   {% if form %}
     <br>
   {% endif %}
@@ -67,7 +96,7 @@
     {% if content.question %}
       {% question_card content.question user %}
     {% elif content.answer %}
-      {% answer_card content.question user %}
+      {% answer_card content.answer user %}
     {% endif %}
     {% empty %}
     <p class="card">

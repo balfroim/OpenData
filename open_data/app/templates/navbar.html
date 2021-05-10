@@ -3,10 +3,6 @@
   <a class="nostyle" href="{% url 'home' %}">
     <img src="{% static 'images/logo.png' %}" alt="OpenData">
   </a>
-  <!--a class="nostyle" href="{% url 'home' %}">
-    <i class="fas fa-home"></i>
-    Accueil
-  </a-->
 
   <button class="explore-dropdown-button">
     <i class="fas fa-lg fa-compass"></i>
@@ -34,7 +30,7 @@
 
   <button class="nostyle notification-dropdown-button">
     <i class="fas fa-bell"></i>
-    <span id="notification-count">{{ user.notifications.count }}</span>
+    <span id="notification-count">{{ user.notifications.read.count }}</span>
   </button>
 
   <button class="profile-dropdown-button">

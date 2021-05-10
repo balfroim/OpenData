@@ -2,7 +2,6 @@ from collections import Counter
 from urllib.request import urlopen
 
 import requests
-import spacy
 from bs4 import BeautifulSoup
 from dictor import dictor
 from django.core.management.base import BaseCommand
@@ -11,9 +10,9 @@ from django.template.loader import render_to_string
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
 from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS
-from dataset.nlp import NLP
 
 from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
+from dataset.nlp import NLP
 
 
 def filter_html(url):
@@ -131,6 +130,7 @@ class Command(BaseCommand):
                     'exports': exports,
                     'popularity_score': popularity_score,
                     'nb_downloads_api': nb_downloads,
+                    'nb_downloads_local': 0,
                 }
             )
 
@@ -140,19 +140,20 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f'{dataset_id!r} proxy dataset updated.')
 
-            keywords_datasets = generate_keywords(obj, dictor(metas, 'default.keyword'),
-                                                  keywords_datasets)
+            keywords = dictor(metas, 'default.keyword')
+            keywords_datasets = generate_keywords(obj, keywords, keywords_datasets)
 
-        self.stdout.write(
-            self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
+        self.stdout.write(self.style.SUCCESS(f'Done: {total_count} datasets, {created_count} added.'))
 
         for keyword, datasets_occurence in keywords_datasets.items():
-            self.stdout.write(f'Add {keyword!r} keyword for {datasets_occurence}.')
             keyword_obj, created = Keyword.objects.get_or_create(word=keyword)
             for dataset, occurence in datasets_occurence:
-                Datasetship.objects.get_or_create(keyword=keyword_obj,
-                                                  dataset=dataset,
-                                                  occurence=occurence)
+                dsship, created = Datasetship.objects.get_or_create(keyword=keyword_obj, dataset=dataset)
+                if created or dsship.occurence != occurence:
+                    dsship.occurence = occurence
+                    dsship.save()
+                verb = "Add" if created else "Update"
+                self.stdout.write(f'{verb} keyword {keyword!r} for {dataset!r}.')
 
     def fetch_all_datasets(self):
         datasets = []

@@ -67,10 +67,7 @@ def search_page(request):
             matches = matches.filter(keywords__word=keyword)
         matches = sorted(
             matches,
-            key=lambda match: sum(
-                # TODO: EVITER PLUTÔT D'AVOIR DES DOUBLONS
-                match.datasetships.filter(keyword__word=kw).first().relevancy for kw in
-                combination),
+            key=lambda ds: sum(ds.datasetships.get(keyword__word=kw).relevancy for kw in combination),
             reverse=True
         )
         if matches:
@@ -108,6 +105,23 @@ def popularized_page(request, dataset_id):
 
 
 @require_POST
+def toggle_subscription(request, theme_id):
+    theme = get_object_or_404(Theme, id=theme_id)
+    subscribed = theme not in request.user.profile.theme_subscriptions.all()
+    if subscribed:
+        request.user.profile.theme_subscriptions.add(theme)
+    else:
+        request.user.profile.theme_subscriptions.remove(theme)
+
+    BadgeCache.instance().possibly_award_badge('on_theme_subscription', user=request.user)
+
+    return JsonResponse({
+        'subscribed': subscribed,
+        'n_subscriptions': theme.subscribed_users.count(),
+    })
+
+
+@require_POST
 def toggle_like(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
     liked = dataset not in request.user.profile.liked_datasets.all()
@@ -120,33 +134,42 @@ def toggle_like(request, dataset_id):
 
     return JsonResponse({
         'liked': liked,
-        'n_likes': dataset.liking_users.count()
+        'n_likes': dataset.liking_users.count(),
     })
 
 
 def questions_page(request, dataset_id):
     dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    BadgeCache.instance().possibly_award_badge('on_comment_read',
-                                               user=request.user)
+    BadgeCache.instance().possibly_award_badge('on_comment_read', user=request.user)
     return render(
         request,
-        "modals/questions.html",
+        "tags/questions_list.html",
         context={
-            "dataset": dataset,
+            "questions": dataset.questions,
             "is_registered": request.user.profile.is_registered
         }
     )
 
 
 @require_POST
-def add_question(request, dataset_id):
-    dataset = get_object_or_404(ProxyDataset, id=dataset_id)
-    content = Content.objects.create(author=request.user.profile,
-                                     text=request.POST["content"])
+def add_question(request):
+    dataset = None
+    if "dataset_id" in request.GET:
+        dataset = get_object_or_404(ProxyDataset, id=request.GET["dataset_id"])
+    content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     Question.objects.create(dataset=dataset, content=content)
-    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user,
-                                               dataset=dataset)
-    return redirect('questions', dataset_id=dataset.id)
+    BadgeCache.instance().possibly_award_badge('on_question_ask', user=request.user, dataset=dataset)
+    if "dataset_id" in request.GET:
+        return redirect('questions', dataset_id=dataset.id)
+    else:
+        return render(
+            request,
+            "tags/questions_list.html",
+            context={
+                "questions": Question.objects.order_by('-content__posted_at')[:5],
+                "is_registered": request.user.profile.is_registered
+            }
+        )
 
 
 def question_page(request, question_id):
@@ -165,8 +188,7 @@ def rmv_question(request, question_id):
 @require_POST
 def add_answer(request, question_id):
     question = get_object_or_404(Question, id=question_id)
-    content = Content.objects.create(author=request.user.profile,
-                                     text=request.POST["content"])
+    content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     Answer.objects.create(question=question, content=content)
     return render(request, "question/answers.html", context={"question": question})
 

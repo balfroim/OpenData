@@ -22,16 +22,31 @@
     {% endif %}
     <div class="stats">
       <div>
-        <b>{{ theme.datasets.count }}</b>
-        jeux de données
+        {% with count=theme.datasets.count %}
+          <b>{{ count }}</b> jeu{{ count|pluralize:'x' }} de données
+        {% endwith %}
       </div>
       <div>
-        <b>{{ theme.subscribed_users.count }}</b>
-        abonnés
+        {% with count=theme.subscribed_users.count %}
+          <b id="subscribe-number">{{ count }}</b>
+          <span id="subscribe-word">abonné{{ count|pluralize }}</span>
+        {% endwith %}
       </div>
     </div>
     <div class="control">
-      <button>S'abonner</button>
+      <button
+        id="subscribe-button"
+        {% if not user.profile.is_registered %}
+        disabled
+        data-tooltip="Inscrivez-vous pour pouvoir vous abonner"
+        {% endif %}
+      >
+        {% if theme in user.profile.theme_subscriptions.all %}
+          Se désabonner
+        {% else %}
+          S'abonner
+        {% endif %}
+      </button>
     </div>
   </div>
   <div class="theme-description">
@@ -67,4 +82,26 @@
       </a>
     {% endfor %}
   </div>
+  <script>
+    const subscribeButton = document.querySelector('#subscribe-button')
+    const subscribeNumber = document.querySelector('#subscribe-number')
+    const subscribeWord = document.querySelector('#subscribe-word')
+
+    subscribeButton.addEventListener('click', async () => {
+      const json = await fetch('{% url 'toggle_subscription' theme_id=theme.id %}', {
+        method: 'POST',
+        headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
+      })
+
+      const response = await json.json()
+
+      subscribeNumber.textContent = response.n_subscriptions
+      subscribeWord.textContent = response.n_subscriptions === 1
+        ? 'abonné'
+        : 'abonnés'
+      subscribeButton.textContent = response.subscribed
+        ? 'Se désabonner'
+        : "S'abonner"
+    })
+  </script>
 {% endblock %}

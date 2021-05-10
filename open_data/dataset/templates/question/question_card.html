@@ -1,6 +1,7 @@
 {% extends "question/card.html" %}
 {% block context_link %}
-  <div>
-    <a href="{% url 'question' content.question.id  %}">Voir dans son contexte</a>
-  </div>
+
+  <a class="button" href="{% url 'question' content.question.id  %}">
+    <span class="fas fa-reply">Répondre</span>
+  </a>
 {% endblock %}

@@ -9,8 +9,11 @@
       {{ content.display_text }}
     </div>
     {% if show_context_link %}
-    {% block context_link %}
-    {% endblock %}
+      {% block context_link %}
+      {% endblock %}
+    {% else %}
+      {% block sources %}
+      {% endblock %}
     {% endif %}
 
   </div>

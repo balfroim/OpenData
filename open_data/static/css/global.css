@@ -51,6 +51,13 @@ button, .button {
   text-align: center;
   font: inherit;
   font-weight: bold;
+  cursor: pointer;
+}
+
+button[disabled] {
+  color: #777;
+  background-color: #222;
+  border-color: #222;
 }
 
 a.button {
@@ -58,10 +65,9 @@ a.button {
   text-decoration: none;
 }
 
-button:hover, .button:hover {
+button:hover:not([disabled]), .button:hover {
   color: currentColor;
   background-color: transparent;
-  cursor: pointer;
 }
 
 .card {
@@ -79,12 +85,22 @@ button:hover, .button:hover {
   font-weight: bold;
 }
 
-.breadcrumbs a {
+.breadcrumbs > a {
   text-decoration: none;
+  background: white;
+  color: black;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 
-.breadcrumbs > * + *::before {
+.breadcrumbs > a:hover {
+  color: white;
+  background: var(--primary);
+}
+
+.breadcrumbs > a + a::before {
   content: ' > ';
+  background: white;
+  color: black;
 }
 
 /* Navbar */
@@ -233,6 +249,22 @@ button.nostyle {
   0% { transform: translateY(200px); }
   30% { transform: translateY(0); }
   100% { }
+}
+
+/* Notifications */
+.notification, .popup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification {
+  margin-top: 8px;
+}
+
+.notification > img {
+  width: 48px;
+  height: 48px;
 }
 
 /* Svg colors */

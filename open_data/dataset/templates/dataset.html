@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <script type="module" src="{% static 'js/quiz.js' %}"></script>
   {% endif %}
+  <script type="module" src="{% static 'js/questions.js' %}"></script>
   <style>
     main {
       --page-width: 100%;
@@ -51,7 +52,23 @@
 
   <div id="questions-modal" class="modal-mask center" data-dataset-id="{{ dataset.id }}">
     <div class="modal">
-      {% questions_modal dataset user %}
+      <h2>Questions des citoyens</h2>
+
+      <div id="questions-list">
+        {% questions_list dataset.questions %}
+      </div>
+
+      {% if user.profile.is_registered %}
+        <h2>Posez votre question</h2>
+        <form style="display: flex; justify-content: center;" id="add-question-form"
+        data-url="{% url 'add-question' %}?dataset_id={{ dataset.id }}">
+          {% csrf_token %}
+          <label>
+            <textarea name="content"></textarea>
+          </label>
+          <button><span class="fas fa-comment-medical"></span></button>
+        </form>
+      {% endif %}
     </div>
   </div>
 
@@ -143,7 +160,7 @@
       <button class="news-modal-button">
         <i class="fas fa-newspaper"></i>
         {{ dataset.articles.count }}
-        actualité{{ dataset.articles.count|pluralize }} liée{{ dataset.articles.count|pluralize }}
+        actualité{{ dataset.articles|pluralize }} liée{{ dataset.articles|pluralize }}
       </button>
     {% endif %}
 
@@ -175,22 +192,5 @@
       }
     });
   </script>
-  <script>
-    const questionModal = document.querySelector('#questions-modal');
-    const addQuestionForm = document.querySelector('#add-question-form');
-    addQuestionForm.addEventListener('submit', async event => {
-      event.preventDefault();
 
-      const response = await fetch("{% url "add-question" dataset.id %}", {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(addQuestionForm)),
-        headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
-      });
-
-      if (response.ok) {
-        questionModal.querySelector('.modal').innerHTML = await response.text();
-      }
-    });
-
-  </script>
 {% endblock %}

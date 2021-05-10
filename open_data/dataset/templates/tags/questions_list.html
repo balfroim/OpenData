@@ -1,0 +1,8 @@
+{% load question %}
+
+{% for question in questions.all %}
+  {% question_card question user %}
+  {% empty %}
+  <p>Il n'y a pas de questions pour le moment</p>
+{% endfor %}
+
