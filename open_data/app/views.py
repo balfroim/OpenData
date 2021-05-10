@@ -3,6 +3,7 @@ import random
 from django.db.models import Count
 from django.shortcuts import render
 
+from badge.registry import BadgeCache
 from dataset.models import Theme, ProxyDataset, Question
 from quiz.models import Quiz
 from user.models import User
@@ -68,4 +69,5 @@ def extract_featured_datasets(reason, nb_to_take, datasets, featured_datasets):
 def scores_page(request):
     users = User.objects.filter(profile__is_registered=True)
     users = sorted(users, key=lambda user: user.profile.score, reverse=True)
+    BadgeCache.instance().possibly_award_badge("top_1", user=users[0])
     return render(request, 'scores.html', {'users': users})

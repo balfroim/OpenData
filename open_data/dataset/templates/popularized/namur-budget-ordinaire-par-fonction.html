@@ -1,153 +1,157 @@
-<style>
+{% extends 'base-popularized.html' %}
+
+{% block head %}
+  <style>
     .row {
-        content: "";
-        display: block;
-        clear: both;
+      content: "";
+      display: block;
+      clear: both;
     }
 
     .col {
-        float: left;
-        width: 50%;
+      float: left;
+      width: 50%;
     }
 
     .colLargeText {
-        float: left;
-        width: 50%;
-        font-size: 20px;
+      float: left;
+      width: 50%;
+      font-size: 20px;
     }
 
-    table,
-    td {
-        border: 1px solid #333;
-        padding: 10px;
+    table, td {
+      border: 1px solid #333;
+      padding: 10px;
     }
 
-    thead,
-    tfoot {
-        background-color: #0e2240;
-        color: #fff;
+    thead, tfoot {
+      background-color: #0e2240;
+      color: #fff;
     }
-</style>
+  </style>
+{% endblock %}
 
-<h1>Budget ordinaire par fonction</h1>
-<small></small>
-<div class="row">
+{% block body %}
+  <h1>Budget ordinaire par fonction</h1>
+  <small></small>
+  <div class="row">
     <div class="colLargeText">
-        <h2>2019</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="3">Recettes/Dépenses par fonction - 2019</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td>Recette totale</td>
-                    <td>Dépenses totales</td>
-                </tr>
-                <tr>
-                    <td>Bibliothèques publiques</td>
-                    <td>912 687,11€</td>
-                    <td>1 730 154,19€</td>
-                </tr>
-                <tr>
-                    <td>Cimetières - Protection environnement</td>
-                    <td>582 598,93€</td>
-                    <td>1 340 644,41€</td>
-                </tr>
-                <tr>
-                    <td>Pompiers</td>
-                    <td>1 139 524,98€</td>
-                    <td>11 243 994,2€</td>
-                </tr>
-                <tr>
-                    <td>Sécurité et assistance sociale</td>
-                    <td>1 796 997,85€</td>
-                    <td>20 574 805,36€</td>
-                </tr>
-            </tbody>
-        </table>
+      <h2>2019</h2>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="3">Recettes/Dépenses par fonction - 2019</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td>Recette totale</td>
+          <td>Dépenses totales</td>
+        </tr>
+        <tr>
+          <td>Bibliothèques publiques</td>
+          <td>912 687,11€</td>
+          <td>1 730 154,19€</td>
+        </tr>
+        <tr>
+          <td>Cimetières - Protection environnement</td>
+          <td>582 598,93€</td>
+          <td>1 340 644,41€</td>
+        </tr>
+        <tr>
+          <td>Pompiers</td>
+          <td>1 139 524,98€</td>
+          <td>11 243 994,2€</td>
+        </tr>
+        <tr>
+          <td>Sécurité et assistance sociale</td>
+          <td>1 796 997,85€</td>
+          <td>20 574 805,36€</td>
+        </tr>
+        </tbody>
+      </table>
 
-        <h2>2018</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="3">Recettes/Dépenses par fonction - 2018</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td>Recette totale</td>
-                    <td>Dépenses totales</td>
-                </tr>
-                <tr>
-                    <td>Bibliothèques publiques</td>
-                    <td>788 715,91€</td>
-                    <td>1 643 175,73€</td>
-                </tr>
-                <tr>
-                    <td>Cimetières - Protection environnement</td>
-                    <td>573 371,47€</td>
-                    <td>1 196 690,23€</td>
-                </tr>
-                <tr>
-                    <td>Pompiers</td>
-                    <td>1 054 398,38€</td>
-                    <td>11 117 945,45€</td>
-                </tr>
-                <tr>
-                    <td>Sécurité et assistance sociale</td>
-                    <td>1 731 323,26€</td>
-                    <td>18 970 765,84€</td>
-                </tr>
-            </tbody>
-        </table>
+      <h2>2018</h2>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="3">Recettes/Dépenses par fonction - 2018</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td>Recette totale</td>
+          <td>Dépenses totales</td>
+        </tr>
+        <tr>
+          <td>Bibliothèques publiques</td>
+          <td>788 715,91€</td>
+          <td>1 643 175,73€</td>
+        </tr>
+        <tr>
+          <td>Cimetières - Protection environnement</td>
+          <td>573 371,47€</td>
+          <td>1 196 690,23€</td>
+        </tr>
+        <tr>
+          <td>Pompiers</td>
+          <td>1 054 398,38€</td>
+          <td>11 117 945,45€</td>
+        </tr>
+        <tr>
+          <td>Sécurité et assistance sociale</td>
+          <td>1 731 323,26€</td>
+          <td>18 970 765,84€</td>
+        </tr>
+        </tbody>
+      </table>
 
-        <h2>2017</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="3">Recettes/Dépenses par fonction - 2017</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td>Recette totale</td>
-                    <td>Dépenses totales</td>
-                </tr>
-                <tr>
-                    <td>Bibliothèques publiques</td>
-                    <td>785 182,83€</td>
-                    <td>1 593 861,96€</td>
-                </tr>
-                <tr>
-                    <td>Cimetières - Protection environnement</td>
-                    <td>523 622,11€</td>
-                    <td>1 232 991,66€</td>
-                </tr>
-                <tr>
-                    <td>Pompiers</td>
-                    <td>1 577 642,92€</td>
-                    <td>11 017 293,21€</td>
-                </tr>
-                <tr>
-                    <td>Sécurité et assistance sociale</td>
-                    <td>1 613 504,76€</td>
-                    <td>18 213 572,07€</td>
-                </tr>
-            </tbody>
-        </table>
+      <h2>2017</h2>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="3">Recettes/Dépenses par fonction - 2017</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td>Recette totale</td>
+          <td>Dépenses totales</td>
+        </tr>
+        <tr>
+          <td>Bibliothèques publiques</td>
+          <td>785 182,83€</td>
+          <td>1 593 861,96€</td>
+        </tr>
+        <tr>
+          <td>Cimetières - Protection environnement</td>
+          <td>523 622,11€</td>
+          <td>1 232 991,66€</td>
+        </tr>
+        <tr>
+          <td>Pompiers</td>
+          <td>1 577 642,92€</td>
+          <td>11 017 293,21€</td>
+        </tr>
+        <tr>
+          <td>Sécurité et assistance sociale</td>
+          <td>1 613 504,76€</td>
+          <td>18 213 572,07€</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="col">
-        <h2>Actualités liées à ce jeu de données</h2>
-        <ul>
-            <li><a href="https://www.lecho.be/entreprises/immobilier/thomas-piron-redessinera-le-
+      <h2>Actualités liées à ce jeu de données</h2>
+      <ul>
+        <li><a href="https://www.lecho.be/entreprises/immobilier/thomas-piron-redessinera-le-
             quartier-des-casernes-a-namur/10017419.html">Une bibliothèque publique au quartier des
-              casernes d'ici 2021</a> </li>
-        </ul>
+          casernes d'ici 2021</a></li>
+      </ul>
     </div>
-</div>
+  </div>
+{% endblock %}

@@ -1,40 +1,16 @@
 {% extends 'base.html' %}
 {% load static quiz_tags dataset_tags question %}
+
 {% block title %}{{ dataset.title }}{% endblock %}
+
 {% block head %}
+  <link rel="stylesheet" href="{% static 'css/dataset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/questions.css' %}">
   {% if dataset.quizzes.count %}
     <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <script type="module" src="{% static 'js/quiz.js' %}"></script>
   {% endif %}
   <script type="module" src="{% static 'js/questions.js' %}"></script>
-  <style>
-    main {
-      --page-width: 100%;
-    }
-
-    iframe {
-      width: 100%;
-      height: calc(100vh - 12rem);
-      border: none;
-    }
-
-    .button-tabs {
-      display: flex;
-      align-items: center;
-    }
-
-    .button-tabs > * + * {
-      margin-left: 4px;
-    }
-
-    .separator {
-      flex: 1;
-    }
-
-    #linked-dataset-modal {
-      --modal-width: 900px;
-    }
-  </style>
 {% endblock %}
 
 {% block modals %}
@@ -60,12 +36,9 @@
 
       {% if user.profile.is_registered %}
         <h2>Posez votre question</h2>
-        <form style="display: flex; justify-content: center;" id="add-question-form"
-        data-url="{% url 'add-question' %}?dataset_id={{ dataset.id }}">
+        <form id="add-question-form" data-url="{% url 'add-question' %}?dataset_id={{ dataset.id }}">
           {% csrf_token %}
-          <label>
-            <textarea name="content"></textarea>
-          </label>
+          <textarea name="content"></textarea>
           <button><span class="fas fa-comment-medical"></span></button>
         </form>
       {% endif %}
@@ -120,35 +93,44 @@
     <a href="{% url 'theme' theme_id=dataset.theme.id %}">{{ dataset.theme.name }}</a>
     <a href="{% url 'dataset' dataset_id=dataset.id %}">{{ dataset.title }}</a>
   </p>
+
   <div class="button-tabs">
     {% for type, class, _ in dataset.iframes %}
       <button class="{% if forloop.first %}active {% endif %}{{ type }}-tab-button">
         <i class="{{ class }}"></i>
       </button>
     {% endfor %}
+
     {% if 'xls' in dataset.exports %}
-      <a class="button" href="{% url 'download_dataset' dataset_id=dataset.id %}">
+      <a
+        class="button"
+        href="{% url 'download_dataset' dataset_id=dataset.id %}"
+        data-tooltip="{{ dataset.nb_downloads_total }} téléchargement{{ dataset.nb_downloads_total|pluralize }}"
+      >
         <i class="fas fa-download"></i>
-        {# TODO: update dynamiquement #}
-        <span id="download-number">{{ dataset.nb_downloads_total }}</span>
       </a>
     {% endif %}
+
     <div class="separator"></div>
+
     <button id="like-button">
       <i id="like-icon"
          class="fa{% if dataset in user.profile.liked_datasets.all %}s{% else %}r{% endif %} fa-heart"></i>
       <span id="like-number">{{ dataset.liking_users.count }}</span>
     </button>
+
     <button class="questions-modal-button">
       <i class="fas fa-question-circle"></i>
       {{ dataset.questions.count }}
     </button>
+
     {% if dataset.quizzes.count %}
       <button class="quiz-modal-button">
         <i class="fas fa-tasks"></i>
         {{ dataset.quizzes.count }} quiz
       </button>
     {% endif %}
+
     {% if nb_linked_datasets %}
       <button class="linked-dataset-modal-button">
         <i class="fas fa-link"></i>
@@ -156,6 +138,7 @@
         jeu{{ nb_linked_datasets|pluralize:'x' }} de données lié{{ nb_linked_datasets|pluralize }}
       </button>
     {% endif %}
+
     {% if dataset.articles.count %}
       <button class="news-modal-button">
         <i class="fas fa-newspaper"></i>
@@ -163,8 +146,8 @@
         actualité{{ dataset.articles|pluralize }} liée{{ dataset.articles|pluralize }}
       </button>
     {% endif %}
-
   </div>
+
   <div class="tabs">
     {% for type, _, url in dataset.iframes %}
       <div id="{{ type }}-tab" class="{% if forloop.first %}active {% endif %}tab">
@@ -172,25 +155,28 @@
       </div>
     {% endfor %}
   </div>
+
   <script>
-    const likeButton = document.querySelector('#like-button');
-    const likeNumber = document.querySelector('#like-number');
-    const likeIcon = document.querySelector('#like-icon');
+    const likeButton = document.querySelector('#like-button')
+    const likeNumber = document.querySelector('#like-number')
+    const likeIcon = document.querySelector('#like-icon')
+
     likeButton.addEventListener('click', async () => {
       const json = await fetch('{% url 'toggle_like' dataset_id=dataset.id %}', {
         method: 'POST',
         headers: new Headers({'X-CSRFToken': '{{ csrf_token }}'}),
       });
-      const response = await json.json();
-      likeNumber.textContent = response.n_likes;
-      if (response.liked) {
-        likeIcon.classList.remove('far');
-        likeIcon.classList.add('fas');
-      } else {
-        likeIcon.classList.remove('fas');
-        likeIcon.classList.add('far');
-      }
-    });
-  </script>
 
+      const response = await json.json()
+
+      likeNumber.textContent = response.n_likes
+      if (response.liked) {
+        likeIcon.classList.remove('far')
+        likeIcon.classList.add('fas')
+      } else {
+        likeIcon.classList.remove('fas')
+        likeIcon.classList.add('far')
+      }
+    })
+  </script>
 {% endblock %}

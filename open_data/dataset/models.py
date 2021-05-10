@@ -49,6 +49,7 @@ class ProxyDataset(models.Model):
     has_custom = models.BooleanField(default=False)
 
     liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
+    visitors = models.ManyToManyField(Profile, related_name='visited_datasets', blank=True)
     popularity_score = models.IntegerField(default=0, editable=False)
     nb_downloads_api = models.IntegerField(default=0, editable=False)
     nb_downloads_local = models.IntegerField(default=0, editable=False)

@@ -1,15 +1,6 @@
-from abc import ABCMeta
-
 from badge.base import Badge, BadgeDetail, BadgeAwarded
 from badge.stereotypes import ThresholdedBadge, OnceBadge
-
-
-def check_threshold(levels, thresholds, observed_value):
-    award = None
-    for lvl in range(len(levels)):
-        if observed_value >= thresholds[lvl]:
-            award = BadgeAwarded(level=lvl + 1)
-    return award
+from dataset.models import ProxyDataset
 
 
 class LikeDatasetBadge(ThresholdedBadge):
@@ -68,7 +59,7 @@ class DownloadDatasetBadge(OnceBadge):
     ]
 
 
-class FirstCommentDatasetBadge(Badge, metaclass=ABCMeta):
+class FirstCommentDatasetBadge(Badge):
     slug = 'dataset-first-comment'
     levels = [
         BadgeDetail(
@@ -150,11 +141,10 @@ class ExploreDatasetBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        # TODO
-        return 0
+        return user.profile.visited_datasets.count()
 
 
-class VisitedAllThemeDatasetBadge(Badge, metaclass=ABCMeta):
+class VisitedAllThemeDatasetBadge(Badge):
     slug = 'dataset-first-comment'
     levels = [
         BadgeDetail(
@@ -166,6 +156,13 @@ class VisitedAllThemeDatasetBadge(Badge, metaclass=ABCMeta):
     events = [
         'on_dataset_explore',
     ]
+    multiple = False
+
+    def award(self, **states):
+        user = states['user']
+        if ProxyDataset.objects.all().count() == user.profile.visited_datasets.count():
+            return BadgeAwarded(level=1)
+        return None
 
 
 class AskQuestionBadge(ThresholdedBadge):
@@ -197,8 +194,7 @@ class AskQuestionBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        # TODO
-        return 0
+        return user.profile.contents.filter(question__isnull=False).count()
 
 
 class AnswerQuestionBadge(ThresholdedBadge):
@@ -230,5 +226,4 @@ class AnswerQuestionBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        # TODO
-        return 0
+        return user.profile.contents.filter(answer__isnull=False).count()

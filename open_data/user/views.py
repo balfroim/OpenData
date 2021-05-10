@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_POST
 
+from badge.registry import BadgeCache
+from dataset.models import Content
 from .forms import SignInForm, ProfileForm
 from .models import User
-from dataset.models import Content
 
 
 def sign_in(request):
@@ -42,8 +43,15 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
 
     if request.method == 'POST':
+        old_name = user.profile.name
+        old_description = user.profile.description
         form = ProfileForm(request.POST, instance=user.profile)
         if form.is_valid():
+            print(form.cleaned_data)
+            if user.profile.name != old_name:
+                BadgeCache.instance().possibly_award_badge('on_user_profil_name', user=user)
+            if user.profile.description != old_description:
+                BadgeCache.instance().possibly_award_badge('on_user_profil_bio', user=user)
             form.save()
             return redirect('profile', username=username)
     else:
