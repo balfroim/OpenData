@@ -39,15 +39,19 @@
     <h2>Répondre</h2>
     <form id="reply-form">
       {% csrf_token %}
-      <textarea name="content" id="answer_content"></textarea>
-      <input type="url" name="source" id="answer_source"  placeholder="Ajoutez une source">
+      <div class="answer-input">
+        <textarea name="content" id="answer-content"></textarea>
+        <input type="url" name="source" id="answer-source" placeholder="Ajoutez une source">
+      </div>
       <button><i class="fas fa-reply"></i></button>
     </form>
   {% endif %}
 
   <script>
+    const answersList = document.querySelector('#answers')
     const answerForm = document.querySelector('#reply-form')
-    const answersDiv = document.querySelector('#answers')
+    const answerContent = answerForm.querySelector('#answer-content')
+    const answerSource = answerForm.querySelector('#answer-source')
 
     answerForm.addEventListener('submit', async event => {
       event.preventDefault()
@@ -59,8 +63,9 @@
       })
 
       if (response.ok) {
-        answersDiv.innerHTML = await response.text();
-        answerForm.querySelector('#answer_content').value = ''
+        answersList.innerHTML = await response.text()
+        answerContent.value = ''
+        answerSource.value = ''
       }
     })
   </script>

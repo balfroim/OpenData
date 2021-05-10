@@ -10,11 +10,16 @@
 }
 
 .message-control {
+  margin-top: 4px;
   text-align: right;
 }
 
 #answers {
   padding-left: 64px;
+}
+
+.answer-input, #answer-source {
+  width: 100%;
 }
 
 #add-question-form, #reply-form {

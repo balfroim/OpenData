@@ -1,44 +1,49 @@
-<style>
+{% extends 'base-popularized.html' %}
+
+{% block head %}
+  <style>
     .row {
-        content: "";
-        display: table;
-        clear: both;
+      content: "";
+      display: table;
+      clear: both;
     }
 
     .col {
-        float: left;
-        width: 50%;
+      float: left;
+      width: 50%;
     }
 
     table,
     td {
-        border: 1px solid #333;
-        padding: 10px;
+      border: 1px solid #333;
+      padding: 10px;
     }
 
     thead,
     tfoot {
-        background-color: #0e2240;
-        color: #fff;
+      background-color: #0e2240;
+      color: #fff;
     }
 
     .red {
-        background-color:red;
+      background-color: red;
     }
 
     .green {
-        background-color:green;
+      background-color: green;
     }
-</style>
+  </style>
+{% endblock %}
 
-<h1>Namur - Conseil communal</h1>
-<div class="row">
+{% block body %}
+  <h1>Namur - Conseil communal</h1>
+  <div class="row">
     <div class="col">
-        <h2>A quoi sert le Conseil ?</h2>
-        <p>Le Conseil communal, c'est "le parlement" de la commune. Il est chargé de voter le budget,
-          d'établir le montant des taxes et redevances, d'établir les règlement généraux de police pour
-          mainenir l'ordre public et encore d'autres tâches.</p>
-        <p>Ils sont élus par les électeurs de la commune, lors des élections communales organisées
+      <h2>A quoi sert le Conseil ?</h2>
+      <p>Le Conseil communal, c'est "le parlement" de la commune. Il est chargé de voter le budget,
+        d'établir le montant des taxes et redevances, d'établir les règlement généraux de police pour
+        mainenir l'ordre public et encore d'autres tâches.</p>
+      <p>Ils sont élus par les électeurs de la commune, lors des élections communales organisées
         tous les 6 ans. Le Conseil communal se réunit au moins 10 fois par an, en séance publique.</p>
     </div>
 
@@ -48,7 +53,7 @@
         <table>
           <thead>
             <tr>
-              <th colspan="">Conseil communal - Répartition par parti</th>
+              <th colspan="8">Conseil communal - Répartition par parti</th>
             </tr>
           </thead>
           <tbody>
@@ -60,10 +65,10 @@
               <td>CDH</td>
               <td>Défi</td>
               <td>MR</td>
-              <td>Indépendant.e</td>
+              <td>Indépendant</td>
             </tr>
             <tr>
-              <td>Représentants</td>
+              <td>Représentant.e.s</td>
               <td>3</td>
               <td>9</td>
               <td>9</td>
@@ -75,5 +80,5 @@
           </tbody>
         </table>
     </div>
-</div>
-
+  </div>
+{% endblock %}

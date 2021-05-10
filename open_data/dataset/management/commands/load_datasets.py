@@ -101,7 +101,7 @@ class Command(BaseCommand):
         total_count = len(datasets)
         created_count = 0
 
-        datasets = filter(lambda ds: 'covid' in dictor(ds, "dataset.dataset_id"), datasets)
+        # datasets = filter(lambda ds: 'covid' in dictor(ds, "dataset.dataset_id"), datasets)
         keywords_datasets = dict()
         for dataset in datasets:
             links = map_links(dataset['links'])
