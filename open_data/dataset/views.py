@@ -192,7 +192,8 @@ def rmv_question(request, question_id):
 def add_answer(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
-    Answer.objects.create(question=question, content=content)
+    source = request.POST["source"] if "source" in request.POST else None
+    Answer.objects.create(question=question, content=content, source=source)
     return render(request, "question/answers.html", context={"question": question})
 
 
