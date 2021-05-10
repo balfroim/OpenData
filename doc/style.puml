@@ -1,0 +1,11 @@
+hide circle
+hide methods
+
+skinparam {
+    DefaultFontName Cantarell
+    BackgroundColor transparent
+    ClassBorderColor #111
+    ClassBackgroundColor #def
+    ArrowColor #111
+    Shadowing false
+}
