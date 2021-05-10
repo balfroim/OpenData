@@ -1,13 +1,11 @@
 {% load question %}
 <section>
   <h2>Questions des citoyens</h2>
-  <div class="card">
-    {% for question in questions %}
+  {% for question in questions %}
     {% question_card question user %}
     {% empty %}
     Aucune question...
-    {% endfor %}
-  </div>
+  {% endfor %}
   {% if user.profile.is_registered %}
     <h3>Posez votre question</h3>
     <form style="display: flex; justify-content: center;" id="add-question-form">

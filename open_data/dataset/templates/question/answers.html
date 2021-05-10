@@ -1,6 +1,4 @@
 {% load question %}
 {% for answer in question.answers.all %}
   {% answer_card answer user False %}
-  {% empty %}
-  Pas encore de réponses
 {% endfor %}
