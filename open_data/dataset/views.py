@@ -197,6 +197,7 @@ def add_answer(request, question_id):
     content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
     source = request.POST["source"] if "source" in request.POST else None
     Answer.objects.create(question=question, content=content, source=source)
+    BadgeCache.instance().possibly_award_badge('on_question_answer', user=request.user)
     return render(request, "question/answers.html", context={"question": question})
 
 

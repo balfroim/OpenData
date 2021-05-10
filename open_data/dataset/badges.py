@@ -194,7 +194,7 @@ class AskQuestionBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        return 0#user.profile.contents
+        return user.profile.contents.filter(question__isnull=False).count()
 
 
 class AnswerQuestionBadge(ThresholdedBadge):
@@ -226,5 +226,4 @@ class AnswerQuestionBadge(ThresholdedBadge):
     ]
 
     def thresholded_value(self, user):
-        # TODO
-        return 0
+        return user.profile.contents.filter(answer__isnull=False).count()
