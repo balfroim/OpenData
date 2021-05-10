@@ -1,0 +1,23 @@
+.message {
+  margin-bottom: 8px;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  font-style: italic;
+  font-size: smaller;
+}
+
+.message-control {
+  text-align: right;
+}
+
+#answers {
+  padding-left: 64px;
+}
+
+#add-question-form, #reply-form {
+  display: flex;
+  justify-content: center;
+}

@@ -7,11 +7,9 @@
   </div>
   {% if user.profile.is_registered %}
     <h3>Posez votre question</h3>
-    <form style="display: flex; justify-content: center;" id="add-question-form" data-url="{% url 'add-question' %}">
+    <form id="add-question-form" data-url="{% url 'add-question' %}">
       {% csrf_token %}
-      <label>
-        <textarea name="content"></textarea>
-      </label>
+      <textarea name="content"></textarea>
       <button><span class="fas fa-comment-medical"></span></button>
     </form>
   {% endif %}

@@ -1,16 +1,20 @@
 {% extends "question/card.html" %}
+
 {% block context_link %}
-  <div>
-    <a class="button" href="{% url 'question' content.answer.question.id %}">
-      <span class="fas fa-reply">Répondre</span>
-    </a>
-  </div>
+  <a
+    class="button"
+    href="{% url 'question' content.answer.question.id %}"
+    data-tooltip="Répondre"
+  >
+    <i class="fas fa-reply"></i>
+  </a>
 {% endblock %}
 
 {% block sources %}
   {% if content.answer.source %}
     <a class="button" href="{{ content.answer.source }}" target="_blank">
-      <i class="fas fa-book"></i><span>Voir la source</span>
+      <i class="fas fa-book"></i>
+      Voir la source
     </a>
   {% endif %}
 {% endblock %}
