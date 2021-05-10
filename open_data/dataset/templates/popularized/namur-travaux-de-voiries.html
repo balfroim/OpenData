@@ -1,0 +1,97 @@
+<style>
+    .row {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .col {
+        float: left;
+        width: 50%;
+    }
+
+    table,
+    td {
+        border: 1px solid #333;
+        padding: 10px;
+    }
+
+    thead,
+    tfoot {
+        background-color: #0e2240;
+        color: #fff;
+    }
+
+    .red {
+        background-color:red;
+    }
+
+    .green {
+        background-color:green;
+    }
+</style>
+
+<h1>Namur - Travaux de voiries terminés ou en cours</h1>
+<small>Afin de coordonner au mieux les différents travaux et informer les citoyens, la ville de Namur rend disponible publiquement des données concernant les travaux de voirie.</small>
+<br />
+<small>Les données de ce jeu de données ne comprennent pas les travaux planifiés mais non-inscrits au budget. Vous pouvez les consulter <a href="../namur-travaux-de-voiries-planifies">ici</a>.</small>
+<div class="row">
+    <div class="col">
+        <h2>Travaux en cours</h2>
+        <p>Actuellement, il y a 1811 travaux terminés et 24 travaux sont en cours. Sur ces 24 travaux, 1 est actif depuis 2018, 1 est actif depuis 2019, 5 sont actifs depuis 2020, et les 17 restants sont actifs depuis 2021</p>
+        <h2>Répartition par type de travaux</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type de travaux</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Enduisage</td>
+                    <td>556</td>
+                </tr>
+                <tr>
+                    <td>Raclage/Pose</td>
+                    <td>399</td>
+                </tr>
+                <tr>
+                    <td>Réfection</td>
+                    <td>356</td>
+                </tr>
+                <tr>
+                    <td>Trottoir</td>
+                    <td>199</td>
+                </tr>
+                <tr>
+                    <td>Réparation</td>
+                    <td>133</td>
+                </tr>
+                <tr>
+                    <td>Egouttage</td>
+                    <td>103</td>
+                </tr>
+                <tr>
+                    <td>Aménagements de sécurité</td>
+                    <td>38</td>
+                </tr>
+                <tr>
+                    <td>Aménagements cyclo-piétons</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td>Autres</td>
+                    <td>26</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="col">
+        <h2>Répartition des travaux par localité</h2>
+        <iframe src="https://data.namur.be/explore/embed/dataset/namur-travaux-de-voiries/analyze/?disjunctive.e_acom_nom_m&disjunctive.nom&disjunctive.typetrav&disjunctive.annee&sort=typetrav&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJwaWUiLCJmdW5jIjoiQ09VTlQiLCJ5QXhpcyI6InN1cmZjb21tdW5hbGUiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiJyYW5nZS1jdXN0b20iLCJwb3NpdGlvbiI6ImNlbnRlciJ9XSwieEF4aXMiOiJlX2Fjb21fbm9tX20iLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiIiLCJzb3J0IjoiIiwic2VyaWVzQnJlYWtkb3duIjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJuYW11ci10cmF2YXV4LWRlLXZvaXJpZXMiLCJvcHRpb25zIjp7ImRpc2p1bmN0aXZlLmVfYWNvbV9ub21fbSI6dHJ1ZSwiZGlzanVuY3RpdmUubm9tIjp0cnVlLCJkaXNqdW5jdGl2ZS50eXBldHJhdiI6dHJ1ZSwiZGlzanVuY3RpdmUuYW5uZWUiOnRydWUsInNvcnQiOiJ0eXBldHJhdiJ9fSwic2VyaWVzQnJlYWtkb3duVGltZXNjYWxlIjoiIn1dLCJkaXNwbGF5TGVnZW5kIjp0cnVlLCJhbGlnbk1vbnRoIjp0cnVlLCJ0aW1lc2NhbGUiOiIifQ%3D%3D&static=false&datasetcard=false" width="100%" height="500" frameborder="0"></iframe>
+        
+    </div>
+</div>
