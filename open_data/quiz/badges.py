@@ -1,4 +1,4 @@
-from badge.base import Badge, BadgeDetail, BadgeAwarded
+from badge.base import BadgeDetail
 from badge.stereotypes import ThresholdedBadge
 
 

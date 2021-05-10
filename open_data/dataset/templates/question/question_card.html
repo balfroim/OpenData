@@ -1,7 +1,21 @@
-{% extends "question/card.html" %}
-{% block context_link %}
+{% extends 'question/card.html' %}
 
-  <a class="button" href="{% url 'question' content.question.id  %}">
-    <span class="fas fa-reply">Répondre</span>
+{% block context_link %}
+  <a
+          class="button"
+          href="{% url 'question' content.question.id %}"
+          data-tooltip="Répondre"
+  >
+    <i class="fas fa-reply"></i>
   </a>
+  {% if content.question.dataset %}
+    <a
+            class="button"
+            href="{% url 'dataset' content.question.dataset.id %}"
+            target="_blank"
+            data-tooltip="Jeu de données lié"
+    >
+      <i class="fas fa-link"></i>
+    </a>
+  {% endif %}
 {% endblock %}

@@ -1,16 +1,32 @@
 {% extends "question/card.html" %}
+
 {% block context_link %}
-  <div>
-    <a class="button" href="{% url 'question' content.answer.question.id %}">
-      <span class="fas fa-reply">Répondre</span>
-    </a>
-  </div>
+  <a
+    class="button"
+    href="{% url 'question' content.answer.question.id %}"
+    data-tooltip="Répondre"
+  >
+    <i class="fas fa-reply"></i>
+  </a>
+  <a
+    class="button"
+    href="{% url 'dataset' content.answer.question.dataset.id %}"
+    target="_blank"
+    data-tooltip="Jeu de données lié"
+  >
+    <i class="fas fa-link"></i>
+  </a>
 {% endblock %}
 
 {% block sources %}
   {% if content.answer.source %}
-    <a class="button" href="{{ content.answer.source }}" target="_blank">
-      <i class="fas fa-book"></i><span>Voir la source</span>
+    <a
+      class="button"
+      href="{{ content.answer.source }}"
+      target="_blank"
+      data-tooltip="Voir la source"
+    >
+      <i class="fas fa-book"></i>
     </a>
   {% endif %}
 {% endblock %}

@@ -1,13 +1,12 @@
-<div class="card">
-  <div class="message">
-    <div class="message-header">
-      <span>{{ content.posted_at|date:'d F Y H:m' }}</span>
-      <span>{{ content.display_author }}</span>
-
-    </div>
-    <div>
-      {{ content.display_text }}
-    </div>
+<div class="message card">
+  <div class="message-header">
+    <span>{{ content.display_author }}</span>
+    <span>{{ content.posted_at|date:'d F Y H:m' }}</span>
+  </div>
+  <div class="message-text">
+    {{ content.display_text }}
+  </div>
+  <div class="message-control">
     {% if show_context_link %}
       {% block context_link %}
       {% endblock %}
@@ -15,6 +14,5 @@
       {% block sources %}
       {% endblock %}
     {% endif %}
-
   </div>
 </div>

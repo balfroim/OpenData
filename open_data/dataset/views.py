@@ -34,8 +34,11 @@ def dataset_page(request, dataset_id):
         already_matched_ids.update([d.id for d in datasets])
         if len(datasets_by_keyword) >= 2:
             break
+    user = request.user
+    user.profile.visited_datasets.add(dataset)
     if request.GET.get('origin', '') == 'quiz':
-        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect', user=request.user)
+        BadgeCache.instance().possibly_award_badge('on_linked_quiz_inspect', user=user)
+    BadgeCache.instance().possibly_award_badge('on_dataset_explore', user=user)
     return render(
         request,
         'dataset.html',
@@ -50,6 +53,9 @@ def dataset_page(request, dataset_id):
 
 def search_page(request):
     nlp = NLP.instance().nlp
+    print("nlp loaded")
+    if "q" not in request.GET:
+        return HttpResponse()
     keywords = {nlp(token.lower())[0].lemma_ for token in request.GET["q"].split(" ")}
     datasets_by_keyword = list()
     already_matched_ids = set()
@@ -189,7 +195,9 @@ def rmv_question(request, question_id):
 def add_answer(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     content = Content.objects.create(author=request.user.profile, text=request.POST["content"])
-    Answer.objects.create(question=question, content=content)
+    source = request.POST["source"] if "source" in request.POST else None
+    Answer.objects.create(question=question, content=content, source=source)
+    BadgeCache.instance().possibly_award_badge('on_question_answer', user=request.user)
     return render(request, "question/answers.html", context={"question": question})
 
 

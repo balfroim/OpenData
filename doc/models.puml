@@ -1,0 +1,156 @@
+@startuml
+!include style.puml
+
+class BadgeAward {
+    awarded_at
+    slug
+    level
+'    user = models.ForeignKey(User, related_name="badges_earned", on_delete=models.CASCADE)
+}
+
+BadgeAward "0..*" -- "1" User
+
+class Theme {
+    name
+    hidden
+    icon
+    image
+    color
+'    subscribed_users = models.ManyToManyField(Profile, related_name='theme_subscriptions', blank=True)
+}
+
+Theme "0..*" -- "0..*" User : subscriptions
+
+class ProxyDataset {
+    id
+    title
+    description
+    modified
+    exports
+    has_map
+    has_analysis
+    has_calendar
+    has_custom
+    popularity_score
+    nb_dowloads_api
+    nb_downloads_local
+'    theme = models.ForeignKey(Theme, null=True, on_delete=models.SET_NULL, related_name='datasets')
+'    liking_users = models.ManyToManyField(Profile, related_name='liked_datasets', blank=True)
+'    visitors = models.ManyToManyField(Profile, related_name='visited_datasets', blank=True)
+}
+
+ProxyDataset "0..*" -- "0..1" Theme
+ProxyDataset "0..*" -- "0..*" Profile : likes
+ProxyDataset "0..*" -- "0..*" Profile : visits
+
+class Datasetship {
+    occurence
+'    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE, related_name="datasetships")
+'    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="datasetships")
+
+'    class Meta:
+'       TODO unique_together = (('keyword', 'dataset'),)
+}
+
+class Keyword {
+'    datasets = models.ManyToManyField(ProxyDataset, related_name='keywords', blank=True, through='Datasetship')
+    word
+}
+
+Keyword "1" -- "0..*" Datasetship
+Datasetship "0..*" -- "1" ProxyDataset : dataset
+
+
+class Content {
+'    author = models.ForeignKey(Profile, related_name="contents", on_delete=models.SET_NULL, null=True, blank=True)
+    deleted
+    text
+    posted_at
+}
+
+Content "0..*" -- "0..1" Profile : author
+
+class Question {
+'    dataset = models.ForeignKey(ProxyDataset, related_name="questions", on_delete=models.CASCADE, null=True, blank=True)
+'    content = models.OneToOneField(Content, related_name="question", on_delete=models.CASCADE)
+}
+
+Question "0..*" -- "0..1" ProxyDataset
+Question "1" -- "1" Content
+
+class Answer {
+'    question = models.ForeignKey(Question, related_name="answers", on_delete=models.CASCADE)
+'    content = models.OneToOneField(Content, related_name="answer", on_delete=models.CASCADE)
+    source
+}
+
+Answer "0..*" -- "1" Question
+Answer "1" -- "1" Content
+
+class NewsArticle {
+'    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="articles")
+    titre
+    link
+    date
+}
+
+NewsArticle "0..*" -- "1" ProxyDataset
+
+class DatasetLink {
+'    from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="to_links")
+'    to_dataset = models.ManyToManyField(ProxyDataset, related_name="from_links", blank=True)
+    text
+}
+
+DatasetLink "0..*" -- "1" ProxyDataset : from
+DatasetLink "0..*" -- "0..*" ProxyDataset : to
+
+class Quiz {
+'    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='quizzes_created', null=True, help_text="L'auteur du quiz.")
+    title
+'    dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name='quizzes', null=True, help_text="Le dataset source.")
+    created_at
+}
+
+Quiz "0..*" -- "0..1" User : author
+Quiz "0..*" -- "0..1" ProxyDataset : linked
+
+class QuizQuestion {
+'    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
+    prompt
+}
+
+QuizQuestion "0..*" -- "1" Quiz
+
+class Answer {
+'    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    text
+    is_correct
+}
+
+Answer "0..*" -- "1" Question
+
+class QuizSubmission {
+'    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken", help_text="L'utilisateur qui a fait la soumission.", null=True)
+'    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='submissions', help_text="Le quiz en question.")
+    taken_at
+    choices
+}
+
+QuizSubmission "0..*" -- "1" User : submissions
+QuizSubmission "0..*" -- "1" Quiz
+
+class User {
+    'TODO: inherited fields?
+}
+
+class Profile {
+    'user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", null=True, blank=True)
+    name
+    description
+    is_registered
+}
+
+Profile "1" -- "1" User
+
+@enduml
