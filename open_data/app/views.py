@@ -21,7 +21,7 @@ def home_page(request):
         }
     ]
     featured_datasets = extract_featured_datasets(
-        "jeu de données le populaire.",
+        "jeu de données le plus populaire.",
         2,
         all_datasets.order_by('-popularity_score'),
         featured_datasets
