@@ -17,6 +17,10 @@
   padding-left: 64px;
 }
 
+.answer-input, #answer-source {
+  width: 100%;
+}
+
 #add-question-form, #reply-form {
   display: flex;
   justify-content: center;

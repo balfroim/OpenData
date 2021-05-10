@@ -12,9 +12,13 @@
 
 {% block sources %}
   {% if content.answer.source %}
-    <a class="button" href="{{ content.answer.source }}" target="_blank">
+    <a
+      class="button"
+      href="{{ content.answer.source }}"
+      target="_blank"
+      data-tooltip="Voir la source"
+    >
       <i class="fas fa-book"></i>
-      Voir la source
     </a>
   {% endif %}
 {% endblock %}
