@@ -1,15 +1,15 @@
 from collections import Counter
+from urllib.error import HTTPError
 from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup
 from dictor import dictor
 from django.core.management.base import BaseCommand
-from django.template.loader import TemplateDoesNotExist
-from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.dateparse import parse_datetime
 from django.utils.html import strip_tags
-from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS
+from open_data.settings import API_URL, TIME_ZONE, DATASETS_PER_PAGE, SPECIAL_CHARS, IFRAME_URL
 
 from dataset.models import ProxyDataset, Theme, Keyword, Datasetship
 from dataset.nlp import NLP
@@ -21,10 +21,9 @@ def filter_html(url):
     soup = BeautifulSoup(html, features="html.parser")
 
     # kill all script and style elements
-    for script in soup(["script", "style"]):
-        script.extract()  # rip it out
+    for tag in soup(["script", "style"]):
+        tag.extract()
 
-    # get text
     text = soup.get_text()
 
     # break into lines and remove leading and trailing space on each
@@ -70,15 +69,17 @@ def generate_keywords(dataset, base_keywords, keywords_datasets):
     # From description
     keywords.extend(filter_nouns(strip_tags(dataset.description)))
     # From custom view
-    custom_url = "https://data.namur.be/explore/dataset/covid19be_hosp/custom/" \
-                 "?disjunctive.province&disjunctive.region"
-    keywords.extend(filter_nouns(filter_html(custom_url)))
+    custom_url = f"{IFRAME_URL}{dataset.id}/custom/?disjunctive.province&disjunctive.region"
+    try:
+        keywords.extend(filter_nouns(filter_html(custom_url)))
+    except HTTPError:
+        pass
     # From popularized view
     try:
-        rendered = render_to_string(f'popularized/{dataset.id}.html', {'dataset': dataset})
-
-        keywords.extend(filter_nouns(strip_tags(rendered)))
-    except TemplateDoesNotExist:
+        keywords.extend(filter_nouns(filter_html(
+            reverse('popularized', kwargs={"dataset_id": dataset.id})
+        )))
+    except ValueError:
         pass
     for keyword, count in Counter(keywords).most_common():
         try:
