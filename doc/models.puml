@@ -1,6 +1,9 @@
 @startuml
 !include style.puml
 
+left to right direction
+hide methods
+
 class BadgeAward {
     awarded_at
     slug
@@ -122,13 +125,13 @@ class QuizQuestion {
 
 QuizQuestion "0..*" -- "1" Quiz
 
-class Answer {
+class QuizAnswer {
 '    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     text
     is_correct
 }
 
-Answer "0..*" -- "1" Question
+QuizAnswer "0..*" -- "1" QuizQuestion
 
 class QuizSubmission {
 '    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken", help_text="L'utilisateur qui a fait la soumission.", null=True)
