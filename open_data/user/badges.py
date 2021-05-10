@@ -1,10 +1,8 @@
-from abc import ABCMeta
-
-from badge.base import Badge, BadgeDetail, BadgeAwarded
+from badge.base import BadgeDetail
 from badge.stereotypes import ThresholdedBadge, OnceBadge
 
 
-class UserConnection(OnceBadge):
+class UserConnection(ThresholdedBadge):
     slug = 'user-connection'
     levels = [
         BadgeDetail(
@@ -24,17 +22,16 @@ class UserConnection(OnceBadge):
         ),
     ]
     level_thresholds = [
-            1,
-            10,
-            50,
+        1,
+        10,
+        50,
     ]
     events = [
         'on_user_connection',
     ]
 
 
-
-class UserTimeConnection(OnceBadge):
+class UserTimeConnection(ThresholdedBadge):
     slug = 'user-time-connection'
     levels = [
         BadgeDetail(
@@ -48,35 +45,33 @@ class UserTimeConnection(OnceBadge):
     ]
 
 
-
-class UserDayConnection(OnceBadge):
-    slug = 'user-day-connection'
-    levels = [
-        BadgeDetail(
-            name='Une pomme chaque matin éloigne le médecin',
-            description='Se connecter quotidiennement',
-            score=10
-        ),
-    ]
-    events = [
-        'on_user_day_connection',
-    ]
-
+# class UserDayConnection(OnceBadge):
+#     slug = 'user-day-connection'
+#     levels = [
+#         BadgeDetail(
+#             name='Une pomme chaque matin éloigne le médecin',
+#             description='Se connecter quotidiennement',
+#             score=10
+#         ),
+#     ]
+#     events = [
+#         'on_user_day_connection',
+#     ]
 
 
-class UploadProfilePicture(OnceBadge):
-    slug = 'upload-profile-picture'
-    levels = [
-        BadgeDetail(
-            name='L\'habit ne fait pas le moine',
-            description='Importer une photo de profil',
-            score=20
-        ),
-    ]
-
-    events = [
-        'on_user_picture_upload',
-    ]
+# class UploadProfilePicture(OnceBadge):
+#     slug = 'upload-profile-picture'
+#     levels = [
+#         BadgeDetail(
+#             name='L\'habit ne fait pas le moine',
+#             description='Importer une photo de profil',
+#             score=20
+#         ),
+#     ]
+#
+#     events = [
+#         'on_user_picture_upload',
+#     ]
 
 
 class ModifyProfilName(OnceBadge):
@@ -108,8 +103,6 @@ class AddBiography(OnceBadge):
         'on_user_profil_bio',
     ]
 
-
-#scoreboard
 
 class WinnerBadge(OnceBadge):
     slug = 'be-the-best'
@@ -154,7 +147,6 @@ class BestWinnerBadge(OnceBadge):
     events = [
         'stay_in_the_light',
     ]
-
 
 
 class PokeBadge(OnceBadge):
