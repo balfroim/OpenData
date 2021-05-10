@@ -94,17 +94,17 @@
   <div class="podium">
     <div class="second">
       <a href="{% url 'profile' username=users.1.username %}"> <img src="https://picsum.photos/128" alt="Photo de profil" class="rounded-second"></a>
-      <span style="font-weight: bold">{{ users.1.profile.name}}</span>
+      <span style="font-weight: bold">2e - {{ users.1.profile.name}}</span>
       <span>{{ users.1.profile.score}} points</span>
     </div>
     <div class="first">
       <a href="{% url 'profile' username=users.0.username %}"><img src="https://picsum.photos/129" alt="Photo de profil" class="rounded-first"></a>
-      <span style="font-weight: bold"> {{ users.0.profile.name}}</span>
+      <span style="font-weight: bold">1er - {{ users.0.profile.name}}</span>
       <span>{{ users.0.profile.score}} points</span>
     </div>
     <div class="third">
       <a href="{% url 'profile' username=users.2.username %}"><img src="https://picsum.photos/127" alt="Photo de profil" class="rounded-third"></a>
-      <span style="font-weight: bold"> {{ users.2.profile.name}}</span>
+      <span style="font-weight: bold">3e - {{ users.2.profile.name}}</span>
       <span>{{ users.2.profile.score}} points</span>
     </div>
   </div>
@@ -118,6 +118,7 @@
         <th>Joueur</th>
         <th>Points</th>
     </tr>
+
     {% for user in users %}
     <tr data-href="{% url 'profile' username=user.username %}">
         <td>{{forloop.counter}}</td>
@@ -137,6 +138,8 @@
           })
       })
   </script>
+
+
 
 
 
