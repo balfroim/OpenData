@@ -200,6 +200,7 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name="answers", on_delete=models.CASCADE)
     content = models.OneToOneField(Content, related_name="answer", on_delete=models.CASCADE)
+    source = models.URLField(null=True, blank=True, default=None)
 
     def __str__(self):
         return str(self.content)
@@ -219,3 +220,4 @@ class DatasetLink(models.Model):
     from_dataset = models.ForeignKey(ProxyDataset, on_delete=models.CASCADE, related_name="to_links")
     to_dataset = models.ManyToManyField(ProxyDataset, related_name="from_links", blank=True)
     text = models.CharField(max_length=512, default="")
+
