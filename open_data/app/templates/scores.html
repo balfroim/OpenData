@@ -116,15 +116,25 @@
         <th>Points</th>
     </tr>
     {% for user in users %}
-    <tr>
+    <tr data-href="{% url 'profile' username=user.username %}">
         <td>{{forloop.counter}}</td>
-        <td>
-          <a href="{% url 'profile' username=user.username %}">{{ user.profile.name }}</a>
-        </td>
+        <td>{{ user.profile.name }}</td>
         <td>{{ user.profile.score }} </td>
     </tr>
     {% endfor %}
   </table>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () =>{
+          const rows = document.querySelectorAll("tr[data-href]");
+          rows.forEach(row => {
+              row.addEventListener("click", () => {
+                  window.location.href = row.dataset.href;
+              })
+          })
+      })
+  </script>
+
 
 
 
