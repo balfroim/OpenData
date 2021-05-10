@@ -8,4 +8,12 @@
   >
     <i class="fas fa-reply"></i>
   </a>
+  <a
+    class="button"
+    href="{% url 'dataset' content.question.dataset.id %}"
+    target="_blank"
+    data-tooltip="Jeu de données lié"
+  >
+    <i class="fas fa-link"></i>
+  </a>
 {% endblock %}
