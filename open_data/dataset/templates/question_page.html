@@ -40,6 +40,7 @@
     <form id="reply-form">
       {% csrf_token %}
       <textarea name="content" id="answer_content"></textarea>
+      <input type="url" name="source" id="answer_source"  placeholder="Ajoutez une source">
       <button><i class="fas fa-reply"></i></button>
     </form>
   {% endif %}

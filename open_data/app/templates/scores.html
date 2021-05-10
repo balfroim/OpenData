@@ -3,20 +3,143 @@
 {% block title %}Tableau des scores{% endblock %}
 
 {% block main %}
+    <style>
+    .podium {
+        display: flex;
+        align-items: center;
+    }
+
+    .podium span {
+      text-align: center;
+      display:block;
+    }
+    .second span{
+        margin-left: 105px;
+    }
+
+    .first span{
+        margin-left: 40px;
+    }
+
+    .third span{
+        margin-left: 45px;
+    }
+
+    .rounded-second{
+        margin-left: 115px;
+        border: 5px solid silver;
+        border-radius: 50%;
+    }
+    .rounded-first{
+        margin-left: 50px;
+        border: 5px solid goldenrod;
+        border-radius: 50%;
+        width: 170px;
+        height: 170px;
+    }
+    .rounded-third{
+        margin-left: 50px;
+        border: 5px solid #CD7F32;
+        border-radius: 50%;
+    }
+
+    table {
+        position: absolute;
+        border-collapse: collapse;
+        width: 800px;
+        height: 200px;
+        border: 1px solid #bdc3c7;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    }
+    tr {
+        transition: all .2s ease-in;
+        cursor: pointer;
+    }
+
+    tr:nth-child(odd){
+        background-color: lightsteelblue;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #header {
+        background-color: var(--primary);
+        color: #fff;
+    }
+
+
+
+    tr:hover {
+        background-color: lightgray;
+        transform: scale(1.02);
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+
+
   <div class="breadcrumbs">
     <a href="{% url 'home' %}">Accueil <i class="fas fa-home"></i></a>
     <a href="{% url 'scores' %}">Tableau des scores <i class="fas fa-star"></i></a>
   </div>
   <h1>Tableau des scores</h1>
-  <ol>
+
+    <br>
+    <br>
+
+  <div class="podium">
+    <div class="second">
+      <a href="{% url 'profile' username=users.1.username %}"> <img src="https://picsum.photos/128" alt="Photo de profil" class="rounded-second"></a>
+      <span style="font-weight: bold">{{ users.1.profile.name}}</span>
+      <span>{{ users.1.profile.score}} points</span>
+    </div>
+    <div class="first">
+      <a href="{% url 'profile' username=users.0.username %}"><img src="https://picsum.photos/129" alt="Photo de profil" class="rounded-first"></a>
+      <span style="font-weight: bold"> {{ users.0.profile.name}}</span>
+      <span>{{ users.0.profile.score}} points</span>
+    </div>
+    <div class="third">
+      <a href="{% url 'profile' username=users.2.username %}"><img src="https://picsum.photos/127" alt="Photo de profil" class="rounded-third"></a>
+      <span style="font-weight: bold"> {{ users.2.profile.name}}</span>
+      <span>{{ users.2.profile.score}} points</span>
+    </div>
+  </div>
+
+    <br>
+    <br>
+    <br>
+  <table>
+    <tr id="header">
+        <th>Place</th>
+        <th>Joueur</th>
+        <th>Points</th>
+    </tr>
     {% for user in users %}
-    <li>
-      <a href="{% url 'profile' username=user.username %}">
-        {{ user.profile.name }}
-      </a> : <span>
-        {{ user.profile.score }} points.
-      </span>
-    </li>
+    <tr data-href="{% url 'profile' username=user.username %}">
+        <td>{{forloop.counter}}</td>
+        <td>{{ user.profile.name }}</td>
+        <td>{{ user.profile.score }} </td>
+    </tr>
     {% endfor %}
-  </ol>
+  </table>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () =>{
+          const rows = document.querySelectorAll("tr[data-href]");
+          rows.forEach(row => {
+              row.addEventListener("click", () => {
+                  window.location.href = row.dataset.href;
+              })
+          })
+      })
+  </script>
+
+
+
+
+
 {% endblock %}
