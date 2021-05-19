@@ -8,6 +8,7 @@
   >
     <i class="fas fa-reply"></i>
   </a>
+  {% if content.question.dataset %}
   <a
     class="button"
     href="{% url 'dataset' content.answer.question.dataset.id %}"
@@ -16,6 +17,7 @@
   >
     <i class="fas fa-link"></i>
   </a>
+  {% endif %}
 {% endblock %}
 
 {% block sources %}

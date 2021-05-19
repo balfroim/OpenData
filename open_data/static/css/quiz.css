@@ -24,7 +24,6 @@ input[type="checkbox"], input[type="radio"] {
   background-color: white;
   border-radius: var(--rounded);
   cursor: pointer;
-  font-size: 1.6em;
 }
 
 input:checked ~ .checkable {

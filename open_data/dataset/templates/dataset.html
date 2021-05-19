@@ -120,7 +120,8 @@
     </button>
 
     <button class="questions-modal-button">
-      <i class="fas fa-question-circle"></i>
+      <!--<i class="fas fa-question-circle"></i>-->
+      <i class="fas fa-hand-paper"></i>
       {{ dataset.questions.count }}
     </button>
 
@@ -139,13 +140,16 @@
       </button>
     {% endif %}
 
-    {% if dataset.articles.count %}
-      <button class="news-modal-button">
-        <i class="fas fa-newspaper"></i>
-        {{ dataset.articles.count }}
-        actualité{{ dataset.articles|length|pluralize }} liée{{ dataset.articles|length|pluralize }}
-      </button>
-    {% endif %}
+    {% with count=dataset.articles.count %}
+      {% if count > 0 %}
+        <button class="news-modal-button">
+          <i class="fas fa-newspaper"></i>
+          {{ count }}
+          actualité{{ count|pluralize }}
+          liée{{ count|pluralize }}
+        </button>
+      {% endif %}
+    {% endwith %}
   </div>
 
   <div class="tabs">

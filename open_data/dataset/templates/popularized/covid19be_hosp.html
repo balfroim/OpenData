@@ -23,12 +23,22 @@
       color: #fff;
     }
 
-    .red {
-      background-color: red;
+    .light {
+      background-color: #F6DDCC;
     }
 
-    .green {
-      background-color: green;
+    .lightplus {
+      background-color: #E59866;
+    }
+
+    .heavy {
+      color: white;
+      background-color: #BA4A00;
+    }
+
+    .heavyplus {
+      color: white;
+      background-color: #6E2C00;
     }
   </style>
 {% endblock %}
@@ -63,30 +73,8 @@
     </div>
 
     <div class="col">
-      <h2>Actualités liées à ce jeu de données</h2>
-      <ul>
-        <li>
-          <a href="https://www.sudinfo.be/id389427/article/2021-04-24/un-peu-de-repit-dans-nos-hopitaux-ou-le-nombre-de-lits-disponibles-aux-soins">
-            24 avril 2021: Le nombre de lits disponibles en soins intensifs remonte
-          </a>
-        </li>
-        <li>
-          <a href="https://www.lavenir.net/cnt/dmf20210423_01574575/coronavirus-les-hospitalisations-sous-la-barre-des-3-000">
-            23 avril 2021: Hospitalisations sous la barre des 3000
-          </a>
-        </li>
-        <li>
-          <a href="https://www.rtbf.be/info/belgique/detail_96-des-lits-de-soins-intensifs-sont-actuellement-occupes-voici-les-provinces-ou-la-situation-est-la-plus-critique?id=10737429">
-            9 avril 2021: voici les provinces où la situation est la plus critique
-          </a>
-        </li>
-        <li>
-          <a href="https://www.lecho.be/economie-politique/belgique/bruxelles/bruxelles-a-t-elle-laisse-l-epidemie-de-covid-19-deraper/10257146.html">
-            10 octobre 2020: Bruxelles a-t-elle laissé l'épidémie de Covid-19 déraper ?
-          </a>
-        </li>
-      </ul>
       <h2>Tableaux récapitulatifs par province</h2>
+      Plus la couleur est foncée, moins bonne est la situation.
       <table>
         <thead>
         <tr>
@@ -105,39 +93,39 @@
         </tr>
         <tr>
           <td>Hospitalisations</td>
-          <td>374</td>
-          <td>98</td>
-          <td class="green">29</td>
-          <td class="red">468</td>
-          <td>259</td>
-          <td>44</td>
+          <td class="heavyplus">374</td>
+          <td class="lightplus">98</td>
+          <td class="light">29</td>
+          <td class="heavyplus">468</td>
+          <td class="heavy">259</td>
+          <td class="lightplus">44</td>
         </tr>
         <tr>
           <td>Soins intensifs</td>
-          <td class="red">118</td>
-          <td>40</td>
-          <td class="green">9</td>
-          <td class="red">118</td>
-          <td>79</td>
-          <td>17</td>
+          <td class="heavyplus">118</td>
+          <td class="lightplus">40</td>
+          <td class="light">9</td>
+          <td class="heavyplus">118</td>
+          <td class="heavy">79</td>
+          <td class="light">17</td>
         </tr>
         <tr>
           <td>Assistance respiratoire</td>
-          <td>71</td>
-          <td>29</td>
-          <td class="green">6</td>
-          <td class="red">79</td>
-          <td>53</td>
-          <td>13</td>
+          <td class="heavyplus">71</td>
+          <td class="lightplus">29</td>
+          <td class="light">6</td>
+          <td class="heavyplus">79</td>
+          <td class="heavy">53</td>
+          <td class="light">13</td>
         </tr>
         <tr>
           <td>sous ECMO</td>
-          <td class="red">21</td>
-          <td>4</td>
-          <td class="green">0</td>
-          <td>14</td>
-          <td>2</td>
-          <td class="green">0</td>
+          <td class="heavyplus">21</td>
+          <td class="lightplus">4</td>
+          <td class="light">0</td>
+          <td class="heavy">14</td>
+          <td class="light">2</td>
+          <td class="light">0</td>
         </tr>
         </tbody>
       </table>
@@ -158,35 +146,35 @@
         </tr>
         <tr>
           <td>Hospitalisations</td>
-          <td class="red">322</td>
-          <td>237</td>
-          <td>203</td>
-          <td class="green">118</td>
-          <td>155</td>
+          <td class="heavyplus">322</td>
+          <td class="heavy">237</td>
+          <td class="heavy">203</td>
+          <td class="light">118</td>
+          <td class="lightplus">155</td>
         </tr>
         <tr>
           <td>Soins intensifs</td>
-          <td class="red">103</td>
-          <td>93</td>
-          <td>63</td>
-          <td class="green">43</td>
-          <td>44</td>
+          <td class="heavyplus">103</td>
+          <td class="heavyplus">93</td>
+          <td class="lightplus">63</td>
+          <td class="light">43</td>
+          <td class="light">44</td>
         </tr>
         <tr>
           <td>Assistance respiratoire</td>
-          <td class="red">62</td>
-          <td>49</td>
-          <td>41</td>
-          <td>25</td>
-          <td class="green">21</td>
+          <td class="heavyplus">62</td>
+          <td class="heavy">49</td>
+          <td class="heavy">41</td>
+          <td class="light">25</td>
+          <td class="light">21</td>
         </tr>
         <tr>
           <td>sous ECMO</td>
-          <td>4</td>
-          <td>5</td>
-          <td class="red">7</td>
-          <td class="green">1</td>
-          <td>3</td>
+          <td class="heavy">4</td>
+          <td class="heavy">5</td>
+          <td class="heavyplus">7</td>
+          <td class="light">1</td>
+          <td class="lightplus">3</td>
         </tr>
         </tbody>
       </table>
