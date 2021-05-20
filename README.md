@@ -26,7 +26,7 @@ Ne pas oublier de migrer la base de données avec `manage.py migrate` et créer 
 
 `manage.py load_datasets` charge tout les datasets (attention, cela prend un peu de temps).
 
-Si vous souhaitez simplement avoir une base de données d'aperçu, et au lieu d'utiliser les commandes précédentes. Vous pouvez charger des données d'exemple en utilisant `manage.py loaddata fixtures/example.json`. Il s'agit de données factice prête à être employées. Plus d'informations, veuillez vous référer à [la documentation de Django](https://docs.djangoproject.com/fr/3.2/howto/initial-data/#providing-data-with-fixtures).
+Si vous souhaitez simplement avoir une base de données d'aperçu, et au lieu d'utiliser les commandes précédentes, vous pouvez charger des données d'exemple en utilisant `manage.py loaddata fixtures/example.json`. Il s'agit de données factice prêtes à être employées. Plus d'informations, veuillez vous référer à [la documentation de Django](https://docs.djangoproject.com/fr/3.2/howto/initial-data/#providing-data-with-fixtures).
 
 ### Démarrer le serveur
 
