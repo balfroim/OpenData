@@ -2,7 +2,6 @@ hide circle
 
 skinparam {
     DefaultFontName Cantarell
-    BackgroundColor transparent
     ClassBorderColor #111
     ClassBackgroundColor #def
     ArrowColor #111
