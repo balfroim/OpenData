@@ -2,9 +2,14 @@
 
 ## C'est quoi ?
 
-![Page d'accueil](doc/home_page.png)
-
 **TODO**
+
+![Page d'accueil](doc/home_page.png)
+![Page d'un thème](doc/theme_page.png)
+![Page d'un jeu de données](doc/dataset_page.png)
+![Page de quiz](doc/quiz_page.png)
+![Page de profil](doc/profile_page.png)
+![Page des badges](doc/badge_page.png)
 
 ## Comment lancer le projet sur ma machine ?
 
