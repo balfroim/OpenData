@@ -33,3 +33,13 @@ Si vous souhaitez simplement avoir une base de données d'aperçu, et au lieu d'
 Utilisez `manage.py runserver`, rendez-vous ensuite sur http://127.0.0.1:8000.
 
 Cette configuration est utilisable en développement mais pas en production. Pour cela, veuillez vous renseigner dans [la documentation de Django](https://docs.djangoproject.com/fr/3.2/howto/deployment/).
+
+## Comment ça marche ?
+
+Si vous souhaitez des informations sur le fonctionnement interne de la plateforme, vous pouvez consulter [la documentation](open_data).
+
+## Licence
+
+Ce projet est publié sous la licence MIT. Vous êtes donc libres de le copier, modifier, distribuer, ou vendre sous la seule condition de citer ses auteurs originaux.
+
+&copy; 2021, Martin Balfroid, Maxime Caucheteur, Jonathan Ferreira, Germain Herbay, Loris Hincq, Pierre Luycx
