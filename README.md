@@ -20,14 +20,16 @@ Puis, [`poetry install`](https://python-poetry.org/docs/cli/#install) qui va ins
 
 ### Charger les datasets et les thèmes de data.namur.be
 
+Ne pas oublier de migrer la base de données avec `manage.py migrate` et créer l'administrateur `manage.py createsuperuser`.
+
 `manage.py load_themes` charge tout les thèmes.
 
 `manage.py load_datasets` charge tout les datasets (attention, cela prend un peu de temps).
 
+Si vous souhaitez simplement avoir une base de données d'aperçu, et au lieu d'utiliser les commandes précédentes. Vous pouvez charger des données d'exemple en utilisant `manage.py loaddata fixtures/example.json`. Il s'agit de données factice prête à être employées. Plus d'informations, veuillez vous référer à [la documentation de Django](https://docs.djangoproject.com/fr/3.2/howto/initial-data/#providing-data-with-fixtures).
+
 ### Démarrer le serveur
 
-Ne pas oublier de migrer la base de données avec `manage.py migrate` et créer l'administrateur `manage.py createsuperuser`.
-
-`manage.py runserver` puis se rendre sur http://127.0.0.1:8000.
+Utilisez `manage.py runserver`, rendez-vous ensuite sur http://127.0.0.1:8000.
 
 Cette configuration est utilisable en développement mais pas en production. Pour cela, veuillez vous renseigner dans [la documentation de Django](https://docs.djangoproject.com/fr/3.2/howto/deployment/).
