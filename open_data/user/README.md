@@ -4,10 +4,6 @@
 
 Cette application contient tous les modèles et vues relatifs à la gestion des utilisateurs.
 
-### Page
-
-Quand une réponse à un quiz est soumise, une requête AJAX est effectuée par le client. Le serveur répond alors avec un fragment HTML qui est inséré à la place du quiz dans la page. Ce fragment contient le formulaire rempli et corrigé.
-
 ### Modèles
 
 La gestion des utilisateurs est directement réalisée en utilisant [le module Django qui y est dédié](https://docs.djangoproject.com/fr/3.2/topics/auth/).
