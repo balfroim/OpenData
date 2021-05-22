@@ -2,7 +2,7 @@
 
 ## Application `quiz`
 
-Cette application contient tous les modèles et vues relatives aux quiz.
+Cette application contient tous les modèles et vues relatifs aux quiz.
 
 ### Page
 

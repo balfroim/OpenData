@@ -2,7 +2,7 @@
 
 ## Application `dataset`
 
-Cette application contient tous les modèles et vues relatives aux jeux de données.
+Cette application contient tous les modèles et vues relatifs aux jeux de données.
 
 ### Modèles
 
