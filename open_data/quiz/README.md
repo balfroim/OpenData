@@ -1,6 +1,6 @@
 # OpenData
 
-## Application `dataset`
+## Application `quiz`
 
 Cette application contient tous les modèles et vues relatives aux quiz.
 
