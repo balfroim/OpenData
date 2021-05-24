@@ -6,7 +6,7 @@ Une [plateforme d'_open data_](https://fr.wikipedia.org/wiki/Donn%C3%A9es_ouvert
 
 OpenData est une plateforme d'_open data_ conçue pour répondre aux besoins d'utilisateurs non-experts dans le domaine. En effet, l'interface est pensée pour être interactive, ludique et agréable. Le principe de gamification a été utilisé tout au long de la conception de la plateforme. Ainsi, on retrouve une série de badges que l'on peut obtenir en explorant les jeux de données, en répondant aux quiz, en posant des questions et en y répondant. On pourrait envisager que certains badges soient destinés à récompenser l'utilisateur avec des récompenses réelles telles que des bons de réduction[1] (pour des musées, des activités en ville, etc.). Cette plateforme permet d'introduire l'utilisateur au monde de l'_open data_ et constitue une première expérience dans le domaine.
 
-[1] fonctionnalités non implémentées actuellement
+[1] fonctionnalité non implémentée actuellement
 
 ![Page d'accueil](doc/home_page.png)
 ![Page d'un thème](doc/theme_page.png)
