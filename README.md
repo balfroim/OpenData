@@ -2,6 +2,8 @@
 
 ## C'est quoi ?
 
+Une [plateforme d'_open data_](https://fr.wikipedia.org/wiki/Donn%C3%A9es_ouvertes) avec un twist, [la _gamification_](https://fr.wikipedia.org/wiki/Ludification).
+
 ![Page d'accueil](doc/home_page.png)
 ![Page d'un thème](doc/theme_page.png)
 ![Page d'un jeu de données](doc/dataset_page.png)
