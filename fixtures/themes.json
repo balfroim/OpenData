@@ -1,0 +1,158 @@
+[
+    {
+        "model": "dataset.theme",
+        "pk": 1,
+        "fields": {
+            "name": "Aménagement du territoire, Urbanisme, Bâtiments, Equipements, Logement",
+            "hidden": false,
+            "icon": "🏘️",
+            "image": "themes/townplanning.svg",
+            "color": "#2C3F56",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 2,
+        "fields": {
+            "name": "Population, Statistiques",
+            "hidden": false,
+            "icon": "👪",
+            "image": "themes/outline_group.svg",
+            "color": "#C68CBC",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 3,
+        "fields": {
+            "name": "Administration, Gouvernement, Finances publiques, Citoyenneté",
+            "hidden": false,
+            "icon": "🏛️",
+            "image": "themes/administration.svg",
+            "color": "#263892",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 4,
+        "fields": {
+            "name": "Transports, Déplacements",
+            "hidden": false,
+            "icon": "🚍",
+            "image": "themes/train_station.svg",
+            "color": "#93107F",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 5,
+        "fields": {
+            "name": "Culture, Patrimoine",
+            "hidden": false,
+            "icon": "🎭",
+            "image": "themes/theatre.svg",
+            "color": "#0971B5",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 6,
+        "fields": {
+            "name": "Environnement",
+            "hidden": false,
+            "icon": "🌱",
+            "image": "themes/leaf.svg",
+            "color": "#8CCA1F",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 7,
+        "fields": {
+            "name": "Santé",
+            "hidden": false,
+            "icon": "🏥",
+            "image": "themes/doctors.svg",
+            "color": "#E87273",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 8,
+        "fields": {
+            "name": "Sport, Loisirs",
+            "hidden": false,
+            "icon": "🏅",
+            "image": "themes/bicycle.svg",
+            "color": "#F98C44",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 9,
+        "fields": {
+            "name": "Energie",
+            "hidden": false,
+            "icon": "⚡",
+            "image": "themes/plant_solar.svg",
+            "color": "#F8B334",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 10,
+        "fields": {
+            "name": "Economie, Business, PME, Développement économique, Emploi",
+            "hidden": false,
+            "icon": "💰",
+            "image": "themes/economy.svg",
+            "color": "#149D72",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 11,
+        "fields": {
+            "name": "Education, Formation, Recherche, Enseignement",
+            "hidden": false,
+            "icon": "🎓",
+            "image": "themes/university.svg",
+            "color": "#162583",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 12,
+        "fields": {
+            "name": "Closed Data, Accès restreint",
+            "hidden": true,
+            "icon": "",
+            "image": "",
+            "color": "#FF0000",
+            "subscribed_users": []
+        }
+    },
+    {
+        "model": "dataset.theme",
+        "pk": 13,
+        "fields": {
+            "name": "Interne",
+            "hidden": true,
+            "icon": "",
+            "image": "",
+            "color": "#FF0000",
+            "subscribed_users": []
+        }
+    }
+]
